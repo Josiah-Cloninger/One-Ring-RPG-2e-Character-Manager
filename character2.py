@@ -5,7 +5,15 @@ from gear2 import Weapon2, Weapons2, Armour2, Armours2, Shield2, Shields2
 
 
 class Character2:
-    def __init__(self, culture: Culture2, attribute_choice: int, weapon_skill_levels: dict, distinctive_features: list, name: str, age: int, calling: Calling2, favoured_skill_choices: str, starting_virtue: str, starting_reward: str):
+    def __init__(self, culture: Culture2, 
+                 attribute_choice: int, 
+                 weapon_skill_levels: dict, 
+                 distinctive_features: list, 
+                 name: str, age: int, 
+                 calling: Calling2, 
+                 favoured_skill_choices: str, 
+                 starting_virtue: str, 
+                 starting_reward: str):
         
         # culture
         self.culture = culture.name
