@@ -1,6 +1,7 @@
 import os
 
 import questionary
+from questionary import print
 
 from culture2 import Cultures2, Culture2, all_combat_proficiencies
 from character2 import Character2
@@ -225,12 +226,107 @@ def select_favoured_skills(selected_culture: Culture2,selected_calling: Calling2
                         ("class:white", a)
                     ],
                     value=a
-                ) for a in selected_calling.favoured_skills
+                ) for a in selected_calling.favoured_skills if a not in favoured_skills
             ],
             style=styles_choice,
             validate=lambda answer: "Please select two favoured skills." if len(answer) != 2 else True
         ).ask()
     )
+
+
+def select_skill_upgrade(character: Character2):
+    title()
+    questionary.print("Upgrade Common Skill:\n", style=styles_print["yellow"])
+    answer = questionary.select(
+        "",
+        choices=[
+            questionary.Choice(
+                title=[
+                    ("class:white", skill_name + ": " + str(skill_level))
+                ],
+                value=skill_name
+            ) for skill_name, skill_level in character.skill_levels.items()
+        ],
+        style=styles_choice
+    ).ask()
+    return answer
+
+
+def upgrade_skill(character: Character2, skill: str, previous_experience_points: int):
+    if previous_experience_points >= character.skill_levels[skill] + 1:
+        character.skill_levels[skill] += 1
+        previous_experience_points -= character.skill_levels[skill]
+        return previous_experience_points
+    else:
+        print("You do not have enough experience to upgrade this skill.")
+        return previous_experience_points
+
+
+def select_weapon_skill_upgrade(character: Character2):
+    title()
+    questionary.print("Upgrade Weapon Skill:\n", style=styles_print["yellow"])
+    answer = questionary.select(
+        "",
+        choices=[
+            questionary.Choice(
+                title=[
+                    ("class:white", skill_name + ": " + str(skill_level))
+                ],
+                value=skill_name
+            ) for skill_name, skill_level in character.combat_proficiencies.items()
+        ],
+        style=styles_choice
+    ).ask()
+    return answer
+
+
+def upgrade_weapon_skill(character: Character2, skill: str, previous_experience_points: int):
+    if previous_experience_points >= character.combat_proficiencies[skill] * 2 + 2:
+        character.combat_proficiencies[skill] += 1
+        previous_experience_points -= character.combat_proficiencies[skill] * 2
+        return previous_experience_points
+    else:
+        print("You do not have enough experience to upgrade this skill.")
+        return previous_experience_points
+
+
+def previous_experience(character: Character2):
+    continue_loop = True
+    previous_experience_points = 10
+    while previous_experience_points > 0 and continue_loop:
+        title()
+        print("Skill Levels:\n", style=styles_print["yellow"])
+        for skill, level in character.skill_levels.items():
+            print(f"{skill}: {level}")
+        print("\nWeapon Skill Levels:\n", style=styles_print["yellow"])
+        for skill, level in character.combat_proficiencies.items():
+            print(f"{skill}: {level}")
+        answer = questionary.select(
+            "",
+            choices=[
+                questionary.Choice(
+                    title=[
+                    ("class:white", o),
+                    ],
+                    value=o
+                    )for o in ["Upgrade Skill", "Upgrade Weapon Skill", "Continue without spending remainding points"]
+                ],
+            style=styles_choice,
+        ).ask()
+        if answer == "Upgrade Skill":
+            skill_to_upgrade = select_skill_upgrade(character)
+            previous_experience_points = upgrade_skill(character, skill_to_upgrade, previous_experience_points)
+        elif answer == "Upgrade Weapon Skill":
+            weapon_skill_to_upgrade = select_weapon_skill_upgrade(character)
+            previous_experience_points = upgrade_weapon_skill(character, weapon_skill_to_upgrade, previous_experience_points)
+        elif answer == "Continue without spending remainding points":
+            continue_loop = False
+
+
+def starting_gear():
+    title()
+    print("Enter Starting Gear:\n", style=styles_print["yellow"])
+    starting_gear = input("")
 
 
 def select_virtue():
@@ -265,8 +361,7 @@ def main():
     selected_favoured_skills = select_favoured_skills(selected_culture, selected_calling)
     selected_virtue = select_virtue()
     selected_reward = select_reward()
-    
-    return Character2(culture = selected_culture, 
+    active_character = Character2(culture = selected_culture, 
                                   attribute_choice = selected_attributes, 
                                   weapon_skill_levels = selected_combat_proficiencies,
                                   distinctive_features = selected_distinctive_features,
@@ -276,6 +371,8 @@ def main():
                                   favoured_skill_choices = selected_favoured_skills,
                                   starting_virtue = selected_virtue,
                                   starting_reward = selected_reward)
+    previous_experience(active_character)
+    return active_character
     
 if __name__ == "__main__":
     main()
