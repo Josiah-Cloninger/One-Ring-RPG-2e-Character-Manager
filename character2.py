@@ -5,7 +5,15 @@ from gear2 import Weapon2, Weapons2, Armour2, Armours2, Shield2, Shields2
 
 
 class Character2:
-    def __init__(self, culture: Culture2, attribute_choice: int, weapon_skill_levels: dict, distinctive_features: list, name: str, age: int, calling: Calling2, favoured_skill_choices: str, starting_virtue: str, starting_reward: str):
+    def __init__(self, culture: Culture2, 
+                 attribute_choice: int, 
+                 weapon_skill_levels: dict, 
+                 distinctive_features: list, 
+                 name: str, age: int, 
+                 calling: Calling2, 
+                 favoured_skill_choices: str, 
+                 starting_virtue: str, 
+                 starting_reward: str):
         
         # culture
         self.culture = culture.name
@@ -17,9 +25,9 @@ class Character2:
         self.sol = culture.sol # sol = standard of living
 
         # attributes
-        self.strength = culture.attributes[attribute_choice]["strength"]
-        self.heart = culture.attributes[attribute_choice]["heart"]
-        self.wits = culture.attributes[attribute_choice]["wits"]
+        self.strength = attribute_choice["strength"]
+        self.heart = attribute_choice["heart"]
+        self.wits = attribute_choice["wits"]
 
         # attribute TNs
         self.strength_tn = 20 - self.strength
@@ -80,10 +88,10 @@ class Character2:
             self.favoured_skills.append(favoured_skill_choices)
         
         # combat proficiencies
-        self.axes_skill = weapon_skill_levels["axes"]
-        self.bows_skill = weapon_skill_levels["bows"]
-        self.swords_skill = weapon_skill_levels["swords"]
-        self.spears_skill = weapon_skill_levels["spears"]
+        self.axes_skill = weapon_skill_levels.get("axes")
+        self.bows_skill = weapon_skill_levels.get("bows")
+        self.swords_skill = weapon_skill_levels.get("swords")
+        self.spears_skill = weapon_skill_levels.get("spears")
 
         self.combat_proficiencies = {
             "axes": self.axes_skill,
@@ -179,7 +187,6 @@ class Character2:
                 f"blessing: {self.blessing}\n"
                 f"calling: {self.calling}\n"
                 f"shadow path: {self.shadow_path}\n"
-                f"age: {self.age}\n"
                 f"patron: {self.patron}\n"
                 f"standard of living: {self.sol}\n"
                 f"distinctive features: {self.distinctive_features}\n"

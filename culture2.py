@@ -338,3 +338,5 @@ class Cultures2(metaclass=MetaEnum):
             if type(culture) is Culture2:
                 names.append(culture.name)
         return names
+
+all_combat_proficiencies = ["axes", "bows", "spears", "swords"]
