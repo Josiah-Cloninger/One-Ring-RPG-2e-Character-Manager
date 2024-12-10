@@ -38,14 +38,14 @@ def culture():
         choices=[
             questionary.Choice(
                 title=[
-                    ("class:culture", c.name),
+                    ("class:culture", culture_name),
                 ],
-                value=c
-            ) for c in Cultures2
+                value=culture_name
+            ) for culture_name in Cultures2.names()
         ],
         style=styles_choice
     ).ask()
-    return answer
+    return Cultures2.by_name(answer)
 
 
 def attributes(selected_culture: Culture2):
