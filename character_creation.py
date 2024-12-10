@@ -266,7 +266,7 @@ def main():
     selected_virtue = select_virtue()
     selected_reward = select_reward()
     
-    active_character = Character2(culture = selected_culture, 
+    return Character2(culture = selected_culture, 
                                   attribute_choice = selected_attributes, 
                                   weapon_skill_levels = selected_combat_proficiencies,
                                   distinctive_features = selected_distinctive_features,
@@ -277,7 +277,5 @@ def main():
                                   starting_virtue = selected_virtue,
                                   starting_reward = selected_reward)
     
-    print(active_character)
-
 if __name__ == "__main__":
     main()
