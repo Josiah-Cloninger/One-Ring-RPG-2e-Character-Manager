@@ -4,6 +4,7 @@ import questionary
 
 from culture2 import Cultures2, Culture2, all_combat_proficiencies
 from character2 import Character2
+from calling2 import Calling2, Callings2
 
 
 styles_print = {
@@ -31,7 +32,7 @@ def title():
     questionary.print("The One Rings RPG Character Sheet\n", style=styles_print["yellow"])
 
 
-def culture():
+def select_culture():
     title()
     questionary.print("Select Culture:\n", style=styles_print["yellow"])
     answer = questionary.select(
@@ -49,7 +50,7 @@ def culture():
     return Cultures2.by_name(answer)
 
 
-def attributes(selected_culture: Culture2):
+def select_attributes(selected_culture: Culture2):
     title()
     culture_attributes = []
     enumerater = 0
@@ -58,7 +59,7 @@ def attributes(selected_culture: Culture2):
     for a in selected_culture.attributes:
         for i in a:
             set_of_attributes += str(i)
-            set_of_attributes += str(" : ")
+            set_of_attributes += str(": ")
             set_of_attributes += str(selected_culture.attributes[enumerater][i])
             times_run += 1
             if times_run % 3 == 0:
@@ -80,7 +81,17 @@ def attributes(selected_culture: Culture2):
         ],
         style=styles_choice
     ).ask()
-    return answer
+
+    # generating the dictionary required by the __init__ function for the character class
+    attributes_list = answer.split(", ")
+
+    attributes_dict = {}
+
+    for attribute in attributes_list:
+        attribute_name, attribute_value = attribute.split(": ")
+        attributes_dict[attribute_name] = int(attribute_value)
+
+    return attributes_dict
 
 
 def select_combat_proficiencies(selected_culture: Culture2):
@@ -124,10 +135,10 @@ def select_combat_proficiencies(selected_culture: Culture2):
     combat_proficiencies.update({level_2_choice: 2})
     combat_proficiencies.update({level_1_choice: 1})
 
-    return level_2_choice, level_1_choice
+    return combat_proficiencies
 
 
-def distinctive_features(selected_background):
+def select_distinctive_features(selected_background):
     title()
     questionary.print("Select Distinctive Features:\n", style=styles_print["yellow"])
     selected_distinctive_features = questionary.checkbox(
@@ -146,25 +157,127 @@ def distinctive_features(selected_background):
     return selected_distinctive_features
 
 
+def select_name():
+    title()
+    questionary.print("Enter Name:\n", style=styles_print["yellow"])
+    selected_name = questionary.text(
+        "",
+        style=styles_choice
+    ).ask()
+    return selected_name
+
+
+def select_age():
+    title()
+    questionary.print("Enter Age:\n", style=styles_print["yellow"])
+    selected_age = questionary.text(
+        "",
+        style=styles_choice
+    ).ask()
+    return selected_age
+
+
+def select_calling():
+    title()
+    questionary.print("Select Calling:\n", style=styles_print["yellow"])
+    answer = questionary.select(
+        "",
+        choices=[
+            questionary.Choice(
+                title=[
+                    ("class:calling", calling_name),
+                ],
+                value=calling_name
+            ) for calling_name in Callings2.names()
+        ],
+        style=styles_choice
+    ).ask()
+    return Callings2.by_name(answer)
+
+
+def select_favoured_skills(selected_culture: Culture2,selected_calling: Calling2):
+    favoured_skills = []
+    title()
+
+    # selecting favoured skill from culture
+    questionary.print("Select one favoured skill from you culture:\n", style=styles_print["yellow"])
+    favoured_skills.append(questionary.select(
+            "",
+            choices=[
+                questionary.Choice(
+                    title=[
+                        ("class:white", skill_name)
+                    ],
+                    value=skill_name
+                ) for skill_name in selected_culture.favoured_skills
+            ],
+            style=styles_choice
+        ).ask()
+    )
+    
+    # selecting two favoured skills from calling
+    questionary.print("Select two favoured skills from your calling:\n", style=styles_print["yellow"])
+    favoured_skills.append(questionary.checkbox(
+            "",
+            choices=[
+                questionary.Choice(
+                    title=[
+                        ("class:white", a)
+                    ],
+                    value=a
+                ) for a in selected_calling.favoured_skills
+            ],
+            style=styles_choice,
+            validate=lambda answer: "Please select two favoured skills." if len(answer) != 2 else True
+        ).ask()
+    )
+
+
+def select_virtue():
+    title()
+    questionary.print("Enter Virtue Name:\n", style=styles_print["yellow"])
+    selected_virtue = questionary.text(
+        "",
+        style=styles_choice
+    ).ask()
+    return selected_virtue
+
+
+def select_reward():
+    title()
+    questionary.print("Enter Reward Name:\n", style=styles_print["yellow"])
+    selected_reward = questionary.text(
+        "",
+        style=styles_choice
+    ).ask()
+    return selected_reward
+
+
 def main():
     title()
-    selected_culture = culture()
-    selected_attributes = attributes(selected_culture)
+    selected_culture = select_culture()
+    selected_attributes = select_attributes(selected_culture)
     selected_combat_proficiencies = select_combat_proficiencies(selected_culture)
-    selected_distinctive_features = distinctive_features(selected_culture)
+    selected_distinctive_features = select_distinctive_features(selected_culture)
+    selected_name = select_name()
+    selected_age = select_age()
+    selected_calling = select_calling()
+    selected_favoured_skills = select_favoured_skills(selected_culture, selected_calling)
+    selected_virtue = select_virtue()
+    selected_reward = select_reward()
     
-    # active_character = Character2(culture = selected_culture, 
-    #                               attribute_choice = selected_attributes, 
-    #                               weapon_skill_levels = selected_combat_proficiencies,
-    #                               distinctive_features = selected_distinctive_features,
-    #                               name = selected_name,
-    #                               age = selected_age,
-    #                               calling = selected_calling,
-    #                               favoured_skill_choices = selected_favoured_skill_choices,
-    #                               starting_virtue = selected_virtue,
-    #                               starting_reward = selected_reward)
+    active_character = Character2(culture = selected_culture, 
+                                  attribute_choice = selected_attributes, 
+                                  weapon_skill_levels = selected_combat_proficiencies,
+                                  distinctive_features = selected_distinctive_features,
+                                  name = selected_name,
+                                  age = selected_age,
+                                  calling = selected_calling,
+                                  favoured_skill_choices = selected_favoured_skills,
+                                  starting_virtue = selected_virtue,
+                                  starting_reward = selected_reward)
     
-
+    print(active_character)
 
 if __name__ == "__main__":
     main()

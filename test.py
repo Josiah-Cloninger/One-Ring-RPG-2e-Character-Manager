@@ -4,21 +4,14 @@ from culture2 import Cultures2
 from gear2 import Weapons2, Armours2, Headgears2, Shields2
 
 
-active_character = Character2(
-    culture=Cultures2.RANGER, 
-    attribute_choice=4, 
-    weapon_skill_levels={"swords": 2, "bows": 1, "spears": 0, "axes": 0}, 
-    favoured_skill_choices=["lore'", "courtesy", "travel"], 
-    distinctive_features=["swift", "honourable"], 
-    name="Dervorin",
-    age="24",
-    calling=Callings2.MESSENGER,
-    starting_virtue="Heir of Arnor",
-    starting_reward="Keen Longsword"
-    )
+input_str = "strength: 5, heart: 7, wits: 2"
 
-active_character.weapons.append(Weapons2.LONG_SWORD)
-active_character.armour = Armours2.LEATHER_CORSLET
-active_character.weapons[0].notes = "Piercing blow happens on a 9"
+attributes_list = input_str.split(", ")
 
-print(Headgears2.names())
+attributes_dict = {}
+
+for attribute in attributes_list:
+    attribute_name, attribute_value = attribute.split(": ")
+    attributes_dict[attribute_name] = int(attribute_value)
+
+print(attributes_dict)
