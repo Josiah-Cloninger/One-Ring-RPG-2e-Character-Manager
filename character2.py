@@ -288,6 +288,10 @@ def save_character(character: Character2, filename: str):
 
 
 def load_character(filename: str):
-    with open(filename, "rb") as file:
-        character = pickle.load(file)
-    return character
+    try:
+        with open(filename, "rb") as file:
+            character = pickle.load(file)
+        return character
+    except FileNotFoundError:
+        print("Character not found")
+        return "File not found"
