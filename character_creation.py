@@ -1,10 +1,12 @@
 import os
 
 import questionary
+from questionary import print
 
 from culture2 import Cultures2, Culture2, all_combat_proficiencies
 from character2 import Character2
 from calling2 import Calling2, Callings2
+from gear2 import Weapons2, Armours2, Shields2, Headgears2
 
 
 styles_print = {
@@ -225,12 +227,107 @@ def select_favoured_skills(selected_culture: Culture2,selected_calling: Calling2
                         ("class:white", a)
                     ],
                     value=a
-                ) for a in selected_calling.favoured_skills
+                ) for a in selected_calling.favoured_skills if a not in favoured_skills
             ],
             style=styles_choice,
             validate=lambda answer: "Please select two favoured skills." if len(answer) != 2 else True
         ).ask()
     )
+
+
+def select_skill_upgrade(character: Character2):
+    title()
+    questionary.print("Upgrade Common Skill:\n", style=styles_print["yellow"])
+    answer = questionary.select(
+        "",
+        choices=[
+            questionary.Choice(
+                title=[
+                    ("class:white", skill_name + ": " + str(skill_level))
+                ],
+                value=skill_name
+            ) for skill_name, skill_level in character.skill_levels.items()
+        ],
+        style=styles_choice
+    ).ask()
+    return answer
+
+
+def upgrade_skill(character: Character2, skill: str, previous_experience_points: int):
+    if previous_experience_points >= character.skill_levels[skill] + 1:
+        character.skill_levels[skill] += 1
+        previous_experience_points -= character.skill_levels[skill]
+        return previous_experience_points
+    else:
+        print("You do not have enough experience to upgrade this skill.")
+        return previous_experience_points
+
+
+def select_weapon_skill_upgrade(character: Character2):
+    title()
+    questionary.print("Upgrade Weapon Skill:\n", style=styles_print["yellow"])
+    answer = questionary.select(
+        "",
+        choices=[
+            questionary.Choice(
+                title=[
+                    ("class:white", skill_name + ": " + str(skill_level))
+                ],
+                value=skill_name
+            ) for skill_name, skill_level in character.combat_proficiencies.items()
+        ],
+        style=styles_choice
+    ).ask()
+    return answer
+
+
+def upgrade_weapon_skill(character: Character2, skill: str, previous_experience_points: int):
+    if previous_experience_points >= character.combat_proficiencies[skill] * 2 + 2:
+        character.combat_proficiencies[skill] += 1
+        previous_experience_points -= character.combat_proficiencies[skill] * 2
+        return previous_experience_points
+    else:
+        print("You do not have enough experience to upgrade this skill.")
+        return previous_experience_points
+
+
+def previous_experience(character: Character2):
+    continue_loop = True
+    previous_experience_points = 10
+    while previous_experience_points > 0 and continue_loop:
+        title()
+        print("Skill Levels:\n", style=styles_print["yellow"])
+        for skill, level in character.skill_levels.items():
+            print(f"{skill}: {level}")
+        print("\nWeapon Skill Levels:\n", style=styles_print["yellow"])
+        for skill, level in character.combat_proficiencies.items():
+            print(f"{skill}: {level}")
+        answer = questionary.select(
+            "",
+            choices=[
+                questionary.Choice(
+                    title=[
+                    ("class:white", o),
+                    ],
+                    value=o
+                    )for o in ["Upgrade Skill", "Upgrade Weapon Skill", "Continue without spending remainding points"]
+                ],
+            style=styles_choice,
+        ).ask()
+        if answer == "Upgrade Skill":
+            skill_to_upgrade = select_skill_upgrade(character)
+            previous_experience_points = upgrade_skill(character, skill_to_upgrade, previous_experience_points)
+        elif answer == "Upgrade Weapon Skill":
+            weapon_skill_to_upgrade = select_weapon_skill_upgrade(character)
+            previous_experience_points = upgrade_weapon_skill(character, weapon_skill_to_upgrade, previous_experience_points)
+        elif answer == "Continue without spending remainding points":
+            continue_loop = False
+
+
+def starting_gear():
+    title()
+    print("Enter Starting Gear:\n", style=styles_print["yellow"])
+    starting_gear = input("")
 
 
 def select_virtue():
@@ -253,6 +350,105 @@ def select_reward():
     return selected_reward
 
 
+def starting_gear():
+    title()
+    if input("Would you like to have weapons?(y/n)").lower() == "y":
+        weapons = []
+        while True:
+            title()
+            print("Select your starting weapons:\n")
+            answer = questionary.select(
+                "",
+                choices=[
+                    questionary.Choice(
+                        title=[
+                            ("class:white", a)
+                        ],
+                        value=a
+                    ) for a in Weapons2.names()
+                ],
+                style=styles_choice
+            ).ask()
+            print(str(Weapons2.by_name(answer)))
+            if input("Would you like to add this weapon?(y/n)").lower() == "y":
+                weapons.append(answer)
+                if input("Would you like to add another weapon?(y/n)").lower() == "n":
+                    break
+            
+    else:
+        weapons = None
+
+    title()
+    if input("Would you like to have armour?(y/n)").lower() == "y":
+        while True:
+            title()
+            print("Select your armour:\n")
+            armour = questionary.select(
+                "",
+                choices=[
+                    questionary.Choice(
+                        title=[
+                            ("class:white", a)
+                        ],
+                        value=a
+                    ) for a in Armours2.names()
+                ],
+                style=styles_choice
+            ).ask()
+            print(str(Armours2.by_name(answer)))
+            if input("Would you like to add this armour?(y/n)").lower() == "y":
+                break
+    else:
+        armour = None
+
+    title()
+    if input("Would you like to have a shield?(y/n)").lower() == "y":
+        while True:
+            title()
+            print("Select your starting shield:\n")
+            shield = questionary.select(
+                "",
+                choices=[
+                    questionary.Choice(
+                        title=[
+                            ("class:white", a)
+                        ],
+                        value=a
+                    ) for a in Shields2.names()
+                ],
+                style=styles_choice
+            ).ask()
+            if input("Would you like to add this shield?(y/n)").lower() == "y":
+                break
+    else:
+        shield = None
+
+    title()
+    if input("Would you like to have headgear?(y/n)").lower() == "y":
+        while True:
+            title()
+            print("Select your starting headgear:\n")
+            headgear = questionary.select(
+                "",
+                choices=[
+                    questionary.Choice(
+                        title=[
+                            ("class:white", a)
+                        ],
+                        value=a
+                    ) for a in Headgears2.names()
+                ],
+                style=styles_choice
+            ).ask() 
+            print(str(Headgears2.by_name(answer)))
+            if input("Would you like to add this headgear?(y/n)").lower() == "y":
+                break
+    else:
+        headgear = None
+
+    return weapons, armour, shield, headgear
+
+
 def main():
     title()
     selected_culture = select_culture()
@@ -263,10 +459,10 @@ def main():
     selected_age = select_age()
     selected_calling = select_calling()
     selected_favoured_skills = select_favoured_skills(selected_culture, selected_calling)
+    selected_weapons, selected_armour, selected_shield, selected_headgear = starting_gear()
     selected_virtue = select_virtue()
     selected_reward = select_reward()
-    
-    return Character2(culture = selected_culture, 
+    active_character = Character2(culture = selected_culture, 
                                   attribute_choice = selected_attributes, 
                                   weapon_skill_levels = selected_combat_proficiencies,
                                   distinctive_features = selected_distinctive_features,
@@ -275,7 +471,15 @@ def main():
                                   calling = selected_calling,
                                   favoured_skill_choices = selected_favoured_skills,
                                   starting_virtue = selected_virtue,
-                                  starting_reward = selected_reward)
+                                  starting_reward = selected_reward
+                                  )
+    for weapon in selected_weapons:
+        active_character.add_weapon(Weapons2.by_name(weapon))
+    active_character.change_armour(Armours2.by_name(selected_armour))
+    active_character.change_shield(Shields2.by_name(selected_shield))
+    active_character.change_headgear(Headgears2.by_name(selected_headgear))
+    previous_experience(active_character)
+    return active_character
     
 if __name__ == "__main__":
     main()
