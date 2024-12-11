@@ -60,6 +60,18 @@ class Callings2(metaclass=MetaEnum):
         shadow_path_description=("Travelling afar might be the duty chosen by a messen- ger, but it carries the risk of never finding a place to fight for. "
                                  "The Road goes ever on and on, it’s true, but whither then?")
     )
+    SCHOLAR = Calling2(
+        name="Scholar",
+        quote="“Speak no secrets! Here is a scholar in the Ancient Tongue.”",
+        description=("For you, knowledge makes the wild world a less threatening place. Yellowed maps in lost books replace a fear of the unknown with curiosity "
+                     "and wonder, songs composed in ages past strengthen the weariest of hearts. A love of learning guides your every step, and illuminates the "
+                     "way for you and those who listen to your advice."),
+        favoured_skills=["craft", "lore", "riddle"],
+        distinctive_feature="Rhymes of Lore"
+        shadow_path="Lure of Secrets",
+        shadow_path_description=("Inquisitiveness and curiosity are desirable virtues in an individual, but knowledge can be put to malicious use, and learned "
+                                 "individuals can look down on others as ignorant fools. Secrets are danger- ous, as the very desire of uncovering them may corrupt the heart.")
+    )
     TREASURE_HUNTER = Calling2(
         name="Treasure Hunter",
         quote="Far over the Misty Mountains cold, To dungeons deep and caverns old. We must away ere break of day, To seek the pale enchanted gold.",
