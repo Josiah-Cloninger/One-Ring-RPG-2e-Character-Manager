@@ -1,0 +1,112 @@
+These are all the attributes that an object of type "Character2" will have. To get the value of one of these, simply call {character object name}.{attribute name}
+Example: print(active_character.name)
+
+culture - str, the name of culture ("Rangers of the North")
+blessing - Blessing2, contains name, flavour, effect, and quote associated with Cultural Blessing ("Blessing2.KINGS_OF_MEN")
+
+standard_of_living - str, the name of standard of living ("prosperous")
+treasure - int, must be positive
+
+strength_score - int, strength score, must be positive
+heart_score - int, heart score, must be positive
+wits_score - int, wits score, must be positive
+
+strength_tn - int, strength TN, calculated by subtracting strength score from 20
+heart_tn - int, heart TN, calculated by subtracting heart score from 20
+wits_tn - int, wits TN, calculated by subtracting wit score from 20
+
+max_endurance - int, max value of current_endurance, must be positive
+max_hope - int, max value of current_hope, must be positive
+parry - int, parry value after all modifiers. modifiers include shields, virtues, etc.
+
+awe - int, awe level, must be positive
+enhearten - int, enhearten level, must be positive
+persuade - int, persuade level, must be positive
+athletics - int, athletics level, must be positive
+travel - int, travel level, must be positive
+stealth - int, stealth level, must be positive
+awareness - int, awareness level, must be positive
+insight - int, insight level, must be positive
+scan - int, scan level, must be positive
+hunting - int, hunting level, must be positive
+healing - int, healing level, must be positive
+explore - int, explore level, must be positive
+song - int, song level, must be positive
+courtesy - int, courtesy level, must be positive
+riddle - int, riddle level, must be positive
+craft - int, craft level, must be positive
+battle - int, battle level, must be positive
+lore - int, lore level, must be positive
+
+self.skill_levels = {
+    "awe": self.awe,
+    "enhearten": self.enhearten,
+    "persuade": self.persuade,
+    "athletics": self.athletics,
+    "travel": self.travel,
+    "stealth": self.stealth,
+    "awareness": self.awareness,
+    "insight": self.insight,
+    "scan": self.scan,
+    "hunting": self.hunting,
+    "healing": self.healing,
+    "explore": self.explore,
+    "song": self.song,
+    "courtesy": self.courtesy,
+    "riddle": self.riddle,
+    "craft": self.craft,
+    "battle": self.battle,
+    "lore": self.lore
+} - dict{str, int}, references all skill levels, makes it easier to iterate through them all or to lookup by a string
+
+favoured_skills - list[str], a list of what skills are favoured
+
+axes_skill - int, axes proficiency level
+bows_skill - int, bows proficiency level
+swords_skill - int, swords proficiency level
+spears_skill - int, spears proficiency level
+
+combat_proficiencies = {
+    "axes": self.axes_skill,
+    "bows": self.bows_skill,
+    "swords": self.swords_skill,
+    "spears": self.spears_skill
+} - dict{str, int}, references all weapon skills, makes it easier to iterate through them all or to lookup by a string
+
+distinctive_features - list[str]
+
+name - str
+
+age - int, must be positive
+
+calling - str,  name of  calling
+shadow_path - str, name of shadow path associated with their calling
+flaws - list[str]
+
+patron - str, patron
+
+adventure_points - int, must be positive
+skill_points - int, must be positive
+fellowship_score - int, must be positive
+
+weapons - list[Weapon2]
+armour - Armour2 or None
+headgear - Headgear2 or None
+shield - Shield2 or None
+
+current_endurance - int, must be positive
+fatigue - int, must be positive
+
+current_hope - int, must be positive
+shadow_points - int, must be positive
+shadow_scars - int, must be positive
+
+is_wounded - bool, may have to be changed to a non-bool
+injury - str, i'm not sure what this will be because I haven't read it in the rules yet
+
+rewards - list[str], will eventually be a Reward object
+virtues - list[str], will eventually be a Virtue object
+
+is_miserable - bool
+is_weary - bool
+load - int, must be positive

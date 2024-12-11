@@ -1,7 +1,10 @@
 from utils import MetaEnum
 from dataclasses import dataclass
 
+
 from blessing2 import Blessing2, Blessings2
+from standard_of_living import Standards_Of_Living, Standard_Of_Living
+
 
 @dataclass
 class Culture2:
@@ -9,7 +12,7 @@ class Culture2:
     description: str
     characteristics: str
     blessing: Blessing2
-    sol: str # standard of living
+    sol: Standard_Of_Living # standard of living
     sol_description: str
     attributes: list
 
@@ -45,7 +48,7 @@ class Cultures2(metaclass=MetaEnum):
                          "When abroad they may be recognised by their gear, as they often carry equipment of superior make. Unlike most denizens of Wilderland, "
                          "Bardings prefer to use swords over axes, and naturally favour the bow, after the example of their King."),
         blessing=Blessings2.STOUT_HEARTED,
-        sol="Prosperous",
+        sol=Standards_Of_Living.PROSPEROUS,
         sol_description=("Thanks to its successful trading connections the city of Dale prospers. Those among the Bardings who choose a life of adventure "
                          "are usually members of less affluent families — yet, their wealth is still superior to that of most of the denizens of Eriador."),
         attributes=[{"strength": 5, "heart": 7, "wits": 2}, 
@@ -96,7 +99,7 @@ class Cultures2(metaclass=MetaEnum):
                         "Yet,they still favour shorter weapons over longer ones."),
             "effect": "Dwarven adventurers cannot use the following pieces of war gear: great bow, great spear, long sword, and great shield."
         },
-        sol="Prosperous",
+        sol=Standards_Of_Living.PROSPEROUS,
         sol_description="With the fabulous Dragon-hoard of Erebor reclaimed and their kingdom restored, the Dwarves are much richer today than in the past.",
         attributes=[{"strength": 7, "heart": 2, "wits": 5}, 
                     {"strength": 7, "heart": 3, "wits": 4}, 
@@ -146,7 +149,7 @@ class Cultures2(metaclass=MetaEnum):
             "flavour": "The Elves find it hard to forget the taint of the Shadow once it has left its mark on their spirit.",
             "effect": "When it is time to remove accumulated Shadow during the Fellowship Phase, you can only remove a maximum of 1 point (see Spiritual Recovery, page 119)."
         },
-        sol="Frugal",
+        sol=Standards_Of_Living.FRUGAL,
         sol_description=("The Fair Folk live in harmony with Middle-earth and have little or no use for those things that others consider precious. They lack "
                          "nothing, and craft beautiful things using the richest materials, but they don’t profit from their wealth the way other folks do."),
         attributes=[{"strength": 5, "heart": 2, "wits": 7}, 
@@ -196,7 +199,7 @@ class Cultures2(metaclass=MetaEnum):
             "flavour": "Due to their reduced size, Hobbits cannot use larger weapons effectively. The weapons available to Hobbits are:",
             "effect": "Axe, bow, club, cudgel, dagger, short sword, short spear, spear. Additionally, Hobbits cannot use a great shield."
         },
-        sol="Common",
+        sol=Standards_Of_Living.COMMON,
         sol_description=("Hobbits live in peace, their land is well-tilled and their borders protected, but theirs is an isolated "
                         "island in the middle of a desolate region, and trading is an uncommon occurrence."),
         attributes=[{"strength": 3, "heart": 6, "wits": 5}, 
@@ -241,7 +244,7 @@ class Cultures2(metaclass=MetaEnum):
                          "in their limbs, and usually return home to settle down before their fortieth year. Not being of a warlike disposition, the Bree-folk "
                          "favour simple weapons, derived from everyday tools and hunting implements."),
         blessing=Blessings2.BREE_BLOOD,
-        sol="Common",
+        sol=Standards_Of_Living.COMMON,
         sol_description=("Bree-land is not as wealthy as it once was, but these days the inhabitants of the four villages are no "
                          "more rustic than their neighbours in the Shire, and no less well-off."),
         attributes=[{"strength": 2, "heart": 5, "wits": 7}, 
@@ -293,7 +296,7 @@ class Cultures2(metaclass=MetaEnum):
                         "This obligation makes it harder for them to put their spirit at ease even when enjoying a respite from adventuring."),
             "effect": "During the Fellowship phase (not Yule) you recover a maximum number of Hope points equal to half your HEART score (rounding fractions up)."
         },
-        sol="Frugal",
+        sol=Standards_Of_Living.FRUGAL,
         sol_description=("Rangers rarely wear or carry anything whose worth cannot be measured in a practical way. Their gear or garments are never considered "
                          "precious for the gleam of stone or gold, but for their capability to endure long journeys and strenuous fights."),
         attributes=[{"strength": 7, "heart": 5, "wits": 2}, 

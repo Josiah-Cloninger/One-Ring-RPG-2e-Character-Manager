@@ -2,6 +2,12 @@ import pickle
 from culture2 import Culture2
 from calling2 import Calling2
 from gear2 import Weapon2, Weapons2, Armour2, Armours2, Shield2, Shields2
+from standard_of_living import Standard_Of_Living, Standards_Of_Living
+
+
+NOT_ENOUGH_TREASURE = Exception("Not enough treasure points")
+NOT_ENOUGH_SKILL_POINTS = Exception("Not enough skill points.")
+NOT_ENOUGH_ADVENTURE_POINTS = Exception("Not enough adventure points.")
 
 
 class Character2:
@@ -23,6 +29,7 @@ class Character2:
 
         # standard of living
         self.standard_of_living = culture.sol # sol = standard of living
+        self.treasure = self.standard_of_living.treasure_rating
 
         # attributes
         self.strength_score = attribute_choice["strength"]
@@ -181,6 +188,75 @@ class Character2:
         return load
 
 
+    def raise_standard_of_living(self):
+        if self.treasure >= Standards_Of_Living[self.standard_of_living.level + 1].treasure_rating:
+            self.standard_of_living = Standards_Of_Living[self.standard_of_living.level + 1]
+        else:
+            raise NOT_ENOUGH_TREASURE
+
+
+    def add_treasure(self, value: int):
+        if self.treasure > -value:
+            self.treasure += value
+        else:
+            raise NOT_ENOUGH_TREASURE
+
+
+    def upgrade_skill(self, skill: str):
+        if self.skill_points >= upgrade_table(self.skill_levels[skill].level + 1):
+            self.skill_levels[skill] += 1
+            self.skill_points -= upgrade_table(self.skill_levels[skill])
+        else:
+            raise NOT_ENOUGH_SKILL_POINTS
+
+
+    def upgrade_combat_proficiency(self, combat_proficiency: str):
+        if self.adventure_points >= upgrade_table(self.combat_proficiencies[combat_proficiency].level + 1):
+            self.combat_proficiencies[combat_proficiency] += 1
+            self.adventure_points -= upgrade_table(self.combat_proficiencies[combat_proficiency].level)
+        else:
+            raise NOT_ENOUGH_ADVENTURE_POINTS
+
+
+    def increment_age(self, increment: int=1):
+        self.age += increment
+
+
+    # gear methods
+    def add_weapon(self, weapon: Weapon2):
+        self.weapons.append(weapon)
+
+
+    def remove_weapon(self, weapon: str):
+        for weapon in self.weapons:
+            if weapon.name == weapon:
+                self.weapons.remove(weapon)
+
+
+    def change_armour(self, armour: Armour2):
+        self.armour = armour
+
+
+    def remove_armour(self):
+        self.armour = None
+
+
+    def change_headgear(self, headgear: Armour2):
+        self.headgear = headgear
+
+
+    def remove_headgear(self):
+        self.headgear = None
+
+
+    def change_shield(self, shield: Shield2):
+        self.shield = shield
+
+
+    def remove_shield(self):
+        self.shield = None
+
+
     def __repr__(self):
         return (f"name: {self.name}\n"
                 f"age: {self.age}\n"
@@ -189,7 +265,8 @@ class Character2:
                 f"calling: {self.calling}\n"
                 f"shadow path: {self.shadow_path}\n"
                 f"patron: {self.patron}\n"
-                f"standard of living: {self.sol}\n"
+                f"standard of living: {self.standard_of_living}\n"
+                f"treasure: {self.treasure}\n"
                 f"distinctive features: {self.distinctive_features}\n"
                 f"flaws: {self.flaws}\n"
                 f"attributes:\n"
@@ -244,45 +321,6 @@ class Character2:
     )
 
 
-    # gear methods
-    def add_weapon(self, weapon: Weapon2):
-        self.weapons.append(weapon)
-
-    def remove_weapon(self, weapon: str):
-        for weapon in self.weapons:
-            if weapon.name == weapon:
-                self.weapons.remove(weapon)
-
-    def change_armour(self, armour: Armour2):
-        self.armour = armour
-
-    def remove_armour(self):
-        self.armour = None
-
-    def change_headgear(self, headgear: Armour2):
-        self.headgear = headgear
-
-    def remove_headgear(self):
-        self.headgear = None
-
-    def change_shield(self, shield: Shield2):
-        self.shield = shield
-
-    def remove_shield(self):
-        self.shield = None
-
-    # skill methods
-    def increase_skill(self, skill: str):
-        self.skill_levels[skill] += 1
-
-    def increase_combat_proficiency(self, combat_proficiency: str):
-        self.combat_proficiencies[combat_proficiency] += 1
-
-    # other characteristic methods
-    def increment_age(self, increment: int=1):
-        self.age += increment
-
-
 def save_character(character: Character2, filename: str):
     with open(filename, "wb") as file:
         pickle.dump(character, file)
@@ -292,3 +330,19 @@ def load_character(filename: str):
     with open(filename, "rb") as file:
         character = pickle.load(file)
     return character
+
+
+def upgrade_table(input: int):
+    match input:
+        case 1:
+            return 4
+        case 2:
+            return 8
+        case 3:
+            return 12
+        case 4:
+            return 20
+        case 5:
+            return 26
+        case 6:
+            return 30
