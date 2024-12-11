@@ -22,62 +22,62 @@ class Character2:
         self.blessing = culture.blessing
 
         # standard of living
-        self.sol = culture.sol # sol = standard of living
+        self.standard_of_living = culture.sol # sol = standard of living
 
         # attributes
-        self.strength = attribute_choice["strength"]
-        self.heart = attribute_choice["heart"]
-        self.wits = attribute_choice["wits"]
+        self.strength_score = attribute_choice["strength"]
+        self.heart_score = attribute_choice["heart"]
+        self.wits_score = attribute_choice["wits"]
 
         # attribute TNs
-        self.strength_tn = 20 - self.strength
-        self.heart_tn = 20 - self.heart
-        self.wits_tn = 20 - self.wits
+        self.strength_tn = 20 - self.strength_score
+        self.heart_tn = 20 - self.heart_score
+        self.wits_tn = 20 - self.wits_score
 
         # derived stats
-        self.endurance = culture.endurance + self.strength
-        self.hope = culture.hope + self.heart
-        self.parry = culture.parry + self.wits
+        self.max_endurance = culture.endurance + self.strength_score
+        self.max_hope = culture.hope + self.heart_score
+        self.parry = culture.parry + self.wits_score
 
         # skills
-        self.awe_level = culture.skill_levels["awe"]
-        self.enhearten_level = culture.skill_levels["enhearten"]
-        self.persuade_level = culture.skill_levels["persuade"]
-        self.athletics_level = culture.skill_levels["athletics"]
-        self.travel_level = culture.skill_levels["travel"]
-        self.stealth_level = culture.skill_levels["stealth"]
-        self.awareness_level = culture.skill_levels["awareness"]
-        self.insight_level = culture.skill_levels["insight"]
-        self.scan_level = culture.skill_levels["scan"]
-        self.hunting_level = culture.skill_levels["hunting"]
-        self.healing_level = culture.skill_levels["healing"]
-        self.explore_level = culture.skill_levels["explore"]
-        self.song_level = culture.skill_levels["song"]
-        self.courtesy_level = culture.skill_levels["courtesy"]
-        self.riddle_level = culture.skill_levels["riddle"]
-        self.craft_level = culture.skill_levels["craft"]
-        self.battle_level = culture.skill_levels["battle"]
-        self.lore_level = culture.skill_levels["lore"]
+        self.awe = culture.skill_levels["awe"]
+        self.enhearten = culture.skill_levels["enhearten"]
+        self.persuade = culture.skill_levels["persuade"]
+        self.athletics = culture.skill_levels["athletics"]
+        self.travel = culture.skill_levels["travel"]
+        self.stealth = culture.skill_levels["stealth"]
+        self.awareness = culture.skill_levels["awareness"]
+        self.insight = culture.skill_levels["insight"]
+        self.scan = culture.skill_levels["scan"]
+        self.hunting = culture.skill_levels["hunting"]
+        self.healing = culture.skill_levels["healing"]
+        self.explore = culture.skill_levels["explore"]
+        self.song = culture.skill_levels["song"]
+        self.courtesy = culture.skill_levels["courtesy"]
+        self.riddle = culture.skill_levels["riddle"]
+        self.craft = culture.skill_levels["craft"]
+        self.battle = culture.skill_levels["battle"]
+        self.lore = culture.skill_levels["lore"]
 
         self.skill_levels = {
-            "awe": self.awe_level,
-            "enhearten": self.enhearten_level,
-            "persuade": self.persuade_level,
-            "athletics": self.athletics_level,
-            "travel": self.travel_level,
-            "stealth": self.stealth_level,
-            "awareness": self.awareness_level,
-            "insight": self.insight_level,
-            "scan": self.scan_level,
-            "hunting": self.hunting_level,
-            "healing": self.healing_level,
-            "explore": self.explore_level,
-            "song": self.song_level,
-            "courtesy": self.courtesy_level,
-            "riddle": self.riddle_level,
-            "craft": self.craft_level,
-            "battle": self.battle_level,
-            "lore": self.lore_level
+            "awe": self.awe,
+            "enhearten": self.enhearten,
+            "persuade": self.persuade,
+            "athletics": self.athletics,
+            "travel": self.travel,
+            "stealth": self.stealth,
+            "awareness": self.awareness,
+            "insight": self.insight,
+            "scan": self.scan,
+            "hunting": self.hunting,
+            "healing": self.healing,
+            "explore": self.explore,
+            "song": self.song,
+            "courtesy": self.courtesy,
+            "riddle": self.riddle,
+            "craft": self.craft,
+            "battle": self.battle,
+            "lore": self.lore
         }
 
         # favoured skills
@@ -129,12 +129,12 @@ class Character2:
         self.shield = None
 
         # endurance
-        self.current_endurance = self.endurance
-        self.fatigue = self.load
+        self.current_endurance = self.max_endurance
+        self.fatigue = 0
 
         # hope
-        self.current_hope = self.hope
-        self.shadow = 0
+        self.current_hope = self.max_hope
+        self.shadow_points = 0
         self.shadow_scars = 0
 
         # conditions
@@ -151,7 +151,7 @@ class Character2:
     # conditions
     @property
     def is_miserable(self):
-        if self.shadow >= self.current_hope:
+        if self.shadow_points + self.shadow_scars >= self.current_hope:
             return True
         else:
             return False
@@ -179,6 +179,7 @@ class Character2:
             load += self.shield.load
 
         return load
+
 
     def __repr__(self):
         return (f"name: {self.name}\n"
