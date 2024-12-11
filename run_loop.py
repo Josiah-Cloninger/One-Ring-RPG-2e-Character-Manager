@@ -1,88 +1,120 @@
-import character_creation
-from character2 import Character2, load_character, save_character
 import os
+import sys
+
+import character_creation
+
+
+from character2 import Character2, load_character, save_character
+
+active_character = None
+start_commands = {
+    "help": "Prints a list of commands",
+    "exit": "Exits the program",
+    "create character": "Creates a new character",
+    "load": "Loads a character",
+    "save": "Saves a character",
+    "show": "Shows attributes of a character"
+}
+
+
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-acceptable_commands = {
-    "help": "Prints a list of commands",
-    "exit": "Exits the program",
-    "create character": "Creates a new character",
-    "save": "Saves a character",
-    "load": "Loads a character",
-}
+
+def title():
+    clear_console()
+    print("One Ring RPG Character Manager\n\n")
+
+
+def help():
+    title()
+    for command, description in start_commands.items():
+        print(f"{command}: {description}")
+    input("Press enter to continue")
+
+
+def create_character():
+    title()
+    active_character = character_creation.main()
+    if input("Would you like to save and continue with this character? (y/n)").lower() == "y":
+        save_character(active_character, f"{active_character.name}.pickle")
+        print("Character saved!")   
+        input("Press enter to continue")
+        return active_character         
+                
+
+def select_character_to_load():
+    title()
+    print("Enter the name of the character to load: ")
+    filename = input("> ")
+    active_character = load_character(f"{filename}.pickle")
+    return active_character
+
+
+def exit():
+    print("Goodbye!")
+    sys.exit()
+
+
+def save_current_character(active_character: Character2):
+    title()
+    save_character(active_character, f"{active_character.name}.pickle")
+    print("Character saved!")
+    input("Press enter to continue")
+
+def show_attributes(active_character: Character2):
+    while True:
+        title()
+        print("What would you like to see?\n")
+        command = input("> ")
+        if command == "exit":
+            break
+        try:
+            print(getattr(active_character, command))
+            print("Press enter to continue, or type 'exit' to return to the main menu")
+            command = input("> ")
+            if command == "exit":
+                break
+        except AttributeError:
+            print("Invalid command.")
+            print("Press enter to continue, or type 'exit' to return to the main menu")
+            command = input("> ")
+            if command == "exit":
+                break
+
 
 clear_console()
-print("Welcome to the One Ring RPG Character Manager!")
+input("Welcome to the One Ring RPG Character Manager!\nEnter 'help' for a list of commands\nPress enter to continue")
+
 while True:
-    print("Enter a command or \"help\" for a list of commands: ")
-    command = input()
-    match command:
-        case "help":
-            print(acceptable_commands)
-        case "exit":
-            print("Goodbye!")
-            break
-        case "create character":
-            active_character = character_creation.main()
-            print(active_character)
-        case "save":
-            save_character(active_character, f"{active_character.name}.pickle")
-            print(f"Character saved to {active_character.name}.pickle")
-        case "load":
-            print("Enter the name of the character to load: ")
-            filename = input("> ")
-            active_character = load_character(f"{filename}.pickle")
-            print(active_character)
-        
-        # information
-        case "culture":
-            print(f"Culture: {active_character.culture}")
-        case "age":
-            print(f"Age: {active_character.age}")
-        case "distinctive features":
-            print(f"Distinctive Features: {active_character.distinctive_features}")
-        case "blessing":
-            print(f"Blessing: {active_character.blessing}")
-        case "standard of living":
-            print(f"Standard of Living {active_character.sol}")
-        case "treasure":
-            print(f"Treasure: {active_character.treasure}")
-        case "calling":
-            print(f"Calling: {active_character.calling}")
-        case "shadow path":
-            print(f"Shadow Path: {active_character.shadow_path}")
-        case "flaws":
-            print("Flaws: {active_character.flaws}")
-
-        # Attributes
-        case "strength":
-            print(f"Strength Rating: {active_character.strength}")
-            print(f"Strength TN: {active_character.strength_tn}")
-            print(f"Max Endurance: {active_character.endurance}")
-        case "heart":
-            print(f"Heart Rating: {active_character.heart}")
-            print(f"Heart TN: {active_character.heart_tn}")
-            print(f"Max Hope: {active_character.hope}")
-        case "wits":
-            print(f"Wits Rating: {active_character.wits}")
-            print(f"Wits TN: {active_character.wits_tn}")
-            print(f"Parry: {active_character.parry}")
-        case "endurance":
-            print(f"Current Endurance: {active_character.current_endurance}")
-        case "hope":
-            print(f"Current Hope: {active_character.current_hope}")
-        case "parry":
-            print(f"Parry: {active_character.parry}")
-        
-        # Skills
-        case "skill levels":
-            for skill in active_character.skill_levels:
-                print(f"{skill}: {active_character.skill_levels[skill]}")
-        case "favoured skills":
-            print(f"Favoured Skills: {active_character.favoured_skills}")
-
-        # Combat Proficiencies
-        case "combat proficiencies":
-            print(f"Combat Proficiencies: {active_character.combat_proficiencies}")
+    title()
+    command = input("> ")
+    if active_character is None:
+        if command == "help":
+            help()
+        elif command == "exit":
+            exit()
+        elif command == "create character":
+            active_character = create_character()
+        elif command == "load":
+            active_character = select_character_to_load()
+        else:
+            print("Invalid command.")
+            input("Press enter to continue")
+    else:
+        if command == "help":
+            help()
+        elif command == "exit":
+            exit()
+        elif command == "create character":
+            active_character = create_character()
+        elif command == "load":
+            active_character = select_character_to_load()
+        elif command == "save":
+            save_current_character(active_character)
+        elif command == "show":
+            show_attributes(active_character)
+        else:
+            print("Invalid command.")
+            input("Press enter to continue")
