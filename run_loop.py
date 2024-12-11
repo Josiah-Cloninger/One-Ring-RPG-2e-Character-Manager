@@ -23,7 +23,8 @@ commands = {
     "exit": "Exits the program",
     "create character": "Creates a new character",
     "load": "Loads a character",
-    "save": "Saves the current character"
+    "save": "Saves the current character",
+    "modify": "Modifies character's attributes"
 }
 
 
@@ -100,10 +101,31 @@ def save_current_character(active_character: Character2):
 def show_attributes(active_character: Character2):
     clear_console()
     while True:
-        print("Enter the attribute you would like to see:\n")
+        print("Enter the attribute you would like to see:")
         command = input("> ")
         match command:
             case "exit":
+                clear_console()
+                break
+            case "help":
+                clear_console
+                attr_help()
+            case _:
+                clear_console()
+                try:
+                    print(f"{command}: {getattr(active_character, command)}\n")
+                except AttributeError:
+                    print("Attribute not fond\n")
+
+
+def modify_attributes(active_character: Character2):
+    clear_console()
+    while True:
+        print("Enter the attribute you would like to modify:")  
+        command = input("> ")
+        match command:
+            case "exit":
+                clear_console()
                 break
             case "help":
                 attr_help()
@@ -111,9 +133,13 @@ def show_attributes(active_character: Character2):
                 try:
                     clear_console()
                     print(f"{command}: {getattr(active_character, command)}\n")
+                    print(f"Enter what you would like to change {command} to:")
+                    setattr(active_character, command, input("> "))
+                    clear_console()
+                    print(f"{command} successfully changed to {getattr(active_character, command)}\n")
                 except AttributeError:
                     clear_console()
-                    print("Attribute not fond\n")
+                    print("Attribute not fond")
 
 
 clear_console()
@@ -148,5 +174,7 @@ while True:
                 save_current_character(active_character)
             case "show":
                 show_attributes(active_character)
+            case "modify":
+                modify_attributes(active_character)
             case _:
                 print("Invalid command\n")
