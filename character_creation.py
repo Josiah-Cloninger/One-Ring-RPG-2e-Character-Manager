@@ -6,6 +6,7 @@ from questionary import print
 from culture2 import Cultures2, Culture2, all_combat_proficiencies
 from character2 import Character2
 from calling2 import Calling2, Callings2
+from gear2 import Weapons2, Armours2, Shields2, Headgears2
 
 
 styles_print = {
@@ -349,6 +350,105 @@ def select_reward():
     return selected_reward
 
 
+def starting_gear():
+    title()
+    if input("Would you like to have weapons?(y/n)").lower() == "y":
+        weapons = []
+        while True:
+            title()
+            print("Select your starting weapons:\n")
+            answer = questionary.select(
+                "",
+                choices=[
+                    questionary.Choice(
+                        title=[
+                            ("class:white", a)
+                        ],
+                        value=a
+                    ) for a in Weapons2.names()
+                ],
+                style=styles_choice
+            ).ask()
+            print(str(Weapons2.by_name(answer)))
+            if input("Would you like to add this weapon?(y/n)").lower() == "y":
+                weapons.append(answer)
+                if input("Would you like to add another weapon?(y/n)").lower() == "n":
+                    break
+            
+    else:
+        weapons = None
+
+    title()
+    if input("Would you like to have armour?(y/n)").lower() == "y":
+        while True:
+            title()
+            print("Select your armour:\n")
+            armour = questionary.select(
+                "",
+                choices=[
+                    questionary.Choice(
+                        title=[
+                            ("class:white", a)
+                        ],
+                        value=a
+                    ) for a in Armours2.names()
+                ],
+                style=styles_choice
+            ).ask()
+            print(str(Armours2.by_name(answer)))
+            if input("Would you like to add this armour?(y/n)").lower() == "y":
+                break
+    else:
+        armour = None
+
+    title()
+    if input("Would you like to have a shield?(y/n)").lower() == "y":
+        while True:
+            title()
+            print("Select your starting shield:\n")
+            shield = questionary.select(
+                "",
+                choices=[
+                    questionary.Choice(
+                        title=[
+                            ("class:white", a)
+                        ],
+                        value=a
+                    ) for a in Shields2.names()
+                ],
+                style=styles_choice
+            ).ask()
+            if input("Would you like to add this shield?(y/n)").lower() == "y":
+                break
+    else:
+        shield = None
+
+    title()
+    if input("Would you like to have headgear?(y/n)").lower() == "y":
+        while True:
+            title()
+            print("Select your starting headgear:\n")
+            headgear = questionary.select(
+                "",
+                choices=[
+                    questionary.Choice(
+                        title=[
+                            ("class:white", a)
+                        ],
+                        value=a
+                    ) for a in Headgears2.names()
+                ],
+                style=styles_choice
+            ).ask() 
+            print(str(Headgears2.by_name(answer)))
+            if input("Would you like to add this headgear?(y/n)").lower() == "y":
+                break
+    else:
+        headgear = None
+
+    return weapons, armour, shield, headgear
+
+
 def main():
     title()
     selected_culture = select_culture()
@@ -359,6 +459,7 @@ def main():
     selected_age = select_age()
     selected_calling = select_calling()
     selected_favoured_skills = select_favoured_skills(selected_culture, selected_calling)
+    selected_weapons, selected_armour, selected_shield, selected_headgear = starting_gear()
     selected_virtue = select_virtue()
     selected_reward = select_reward()
     active_character = Character2(culture = selected_culture, 
@@ -370,7 +471,13 @@ def main():
                                   calling = selected_calling,
                                   favoured_skill_choices = selected_favoured_skills,
                                   starting_virtue = selected_virtue,
-                                  starting_reward = selected_reward)
+                                  starting_reward = selected_reward
+                                  )
+    for weapon in selected_weapons:
+        active_character.add_weapon(Weapons2.by_name(weapon))
+    active_character.change_armour(Armours2.by_name(selected_armour))
+    active_character.change_shield(Shields2.by_name(selected_shield))
+    active_character.change_headgear(Headgears2.by_name(selected_headgear))
     previous_experience(active_character)
     return active_character
     
