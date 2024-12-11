@@ -234,7 +234,7 @@ class Character2:
                     f"\tfatigue: {self.fatigue}\n"
                 f"hope:\n"
                     f"\tcurrent hope: {self.current_hope}\n"
-                    f"\tshadow: {self.shadow}\n"
+                    f"\tshadow points: {self.shadow_points}\n"
                     f"\tshadow scars: {self.shadow_scars}\n"
                 f"conditions:\n"
                     f"\tis weary: {self.is_weary}\n"
@@ -288,10 +288,6 @@ def save_character(character: Character2, filename: str):
 
 
 def load_character(filename: str):
-    try:
-        with open(filename, "rb") as file:
-            character = pickle.load(file)
-        return character
-    except FileNotFoundError:
-        print("Character not found")
-        return "File not found"
+    with open(filename, "rb") as file:
+        character = pickle.load(file)
+    return character
