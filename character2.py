@@ -5,9 +5,9 @@ from gear2 import Weapon2, Weapons2, Armour2, Armours2, Shield2, Shields2
 from standard_of_living import Standard_Of_Living, Standards_Of_Living
 
 
-NOT_ENOUGH_TREASURE = Exception("Not enough treasure points")
-NOT_ENOUGH_SKILL_POINTS = Exception("Not enough skill points.")
-NOT_ENOUGH_ADVENTURE_POINTS = Exception("Not enough adventure points.")
+TreasureError = Exception("Not enough treasure points")
+SkillPointError = Exception("Not enough skill points.")
+AdventurePointError = Exception("Not enough adventure points.")
 
 
 class Character2:
@@ -28,8 +28,7 @@ class Character2:
         self.blessing = culture.blessing
 
         # standard of living
-        self.standard_of_living = culture.sol # sol = standard of living
-        self.treasure = self.standard_of_living.treasure_rating
+        self.treasure = culture.sol.treasure_rating
 
         # attributes
         self.strength_score = attribute_choice["strength"]
@@ -162,6 +161,7 @@ class Character2:
             return True
         else:
             return False
+    
         
     @property
     def is_weary(self):
@@ -169,7 +169,8 @@ class Character2:
             return True
         else:
             return False
-        
+
+
     @property
     def load(self):
         load = 0
@@ -207,7 +208,7 @@ class Character2:
         if self.treasure > -value:
             self.treasure += value
         else:
-            raise NOT_ENOUGH_TREASURE
+            raise TreasureError
 
 
     def upgrade_skill(self, skill: str):
@@ -215,7 +216,7 @@ class Character2:
             self.skill_levels[skill] += 1
             self.skill_points -= upgrade_table(self.skill_levels[skill])
         else:
-            raise NOT_ENOUGH_SKILL_POINTS
+            raise SkillPointError
 
 
     def upgrade_combat_proficiency(self, combat_proficiency: str):
@@ -223,7 +224,7 @@ class Character2:
             self.combat_proficiencies[combat_proficiency] += 1
             self.adventure_points -= upgrade_table(self.combat_proficiencies[combat_proficiency].level)
         else:
-            raise NOT_ENOUGH_ADVENTURE_POINTS
+            raise AdventurePointError
 
 
     def increment_age(self, increment: int=1):
