@@ -145,6 +145,46 @@ def set_attributes(active_character: Character2, attribute: str, value):
                 print("Attribute not fond")
 
 
+def modify_attributes(active_character: Character2, attribute: str, value):
+    clear_console()
+    if attribute is None:
+        print("Enter the attribute you would like to modify:")  
+        attribute = input("> ")
+    match attribute:
+        case "help":
+            attr_help()
+        case "virtue":
+            if value is None:
+                print("Enter the name of the virtue you would like to add:")
+                value = input("> ")
+            active_character.add_virtue(value)
+            clear_console()
+            print(f"{value} successfully added to virtues\n")
+        case "reward":
+            if value is None:
+                print("Enter the name of the reward you would like to add:")
+                value = input("> ")
+            active_character.add_reward(value)
+            clear_console()
+            print(f"{value} successfully added to rewards\n")
+        case _:
+            try:
+                print(f"{attribute}: {getattr(active_character, attribute)}\n")
+                if value is None:
+                    print(f"Enter how much you would like to change {attribute} by:")
+                    value = input("> ")
+                attr_type=type(getattr(active_character, attribute))
+                match attr_type:
+                    case int:
+                        value = int(value)
+                setattr(active_character, attribute, getattr(active_character, attribute) +value)
+                clear_console()
+                print(f"{attribute} successfully changed to {getattr(active_character, attribute)}\n")
+            except AttributeError:
+                clear_console()
+                print("Attribute not fond")
+
+
 clear_console()
 while True:
     if active_character is None:
@@ -183,5 +223,7 @@ while True:
                 show_attributes(active_character, commands[1])
             case "set":
                 set_attributes(active_character, commands[1], commands[2])
+            case "modify":
+                modify_attributes(active_character, commands[1], commands[2])
             case _:
                 print("Invalid command\n")
