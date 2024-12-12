@@ -266,6 +266,14 @@ class Character2:
         self.shield = None
 
 
+    def add_virtue(self, virtue: str):
+        self.virtues.append(virtue)
+
+    
+    def add_reward(self, reward: str):
+        self.rewards.append(reward)
+
+
     def __repr__(self):
         return (f"name: {self.name}\n"
                 f"age: {self.age}\n"
