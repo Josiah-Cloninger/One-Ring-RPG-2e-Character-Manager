@@ -188,11 +188,19 @@ class Character2:
         return load
 
 
-    def raise_standard_of_living(self):
-        if self.treasure >= Standards_Of_Living[self.standard_of_living.level + 1].treasure_rating:
-            self.standard_of_living = Standards_Of_Living[self.standard_of_living.level + 1]
-        else:
-            raise NOT_ENOUGH_TREASURE
+    @property
+    def standard_of_living(self):
+        match self.treasure:
+            case range(0, 30):
+                return Standards_Of_Living.FRUGAL
+            case range(30, 90):
+                return Standards_Of_Living.COMMON
+            case range(90, 180):
+                return Standards_Of_Living.PROSPEROUS
+            case range(180, 300):
+                return Standards_Of_Living.RICH
+            case range(300, 1000):
+                return Standards_Of_Living.VERY_RICH
 
 
     def add_treasure(self, value: int):
@@ -346,3 +354,4 @@ def upgrade_table(input: int):
             return 26
         case 6:
             return 30
+
