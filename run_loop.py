@@ -12,7 +12,7 @@ active_character = None
 start_commands = {
     "help": "Prints a list of commands",
     "exit": "Exits the program",
-    "create character": "Creates a new character",
+    "create": "Creates a new character",
     "load": "Loads a character",
     "save": "Saves a character",
     "show": "Shows attributes of a character"
@@ -24,7 +24,7 @@ commands = {
     "create character": "Creates a new character",
     "load": "Loads a character",
     "save": "Saves the current character",
-    "modify": "Modifies character's attributes"
+    "set": "Sets character's attributes"
 }
 
 
@@ -70,9 +70,12 @@ def create_character():
         return active_character         
                 
 
-def select_character_to_load():
-    print("Enter the name of the character to load: ")
-    filename = input("> ").lower()
+def select_character_to_load(character_name: str):
+    if character_name is None:
+        print("Enter the name of the character to load: ")
+        filename = input("> ").lower()
+    else:
+        filename = character_name
 
     while True:
         try:
@@ -98,83 +101,87 @@ def save_current_character(active_character: Character2):
     print(f"{active_character.name} successfully saved!\n")
 
 
-def show_attributes(active_character: Character2):
+def show_attributes(active_character: Character2, attribute: str):
     clear_console()
-    while True:
+    if attribute is None:
         print("Enter the attribute you would like to see:")
-        command = input("> ")
-        match command:
-            case "exit":
-                clear_console()
-                break
-            case "help":
-                clear_console
-                attr_help()
-            case _:
-                clear_console()
-                try:
-                    print(f"{command}: {getattr(active_character, command)}\n")
-                except AttributeError:
-                    print("Attribute not fond\n")
+        attribute = input("> ")
+    match attribute:
+        case "help":
+            clear_console
+            attr_help()
+        case _:
+            clear_console()
+            try:
+                print(f"{attribute}: {getattr(active_character, attribute)}\n")
+            except AttributeError:
+                print("Attribute not fond\n")
 
 
-def modify_attributes(active_character: Character2):
+def set_attributes(active_character: Character2, attribute: str, value):
     clear_console()
-    while True:
-        print("Enter the attribute you would like to modify:")  
-        command = input("> ")
-        match command:
-            case "exit":
+    if attribute is None:
+        print("Enter the attribute you would like to set:")  
+        attribute = input("> ")
+    match attribute:
+        case "help":
+            attr_help()
+        case _:
+            try:
                 clear_console()
-                break
-            case "help":
-                attr_help()
-            case _:
-                try:
-                    clear_console()
-                    print(f"{command}: {getattr(active_character, command)}\n")
-                    print(f"Enter what you would like to change {command} to:")
-                    setattr(active_character, command, input("> "))
-                    clear_console()
-                    print(f"{command} successfully changed to {getattr(active_character, command)}\n")
-                except AttributeError:
-                    clear_console()
-                    print("Attribute not fond")
+                print(f"{attribute}: {getattr(active_character, attribute)}\n")
+                if value is None:
+                    print(f"Enter what you would like to change {attribute} to:")
+                    value = input("> ")
+                attr_type=type(getattr(active_character, attribute))
+                match attr_type:
+                    case int:
+                        value = int(value)
+                setattr(active_character, attribute, value)
+                clear_console()
+                print(f"{attribute} successfully changed to {getattr(active_character, attribute)}\n")
+            except AttributeError:
+                clear_console()
+                print("Attribute not fond")
 
 
 clear_console()
 while True:
     if active_character is None:
-        print("Please start by either loading an exhisting character with \'load\' or creating a new character with \'create character\'")
-        command = input("> ")
-        match command:
+        print("Please start by either loading an exhisting character with \'load\' or creating a new character with \'create\'")
+        commands = input("> ").lower()
+        commands = commands.split()
+        commands.extend([None]*(10 - len(commands)))
+        match commands[0]:
             case "help":
                 start_help()
             case "exit":
                 exit()
-            case "create character":
+            case "create":
                 active_character = create_character()
             case "load":
-                active_character = select_character_to_load()
+                active_character = select_character_to_load(commands[1])
             case _:
                 print("Invalid command\n")
     else:
         print("Enter a command:")
-        command = input("> ")
-        match command:
+        commands = input("> ").lower()
+        commands = commands.split()
+        commands.extend([None]*(10 - len(commands)))
+        match commands[0]:
             case "help":
                 help()
             case "exit":
                 exit()
-            case "create character":
+            case "create":
                 active_character = create_character()
             case "load":
-                active_character = select_character_to_load()
+                active_character = select_character_to_load(commands[1])
             case "save":
                 save_current_character(active_character)
             case "show":
-                show_attributes(active_character)
-            case "modify":
-                modify_attributes(active_character)
+                show_attributes(active_character, commands[1])
+            case "set":
+                set_attributes(active_character, commands[1], commands[2])
             case _:
                 print("Invalid command\n")
