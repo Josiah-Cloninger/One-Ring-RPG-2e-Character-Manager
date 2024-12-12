@@ -162,6 +162,7 @@ class Character2:
             return True
         else:
             return False
+    
         
     @property
     def is_weary(self):
@@ -169,7 +170,8 @@ class Character2:
             return True
         else:
             return False
-        
+
+
     @property
     def load(self):
         load = 0
