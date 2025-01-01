@@ -13,7 +13,7 @@ def title():
           "Enter \'help\' at any time for a list of commands or \'exit\' to quit\n")
 
 
-def roll(dice_to_roll, advantage, disadvantage):
+def roll(dice_to_roll, advantage, disadvantage):    
     while True:
         total = 0
         quality_of_success = 0
