@@ -5,6 +5,7 @@ import character_creation
 
 
 from character2 import Character2, load_character, save_character
+from dice_roller import roll
 
 
 active_character = None
@@ -24,7 +25,9 @@ commands = {
     "create character": "Creates a new character",
     "load": "Loads a character",
     "save": "Saves the current character",
-    "set": "Sets character's attributes"
+    "set": "Sets character's attributes",
+    "show": "Shows attributes of a character",
+    "roll": "Rolls for the chosen skill"
 }
 
 
@@ -115,7 +118,7 @@ def show_attributes(active_character: Character2, attribute: str):
             try:
                 print(f"{attribute}: {getattr(active_character, attribute)}\n")
             except AttributeError:
-                print("Attribute not fond\n")
+                print("Attribute not found\n")
 
 
 def set_attributes(active_character: Character2, attribute: str, value):
@@ -189,10 +192,10 @@ clear_console()
 while True:
     if active_character is None:
         print("Please start by either loading an exhisting character with \'load\' or creating a new character with \'create\'")
-        commands = input("> ").lower()
-        commands = commands.split()
-        commands.extend([None]*(10 - len(commands)))
-        match commands[0]:
+        user_command = input("> ").lower()
+        user_command = user_command.split()
+        user_command.extend([None]*(10 - len(user_command)))
+        match user_command[0]:
             case "help":
                 start_help()
             case "exit":
@@ -200,15 +203,15 @@ while True:
             case "create":
                 active_character = create_character()
             case "load":
-                active_character = select_character_to_load(commands[1])
+                active_character = select_character_to_load(user_command[1])
             case _:
                 print("Invalid command\n")
     else:
         print("Enter a command:")
-        commands = input("> ").lower()
-        commands = commands.split()
-        commands.extend([None]*(10 - len(commands)))
-        match commands[0]:
+        user_command = input("> ").lower()
+        user_command = user_command.split()
+        user_command.extend([None]*(10 - len(user_command)))
+        match user_command[0]:
             case "help":
                 help()
             case "exit":
@@ -216,14 +219,16 @@ while True:
             case "create":
                 active_character = create_character()
             case "load":
-                active_character = select_character_to_load(commands[1])
+                active_character = select_character_to_load(user_command[1])
             case "save":
                 save_current_character(active_character)
             case "show":
-                show_attributes(active_character, commands[1])
+                show_attributes(active_character, user_command[1])
             case "set":
-                set_attributes(active_character, commands[1], commands[2])
+                set_attributes(active_character, user_command[1], user_command[2])
             case "modify":
-                modify_attributes(active_character, commands[1], commands[2])
+                modify_attributes(active_character, user_command[1], user_command[2])
+            # case "roll":
+                
             case _:
                 print("Invalid command\n")
