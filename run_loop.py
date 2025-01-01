@@ -31,13 +31,15 @@ commands = {
 }
 
 
+version = "0.1"
+
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
     title()
 
 
 def title():
-    print("One Ring RPG Character Manager\n"
+    print("One Ring RPG Character Manager\nVersion : " + version + "\n"
           "Enter \'help\' at any time for a list of commands or \'exit\' to quit\n")
 
 
@@ -208,6 +210,15 @@ def roll_skill(active_character: Character2, attribute: str):
             elif attribute in rollable_list:
                 total, feat_die, quality_of_success = roll(int(active_character.skill_levels[attribute]), True, False)
                 print_roll(total, feat_die, quality_of_success)
+            elif attribute == "wit_score":
+                total, feat_die, quality_of_success = roll(int(active_character.wits_score), True, False)
+                print_roll(total, feat_die, quality_of_success)
+            elif attribute == "strength_score":
+                total, feat_die, quality_of_success = roll(int(active_character.strength_score), True, False)
+                print_roll(total, feat_die, quality_of_success)
+            elif attribute == "heart_score":
+                total, feat_die, quality_of_success = roll(int(active_character.heart_score), True, False)
+                print_roll(total, feat_die, quality_of_success)
             else:
                 print("Attribute not found\n")
 
@@ -258,6 +269,9 @@ def rollable_items(active_character: Character2, attribute: str):
     for combat_proficiency in active_character.combat_proficiencies:
         rollable_list.append(combat_proficiency)
     rollable_list.append("armour")
+    rollable_list.append("wit_score")
+    rollable_list.append("strength_score")
+    rollable_list.append("heart_score")
     return rollable_list
 
 
