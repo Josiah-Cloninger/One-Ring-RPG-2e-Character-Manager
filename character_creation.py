@@ -302,6 +302,9 @@ def previous_experience(character: Character2):
         print("\nWeapon Skill Levels:\n", style=styles_print["yellow"])
         for skill, level in character.combat_proficiencies.items():
             print(f"{skill}: {level}")
+        print("\nPoints Remaining:\n", style=styles_print["yellow"])
+        print(str(previous_experience_points))
+        print("\n")
         answer = questionary.select(
             "",
             choices=[
@@ -324,12 +327,6 @@ def previous_experience(character: Character2):
             continue_loop = False
 
 
-def starting_gear():
-    title()
-    print("Enter Starting Gear:\n", style=styles_print["yellow"])
-    starting_gear = input("")
-
-
 def select_virtue():
     title()
     questionary.print("Enter Virtue Name:\n", style=styles_print["yellow"])
@@ -350,13 +347,19 @@ def select_reward():
     return selected_reward
 
 
-def starting_gear():
+def starting_gear(selected_combat_proficiencies):
     title()
     if input("Would you like to have weapons?(y/n)").lower() == "y":
         weapons = []
         while True:
             title()
-            print("Select your starting weapons:\n")
+            print("Current weapon levels:\n")
+            for name in selected_combat_proficiencies:
+                print(f"{name}\t  :      {selected_combat_proficiencies[name]}")
+            print("\nWeapons currently carried:\n")
+            for weapon in weapons:
+                print(weapon)
+            print("\nSelect your starting weapons:\n")
             answer = questionary.select(
                 "",
                 choices=[
@@ -395,7 +398,7 @@ def starting_gear():
                 ],
                 style=styles_choice
             ).ask()
-            print(str(Armours2.by_name(answer)))
+            print(str(Armours2.by_name(armour)))
             if input("Would you like to add this armour?(y/n)").lower() == "y":
                 break
     else:
@@ -418,6 +421,7 @@ def starting_gear():
                 ],
                 style=styles_choice
             ).ask()
+            print(str(Shields2.by_name(shield)))
             if input("Would you like to add this shield?(y/n)").lower() == "y":
                 break
     else:
@@ -440,7 +444,7 @@ def starting_gear():
                 ],
                 style=styles_choice
             ).ask() 
-            print(str(Headgears2.by_name(answer)))
+            print(str(Headgears2.by_name(headgear)))
             if input("Would you like to add this headgear?(y/n)").lower() == "y":
                 break
     else:
@@ -459,7 +463,7 @@ def main():
     selected_age = select_age()
     selected_calling = select_calling()
     selected_favoured_skills = select_favoured_skills(selected_culture, selected_calling)
-    selected_weapons, selected_armour, selected_shield, selected_headgear = starting_gear()
+    selected_weapons, selected_armour, selected_shield, selected_headgear = starting_gear(selected_combat_proficiencies)
     selected_virtue = select_virtue()
     selected_reward = select_reward()
     active_character = Character2(culture = selected_culture, 

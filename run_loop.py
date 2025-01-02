@@ -1,10 +1,11 @@
-import os, sys, types
+import os, sys, types, random
 
 
 import character_creation
 
 
 from character2 import Character2, load_character, save_character
+from dice_roller import roll
 
 
 active_character = None
@@ -24,7 +25,9 @@ commands = {
     "create character": "Creates a new character",
     "load": "Loads a character",
     "save": "Saves the current character",
-    "set": "Sets character's attributes"
+    "set": "Sets character's attributes",
+    "show": "Shows attributes of a character",
+    "roll": "Rolls for the chosen skill"
 }
 
 
@@ -115,7 +118,7 @@ def show_attributes(active_character: Character2, attribute: str):
             try:
                 print(f"{attribute}: {getattr(active_character, attribute)}\n")
             except AttributeError:
-                print("Attribute not fond\n")
+                print("Attribute not found\n")
 
 
 def set_attributes(active_character: Character2, attribute: str, value):
@@ -185,14 +188,87 @@ def modify_attributes(active_character: Character2, attribute: str, value):
                 print("Attribute not fond")
 
 
+def roll_skill(active_character: Character2, attribute: str):
+    clear_console()
+    if attribute is None:
+        print("Enter the attribute you would like to roll:")
+        attribute = input("> ")
+    match attribute:
+        case "help":
+            clear_console
+        case _:
+            rollable_list = rollable_items(active_character, attribute)
+            clear_console()
+            if attribute == "armour":
+                total, feat_die, quality_of_success = roll(int(active_character.armour.protection), True, False)
+                print_roll(total, feat_die, quality_of_success)
+            elif attribute in active_character.combat_proficiencies:
+                total, feat_die, quality_of_success = roll(int(active_character.combat_proficiencies[attribute]), True, False)
+                print_roll(total, feat_die, quality_of_success)
+            elif attribute in rollable_list:
+                total, feat_die, quality_of_success = roll(int(active_character.skill_levels[attribute]), True, False)
+                print_roll(total, feat_die, quality_of_success)
+            else:
+                print("Attribute not found\n")
+
+
+def print_roll(total, feat_die, quality_of_success):
+    print(f"You got {total},")
+    print(f"the Feat Die was {feat_die},")
+    if quality_of_success == 0:
+        print("and you got a ordinary success!")
+    elif quality_of_success == 1:
+        print("and you got a great success!")
+    elif quality_of_success == 2:
+        print("and you got a extrodanary success!")
+
+
+def roll(dice_to_roll, advantage, disadvantage):
+    while True:
+        total = 0
+        quality_of_success = 0
+        feat_die = random.randint(1,12)
+        if advantage:
+            if not disadvantage:
+                new_feat_roll = random.randint(1,12)
+                if new_feat_roll > feat_die:
+                    feat_die = new_feat_roll
+        elif disadvantage:
+            new_feat_roll = random.randint(1,12)
+            if new_feat_roll < feat_die:
+                feat_die = new_feat_roll
+        total += feat_die
+        while dice_to_roll > 0:
+            die = random.randint(1,6)
+            if die == 6:
+                quality_of_success += 1
+            total += die
+            dice_to_roll -= 1
+        if quality_of_success > 2:
+            quality_of_success = 2
+        return total, feat_die, quality_of_success
+    
+
+def rollable_items(active_character: Character2, attribute: str):
+    title()
+    rollable_list = []
+    print("\nItems to roll:\n")
+    for skill in active_character.skill_levels:
+        rollable_list.append(skill)
+    for combat_proficiency in active_character.combat_proficiencies:
+        rollable_list.append(combat_proficiency)
+    rollable_list.append("armour")
+    return rollable_list
+
+
 clear_console()
 while True:
     if active_character is None:
         print("Please start by either loading an exhisting character with \'load\' or creating a new character with \'create\'")
-        commands = input("> ").lower()
-        commands = commands.split()
-        commands.extend([None]*(10 - len(commands)))
-        match commands[0]:
+        user_command = input("> ").lower()
+        user_command = user_command.split()
+        user_command.extend([None]*(10 - len(user_command)))
+        match user_command[0]:
             case "help":
                 start_help()
             case "exit":
@@ -200,15 +276,15 @@ while True:
             case "create":
                 active_character = create_character()
             case "load":
-                active_character = select_character_to_load(commands[1])
+                active_character = select_character_to_load(user_command[1])
             case _:
                 print("Invalid command\n")
     else:
         print("Enter a command:")
-        commands = input("> ").lower()
-        commands = commands.split()
-        commands.extend([None]*(10 - len(commands)))
-        match commands[0]:
+        user_command = input("> ").lower()
+        user_command = user_command.split()
+        user_command.extend([None]*(10 - len(user_command)))
+        match user_command[0]:
             case "help":
                 help()
             case "exit":
@@ -216,14 +292,16 @@ while True:
             case "create":
                 active_character = create_character()
             case "load":
-                active_character = select_character_to_load(commands[1])
+                active_character = select_character_to_load(user_command[1])
             case "save":
                 save_current_character(active_character)
             case "show":
-                show_attributes(active_character, commands[1])
+                show_attributes(active_character, user_command[1])
             case "set":
-                set_attributes(active_character, commands[1], commands[2])
+                set_attributes(active_character, user_command[1], user_command[2])
             case "modify":
-                modify_attributes(active_character, commands[1], commands[2])
+                modify_attributes(active_character, user_command[1], user_command[2])
+            case "roll":
+                roll_skill(active_character, user_command[1])
             case _:
                 print("Invalid command\n")
