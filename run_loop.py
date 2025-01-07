@@ -75,22 +75,27 @@ def create_character():
                 
 
 def select_character_to_load(character_name: str):
-    if character_name is None:
-        print("Enter the name of the character to load: ")
-        filename = input("> ").lower()
-    elif character_name.lower() == "exit":
-        exit()
-    else:
-        filename = character_name
-
     while True:
-        try:
-            active_character = load_character(f"{filename}.pickle")
-            break
-        except FileNotFoundError:
-            print("No character with that name was found. Please enter a different name")
-            filename = input("> ").lower()
-
+        if character_name is None:
+            print("Enter the name of the character to load: ")
+            character_name = input("> ").lower()
+        if character_name.lower() == "exit":
+            exit()
+        elif character_name.lower() == "menu":
+            clear_console()
+            return
+        elif character_name.lower() == "help":
+            print("\nname of the character to load")
+            print("menu")
+            print("exit\n")
+        else:
+            try:
+                active_character = load_character(f"{character_name}.pickle")
+                break
+            except FileNotFoundError:
+                print("No character with that name was found. Please enter a different name")
+                character_name = input("> ").lower()
+        character_name = None
     clear_console()
     print(f"{active_character.name} successfully loaded!\n")
     return active_character
