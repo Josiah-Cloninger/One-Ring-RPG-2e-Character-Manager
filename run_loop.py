@@ -7,7 +7,6 @@ import character_creation
 from character2 import Character2, load_character, save_character
 from dice_roller import roll
 
-
 active_character = None
 
 start_commands = {
@@ -40,7 +39,7 @@ def clear_console():
 
 def title():
     print("One Ring RPG Character Manager\nVersion : " + version + "\n"
-          "Enter \'help\' at any time for a list of commands or \'exit\' to quit\n")
+        "Enter \'help\' at any time for a list of commands or \'exit\' to quit\n")
 
 
 def start_help():
@@ -79,6 +78,8 @@ def select_character_to_load(character_name: str):
     if character_name is None:
         print("Enter the name of the character to load: ")
         filename = input("> ").lower()
+    elif character_name.lower() == "exit":
+        exit()
     else:
         filename = character_name
 
@@ -197,30 +198,55 @@ def roll_skill(active_character: Character2, attribute: str):
         attribute = input("> ")
     match attribute:
         case "help":
-            clear_console
+            for i in rollable_items(active_character):
+                print(i)
+            print()
         case _:
-            rollable_list = rollable_items(active_character, attribute)
-            clear_console()
+            rollable_list = rollable_items(active_character)
+            advantage, disadvantage = has_advantage_or_disadvange()
             if attribute == "armour":
-                total, feat_die, quality_of_success = roll(int(active_character.armour.protection), True, False)
+                total, feat_die, quality_of_success = roll(int(active_character.armour.protection), advantage, disadvantage)
                 print_roll(total, feat_die, quality_of_success)
-            elif attribute in active_character.combat_proficiencies:
-                total, feat_die, quality_of_success = roll(int(active_character.combat_proficiencies[attribute]), True, False)
+            elif attribute == "bows_skill":
+                total, feat_die, quality_of_success = roll(int(active_character.combat_proficiencies["bows"]), advantage, disadvantage)
+                print_roll(total, feat_die, quality_of_success)
+            elif attribute == "swords_skill":
+                total, feat_die, quality_of_success = roll(int(active_character.combat_proficiencies["swords"]), advantage, disadvantage)
+                print_roll(total, feat_die, quality_of_success)
+            elif attribute == "axes_skill":
+                total, feat_die, quality_of_success = roll(int(active_character.combat_proficiencies["axes"]), advantage, disadvantage)
+                print_roll(total, feat_die, quality_of_success)
+            elif attribute == "spears_skill":
+                total, feat_die, quality_of_success = roll(int(active_character.combat_proficiencies["spears"]), advantage, disadvantage)
                 print_roll(total, feat_die, quality_of_success)
             elif attribute in rollable_list:
-                total, feat_die, quality_of_success = roll(int(active_character.skill_levels[attribute]), True, False)
+                total, feat_die, quality_of_success = roll(int(active_character.skill_levels[attribute]), advantage, disadvantage)
                 print_roll(total, feat_die, quality_of_success)
             elif attribute == "wit_score":
-                total, feat_die, quality_of_success = roll(int(active_character.wits_score), True, False)
+                total, feat_die, quality_of_success = roll(int(active_character.wits_score), advantage, disadvantage)
                 print_roll(total, feat_die, quality_of_success)
             elif attribute == "strength_score":
-                total, feat_die, quality_of_success = roll(int(active_character.strength_score), True, False)
+                total, feat_die, quality_of_success = roll(int(active_character.strength_score), advantage, disadvantage)
                 print_roll(total, feat_die, quality_of_success)
             elif attribute == "heart_score":
-                total, feat_die, quality_of_success = roll(int(active_character.heart_score), True, False)
+                total, feat_die, quality_of_success = roll(int(active_character.heart_score), advantage, disadvantage)
                 print_roll(total, feat_die, quality_of_success)
             else:
                 print("Attribute not found\n")
+
+
+def has_advantage_or_disadvange():
+    user_input = input("Do you have advantage (y/n)").lower()
+    if user_input == "y":
+        advantage = True
+    else:
+        advantage = False
+    user_input = input("Do you have disadvantage (y/n)").lower()
+    if user_input == "y":
+        disadvantage = True
+    else:
+        disadvantage = False
+    return advantage, disadvantage
 
 
 def print_roll(total, feat_die, quality_of_success):
@@ -236,6 +262,7 @@ def print_roll(total, feat_die, quality_of_success):
 
 def roll(dice_to_roll, advantage, disadvantage):
     while True:
+        print(dice_to_roll)
         total = 0
         quality_of_success = 0
         feat_die = random.randint(1,12)
@@ -260,7 +287,7 @@ def roll(dice_to_roll, advantage, disadvantage):
         return total, feat_die, quality_of_success
     
 
-def rollable_items(active_character: Character2, attribute: str):
+def rollable_items(active_character: Character2):
     title()
     rollable_list = []
     print("\nItems to roll:\n")
