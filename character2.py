@@ -204,6 +204,26 @@ class Character2:
                 return Standards_Of_Living.VERY_RICH
 
 
+    @property
+    def axes_skill(self):
+        return self.combat_proficiencies["axes"]
+    
+
+    @property
+    def bows_skill(self):
+        return self.combat_proficiencies["bows"]
+    
+
+    @property
+    def swords_skill(self):
+        return self.combat_proficiencies["swords"]
+    
+
+    @property
+    def spears_skill(self):
+        return self.combat_proficiencies["spears"]
+
+
     def add_treasure(self, value: int):
         if self.treasure > -value:
             self.treasure += value
