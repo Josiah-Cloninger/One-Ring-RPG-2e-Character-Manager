@@ -299,7 +299,7 @@ def previous_experience(character: Character2):
         print("Skill Levels:\n", style=styles_print["yellow"])
         for skill, level in character.skill_levels.items():
             print(f"{skill}: {level}")
-        print("\nWeapon Skill Levels:\n", style=styles_print["yellow"])
+        print("\Combat Proficiency Levels:\n", style=styles_print["yellow"])
         for skill, level in character.combat_proficiencies.items():
             print(f"{skill}: {level}")
         print("\nPoints Remaining:\n", style=styles_print["yellow"])
@@ -313,14 +313,14 @@ def previous_experience(character: Character2):
                     ("class:white", o),
                     ],
                     value=o
-                    )for o in ["Upgrade Skill", "Upgrade Weapon Skill", "Continue without spending remainding points"]
+                    )for o in ["Upgrade Skill", "Upgrade Combat Proficiency Skill", "Continue without spending remainding points"]
                 ],
             style=styles_choice,
         ).ask()
         if answer == "Upgrade Skill":
             skill_to_upgrade = select_skill_upgrade(character)
             previous_experience_points = upgrade_skill(character, skill_to_upgrade, previous_experience_points)
-        elif answer == "Upgrade Weapon Skill":
+        elif answer == "Upgrade Combat Proficiency Skill":
             weapon_skill_to_upgrade = select_weapon_skill_upgrade(character)
             previous_experience_points = upgrade_weapon_skill(character, weapon_skill_to_upgrade, previous_experience_points)
         elif answer == "Continue without spending remainding points":
@@ -360,6 +360,7 @@ def starting_gear(selected_combat_proficiencies):
             for weapon in weapons:
                 print(weapon)
             print("\nSelect your starting weapons:\n")
+            
             answer = questionary.select(
                 "",
                 choices=[
@@ -368,7 +369,7 @@ def starting_gear(selected_combat_proficiencies):
                             ("class:white", a)
                         ],
                         value=a
-                    ) for a in Weapons2.names()
+                    ) for a in Weapons2.names() if a != "Unarmed" and a not in weapons
                 ],
                 style=styles_choice
             ).ask()
