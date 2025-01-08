@@ -94,16 +94,16 @@ class Character2:
             self.favoured_skills.append(favoured_skill_choices)
         
         # combat proficiencies
-        self.axes_skill = weapon_skill_levels.get("axes")
-        self.bows_skill = weapon_skill_levels.get("bows")
-        self.swords_skill = weapon_skill_levels.get("swords")
-        self.spears_skill = weapon_skill_levels.get("spears")
+        # self.axes_skill = weapon_skill_levels.get("axes")
+        # self.bows_skill = weapon_skill_levels.get("bows")
+        # self.swords_skill = weapon_skill_levels.get("swords")
+        # self.spears_skill = weapon_skill_levels.get("spears")
 
         self.combat_proficiencies = {
-            "axes": self.axes_skill,
-            "bows": self.bows_skill,
-            "swords": self.swords_skill,
-            "spears": self.spears_skill
+            "axes": weapon_skill_levels.get("axes"),
+            "bows": weapon_skill_levels.get("bows"),
+            "swords": weapon_skill_levels.get("swords"),
+            "spears": weapon_skill_levels.get("spears")
         }
 
         # distinctive features
