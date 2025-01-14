@@ -1,7 +1,7 @@
 import random
 import os
 
-from character2 import Character2, load_character
+from character import Character, load_character
 
 
 def clear_console():
@@ -40,7 +40,7 @@ def roll(dice_to_roll, advantage, disadvantage):
         return total, feat_die, quality_of_success
     
 
-def rollable_items(active_character: Character2):
+def rollable_items(active_character: Character):
     title()
     print("\nItems to roll:\n")
     for skill in active_character.skill_levels:
@@ -71,7 +71,7 @@ def select_character_to_load(character_name: str):
     return active_character
 
 
-def roll_skill(active_character: Character2, attribute: str):
+def roll_skill(active_character: Character, attribute: str):
     clear_console()
     if attribute is None:
         print("Enter the attribute you would like to see:")

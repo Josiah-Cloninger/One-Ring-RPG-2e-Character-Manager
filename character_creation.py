@@ -3,10 +3,10 @@ import os
 import questionary
 from questionary import print
 
-from culture2 import Cultures2, Culture2, all_combat_proficiencies
-from character2 import Character2
-from calling2 import Calling2, Callings2
-from gear2 import Weapons2, Armours2, Shields2, Headgears2
+from culture import Cultures, Culture, all_combat_proficiencies
+from character import Character
+from calling import Calling, Callings
+from gear import Weapons, Armours, Shields, Headgears
 
 
 styles_print = {
@@ -45,14 +45,14 @@ def select_culture():
                     ("class:culture", culture_name),
                 ],
                 value=culture_name
-            ) for culture_name in Cultures2.names()
+            ) for culture_name in Cultures.names()
         ],
         style=styles_choice
     ).ask()
-    return Cultures2.by_name(answer)
+    return Cultures.by_name(answer)
 
 
-def select_attributes(selected_culture: Culture2):
+def select_attributes(selected_culture: Culture):
     title()
     culture_attributes = []
     enumerater = 0
@@ -96,7 +96,7 @@ def select_attributes(selected_culture: Culture2):
     return attributes_dict
 
 
-def select_combat_proficiencies(selected_culture: Culture2):
+def select_combat_proficiencies(selected_culture: Culture):
     title()
     
     # selecting one of the combat proficiencies indicated by your culture to start at level 2
@@ -190,14 +190,14 @@ def select_calling():
                     ("class:calling", calling_name),
                 ],
                 value=calling_name
-            ) for calling_name in Callings2.names()
+            ) for calling_name in Callings.names()
         ],
         style=styles_choice
     ).ask()
-    return Callings2.by_name(answer)
+    return Callings.by_name(answer)
 
 
-def select_favoured_skills(selected_culture: Culture2,selected_calling: Calling2):
+def select_favoured_skills(selected_culture: Culture,selected_calling: Calling):
     favoured_skills = []
     title()
 
@@ -235,7 +235,7 @@ def select_favoured_skills(selected_culture: Culture2,selected_calling: Calling2
     )
 
 
-def select_skill_upgrade(character: Character2):
+def select_skill_upgrade(character: Character):
     title()
     questionary.print("Upgrade Common Skill:\n", style=styles_print["yellow"])
     answer = questionary.select(
@@ -253,7 +253,7 @@ def select_skill_upgrade(character: Character2):
     return answer
 
 
-def upgrade_skill(character: Character2, skill: str, previous_experience_points: int):
+def upgrade_skill(character: Character, skill: str, previous_experience_points: int):
     if previous_experience_points >= character.skill_levels[skill] + 1:
         character.skill_levels[skill] += 1
         previous_experience_points -= character.skill_levels[skill]
@@ -263,7 +263,7 @@ def upgrade_skill(character: Character2, skill: str, previous_experience_points:
         return previous_experience_points
 
 
-def select_weapon_skill_upgrade(character: Character2):
+def select_weapon_skill_upgrade(character: Character):
     title()
     questionary.print("Upgrade Weapon Skill:\n", style=styles_print["yellow"])
     answer = questionary.select(
@@ -281,7 +281,7 @@ def select_weapon_skill_upgrade(character: Character2):
     return answer
 
 
-def upgrade_weapon_skill(character: Character2, skill: str, previous_experience_points: int):
+def upgrade_weapon_skill(character: Character, skill: str, previous_experience_points: int):
     if previous_experience_points >= character.combat_proficiencies[skill] * 2 + 2:
         character.combat_proficiencies[skill] += 1
         previous_experience_points -= character.combat_proficiencies[skill] * 2
@@ -291,7 +291,7 @@ def upgrade_weapon_skill(character: Character2, skill: str, previous_experience_
         return previous_experience_points
 
 
-def previous_experience(character: Character2):
+def previous_experience(character: Character):
     continue_loop = True
     previous_experience_points = 10
     while previous_experience_points > 0 and continue_loop:
@@ -369,11 +369,11 @@ def starting_gear(selected_combat_proficiencies):
                             ("class:white", a)
                         ],
                         value=a
-                    ) for a in Weapons2.names() if a != "Unarmed" and a not in weapons
+                    ) for a in Weapons.names() if a != "Unarmed" and a not in weapons
                 ],
                 style=styles_choice
             ).ask()
-            print(str(Weapons2.by_name(answer)))
+            print(str(Weapons.by_name(answer)))
             if input("Would you like to add this weapon?(y/n)").lower() == "y":
                 weapons.append(answer)
                 if input("Would you like to add another weapon?(y/n)").lower() == "n":
@@ -395,11 +395,11 @@ def starting_gear(selected_combat_proficiencies):
                             ("class:white", a)
                         ],
                         value=a
-                    ) for a in Armours2.names()
+                    ) for a in Armours.names()
                 ],
                 style=styles_choice
             ).ask()
-            print(str(Armours2.by_name(armour)))
+            print(str(Armours.by_name(armour)))
             if input("Would you like to add this armour?(y/n)").lower() == "y":
                 break
     else:
@@ -418,11 +418,11 @@ def starting_gear(selected_combat_proficiencies):
                             ("class:white", a)
                         ],
                         value=a
-                    ) for a in Shields2.names()
+                    ) for a in Shields.names()
                 ],
                 style=styles_choice
             ).ask()
-            print(str(Shields2.by_name(shield)))
+            print(str(Shields.by_name(shield)))
             if input("Would you like to add this shield?(y/n)").lower() == "y":
                 break
     else:
@@ -441,11 +441,11 @@ def starting_gear(selected_combat_proficiencies):
                             ("class:white", a)
                         ],
                         value=a
-                    ) for a in Headgears2.names()
+                    ) for a in Headgears.names()
                 ],
                 style=styles_choice
             ).ask() 
-            print(str(Headgears2.by_name(headgear)))
+            print(str(Headgears.by_name(headgear)))
             if input("Would you like to add this headgear?(y/n)").lower() == "y":
                 break
     else:
@@ -467,7 +467,7 @@ def main():
     selected_weapons, selected_armour, selected_shield, selected_headgear = starting_gear(selected_combat_proficiencies)
     selected_virtue = select_virtue()
     selected_reward = select_reward()
-    active_character = Character2(culture = selected_culture, 
+    active_character = Character(culture = selected_culture, 
                                   attribute_choice = selected_attributes, 
                                   weapon_skill_levels = selected_combat_proficiencies,
                                   distinctive_features = selected_distinctive_features,
@@ -479,10 +479,10 @@ def main():
                                   starting_reward = selected_reward
                                   )
     for weapon in selected_weapons:
-        active_character.add_weapon(Weapons2.by_name(weapon))
-    active_character.change_armour(Armours2.by_name(selected_armour))
-    active_character.change_shield(Shields2.by_name(selected_shield))
-    active_character.change_headgear(Headgears2.by_name(selected_headgear))
+        active_character.add_weapon(Weapons.by_name(weapon))
+    active_character.change_armour(Armours.by_name(selected_armour))
+    active_character.change_shield(Shields.by_name(selected_shield))
+    active_character.change_headgear(Headgears.by_name(selected_headgear))
     previous_experience(active_character)
     return active_character
     

@@ -3,7 +3,7 @@ from utils import MetaEnum
 
 
 @dataclass
-class Calling2():
+class Calling():
     name: str
     quote: str
     description: str
@@ -14,8 +14,8 @@ class Calling2():
     shadow_path_description: str
 
 
-class Callings2(metaclass=MetaEnum):
-    CAPTAIN = Calling2(
+class Callings(metaclass=MetaEnum):
+    CAPTAIN = Calling(
         name="Captain",
         quote="He stood up, and seemed suddenly to grow taller. In his eyes gleamed a light, keen and commanding.",
         description=("When the world is on the brink of ruin, it is the duty of all individuals of worth to rise and take the lead, whatever the risk. "
@@ -29,7 +29,7 @@ class Callings2(metaclass=MetaEnum):
                                  "aggrandisement for the greater good of the people they should be guiding or keeping safe. Power is the quintessential temptation, "
                                  "and provides the Shadow with an easy way to win the hearts of those who desire it.")
     )
-    CHAMPION = Calling2(
+    CHAMPION = Calling(
         name="Champion",
         quote="“War must be, while we defend our lives against a destroyer who would devour all...”",
         description=("You deem that there is but one way to oppose the return of the Shadow, and that it is to conquer it by strength of arms. "
@@ -45,7 +45,7 @@ class Callings2(metaclass=MetaEnum):
                                  "thwarted or when they deem their honour to have been impugned by an insult. As corruption spreads in their spirit, "
                                  "their behaviour worsens, leading to more extreme violent reactions.")
     )
-    MESSENGER = Calling2(
+    MESSENGER = Calling(
         name="Messenger",
         quote="“Elrond is sending Elves, and they will get in touch with the Rangers, and maybe with Thranduil’s folk in Mirkwood.”",
         description=("The Wise hold that evil days lie ahead, and that to keep hope, all who fight the Enemy must be as one. Yet, many miles and centuries "
@@ -60,7 +60,7 @@ class Callings2(metaclass=MetaEnum):
         shadow_path_description=("Travelling afar might be the duty chosen by a messen- ger, but it carries the risk of never finding a place to fight for. "
                                  "The Road goes ever on and on, it’s true, but whither then?")
     )
-    SCHOLAR = Calling2(
+    SCHOLAR = Calling(
         name="Scholar",
         quote="“Speak no secrets! Here is a scholar in the Ancient Tongue.”",
         description=("For you, knowledge makes the wild world a less threatening place. Yellowed maps in lost books replace a fear of the unknown with curiosity "
@@ -74,7 +74,7 @@ class Callings2(metaclass=MetaEnum):
         shadow_path_description=("Inquisitiveness and curiosity are desirable virtues in an individual, but knowledge can be put to malicious use, and learned "
                                  "individuals can look down on others as ignorant fools. Secrets are danger- ous, as the very desire of uncovering them may corrupt the heart.")
     )
-    TREASURE_HUNTER = Calling2(
+    TREASURE_HUNTER = Calling(
         name="Treasure Hunter",
         quote="Far over the Misty Mountains cold, To dungeons deep and caverns old. We must away ere break of day, To seek the pale enchanted gold.",
         description=("The world has seen the passing of the glory of many Dwar- ven kings and Elven lords, and their heritage is now buried in "
@@ -89,7 +89,7 @@ class Callings2(metaclass=MetaEnum):
                                  "disease capable of turning a pile of enchanted gold into bitter ashes. As the Shadow tightens its grip "
                                  "on their hearts, the world shrinks around them and their closely guarded possessions.")
     )
-    WARDEN = Calling2(
+    WARDEN = Calling(
         name="Warden",
         quote="“Travellers scowl at us, and countrymen give us scornful names.”",
         description=("In this age of the world, when shadows grow deeper with every passing year, you have sworn to defend all who cannot defend themselves. "
@@ -108,15 +108,15 @@ class Callings2(metaclass=MetaEnum):
 
     @classmethod
     def by_name(cls, name):
-        for calling in Callings2:
-            if type(calling) is Calling2:
+        for calling in Callings:
+            if type(calling) is Calling:
                 if calling.name == name:
                     return calling
     
     @classmethod
     def names(cls):
         names = []
-        for calling in Callings2:
-            if type(calling) is Calling2:
+        for calling in Callings:
+            if type(calling) is Calling:
                 names.append(calling.name)
         return names

@@ -4,10 +4,12 @@ import os, sys, types, random
 import character_creation
 
 
-from character2 import Character2, load_character, save_character
+from character import Character, load_character, save_character
 from dice_roller import roll
 
+
 active_character = None
+
 
 start_commands = {
     "help": "Prints a list of commands",
@@ -17,6 +19,7 @@ start_commands = {
     "save": "Saves a character",
     "show": "Shows attributes of a character"
 }
+
 
 commands = {
     "help": "Prints a list of commands",
@@ -31,6 +34,7 @@ commands = {
 
 
 version = "0.1"
+
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -107,30 +111,32 @@ def exit():
     sys.exit()
 
 
-def save_current_character(active_character: Character2):
+def save_current_character(active_character: Character):
     save_character(active_character, f"{active_character.name.lower()}.pickle")
     clear_console()
     print(f"{active_character.name} successfully saved!\n")
 
 
-def show_attributes(active_character: Character2, attribute: str):
+def show_attributes(active_character: Character, attribute: str):
     clear_console()
     if attribute is None:
         print("Enter the attribute you would like to see:")
         attribute = input("> ")
-    match attribute:
-        case "help":
-            clear_console
-            attr_help()
-        case _:
-            clear_console()
-            try:
-                print(f"{attribute}: {getattr(active_character, attribute)}\n")
-            except AttributeError:
-                print("Attribute not found\n")
+    if attribute == "help":
+        clear_console()
+        attr_help()
+    elif attribute == str(active_character.name.lower()):
+        clear_console()
+        print(active_character)
+    else:
+        clear_console()
+        try:
+            print(f"{attribute}: {getattr(active_character, attribute)}\n")
+        except AttributeError:
+            print("Attribute not found\n")
 
 
-def set_attributes(active_character: Character2, attribute: str, value):
+def set_attributes(active_character: Character, attribute: str, value):
     clear_console()
     if attribute is None:
         print("Enter the attribute you would like to set:")  
@@ -157,7 +163,7 @@ def set_attributes(active_character: Character2, attribute: str, value):
                 print("Attribute not fond")
 
 
-def modify_attributes(active_character: Character2, attribute: str, value):
+def modify_attributes(active_character: Character, attribute: str, value):
     clear_console()
     if attribute is None:
         print("Enter the attribute you would like to modify:")  
@@ -197,7 +203,7 @@ def modify_attributes(active_character: Character2, attribute: str, value):
                 print("Attribute not fond")
 
 
-def roll_skill(active_character: Character2, attribute: str):
+def roll_skill(active_character: Character, attribute: str):
     clear_console()
     if attribute is None:
         print("Enter the attribute you would like to roll:")
@@ -293,7 +299,7 @@ def roll(dice_to_roll, advantage, disadvantage):
         return total, feat_die, quality_of_success
     
 
-def rollable_items(active_character: Character2):
+def rollable_items(active_character: Character):
     clear_console()
     rollable_list = []
     for skill in active_character.skill_levels:

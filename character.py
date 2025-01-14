@@ -1,7 +1,7 @@
 import pickle
-from culture2 import Culture2
-from calling2 import Calling2
-from gear2 import Weapon2, Weapons2, Armour2, Armours2, Shield2, Shields2
+from culture import Culture
+from calling import Calling
+from gear import Weapon, Weapons, Armour, Armours, Shield, Shields
 from standard_of_living import Standard_Of_Living, Standards_Of_Living
 
 
@@ -10,13 +10,13 @@ SkillPointError = Exception("Not enough skill points.")
 AdventurePointError = Exception("Not enough adventure points.")
 
 
-class Character2:
-    def __init__(self, culture: Culture2, 
+class Character:
+    def __init__(self, culture: Culture, 
                  attribute_choice: int, 
                  weapon_skill_levels: dict, 
                  distinctive_features: list, 
                  name: str, age: int, 
-                 calling: Calling2, 
+                 calling: Calling, 
                  favoured_skill_choices: str, 
                  starting_virtue: str, 
                  starting_reward: str):
@@ -148,9 +148,11 @@ class Character2:
         self.injury = ""
 
         # rewards
+        self.valour = 1
         self.rewards = [starting_reward]
 
         # virtues
+        self.wisdom = 1
         self.virtues = [starting_virtue]
     
 
@@ -252,7 +254,7 @@ class Character2:
 
 
     # gear methods
-    def add_weapon(self, weapon: Weapon2):
+    def add_weapon(self, weapon: Weapon):
         self.weapons.append(weapon)
 
 
@@ -262,7 +264,7 @@ class Character2:
                 self.weapons.remove(weapon)
 
 
-    def change_armour(self, armour: Armour2):
+    def change_armour(self, armour: Armour):
         self.armour = armour
 
 
@@ -270,7 +272,7 @@ class Character2:
         self.armour = None
 
 
-    def change_headgear(self, headgear: Armour2):
+    def change_headgear(self, headgear: Armour):
         self.headgear = headgear
 
 
@@ -278,7 +280,7 @@ class Character2:
         self.headgear = None
 
 
-    def change_shield(self, shield: Shield2):
+    def change_shield(self, shield: Shield):
         self.shield = shield
 
 
@@ -358,7 +360,7 @@ class Character2:
     )
 
 
-def save_character(character: Character2, filename: str):
+def save_character(character: Character, filename: str):
     with open(filename, "wb") as file:
         pickle.dump(character, file)
 
