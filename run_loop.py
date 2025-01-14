@@ -39,7 +39,7 @@ def clear_console():
 
 def title():
     print("One Ring RPG Character Manager\nVersion : " + version + "\n"
-        "Enter \'help\' at any time for a list of commands or \'exit\' to quit\n")
+        "Enter 'help' at any time for a list of commands or 'exit' to quit\n\n")
 
 
 def start_help():
@@ -50,10 +50,11 @@ def start_help():
 
 
 def help():
-    print("\n")
+    clear_console()
+    print("Valid commands include:\n")
     for command, description in commands.items():
         print(f"{command}: {description}")
-    print("\n")
+    print()
 
 
 def attr_help():
@@ -205,7 +206,7 @@ def roll_skill(active_character: Character2, attribute: str):
         case "help":
             for i in rollable_items(active_character):
                 print(i)
-            print()
+            print("\n")
         case _:
             rollable_list = rollable_items(active_character)
             advantage, disadvantage = has_advantage_or_disadvange()
@@ -241,12 +242,12 @@ def roll_skill(active_character: Character2, attribute: str):
 
 
 def has_advantage_or_disadvange():
-    user_input = input("Do you have advantage (y/n)").lower()
+    user_input = input("Do you have advantage (y/n)\n> ").lower()
     if user_input == "y":
         advantage = True
     else:
         advantage = False
-    user_input = input("Do you have disadvantage (y/n)").lower()
+    user_input = input("Do you have disadvantage (y/n)\n> ").lower()
     if user_input == "y":
         disadvantage = True
     else:
@@ -255,19 +256,19 @@ def has_advantage_or_disadvange():
 
 
 def print_roll(total, feat_die, quality_of_success):
+    clear_console()
     print(f"You got {total},")
     print(f"the Feat Die was {feat_die},")
     if quality_of_success == 0:
-        print("and you got a ordinary success!")
+        print("and you got a ordinary success!\n")
     elif quality_of_success == 1:
-        print("and you got a great success!")
+        print("and you got a great success!\n")
     elif quality_of_success == 2:
-        print("and you got a extrodanary success!")
+        print("and you got a extrodanary success!\n")
 
 
 def roll(dice_to_roll, advantage, disadvantage):
     while True:
-        print(dice_to_roll)
         total = 0
         quality_of_success = 0
         feat_die = random.randint(1,12)
@@ -293,14 +294,16 @@ def roll(dice_to_roll, advantage, disadvantage):
     
 
 def rollable_items(active_character: Character2):
-    title()
+    clear_console()
     rollable_list = []
-    print("\nItems to roll:\n")
     for skill in active_character.skill_levels:
         rollable_list.append(skill)
-    for combat_proficiency in active_character.combat_proficiencies:
-        rollable_list.append(combat_proficiency)
-    rollable_list.append("armour")
+    rollable_list.append("axes_skill")
+    rollable_list.append("bows_skill")
+    rollable_list.append("swords_skill")
+    rollable_list.append("spears_skill")
+    if active_character.armour is not None:
+        rollable_list.append("armour")
     rollable_list.append("wit_score")
     rollable_list.append("strength_score")
     rollable_list.append("heart_score")
@@ -310,7 +313,7 @@ def rollable_items(active_character: Character2):
 clear_console()
 while True:
     if active_character is None:
-        print("Please start by either loading an exhisting character with \'load\' or creating a new character with \'create\'")
+        print("Please start by either loading an exhisting character with 'load' or creating a new character with 'create'")
         user_command = input("> ").lower()
         user_command = user_command.split()
         user_command.extend([None]*(10 - len(user_command)))
@@ -326,7 +329,7 @@ while True:
             case _:
                 print("Invalid command\n")
     else:
-        print("Enter a command:")
+        print("\nEnter a command:")
         user_command = input("> ").lower()
         user_command = user_command.split()
         user_command.extend([None]*(10 - len(user_command)))
