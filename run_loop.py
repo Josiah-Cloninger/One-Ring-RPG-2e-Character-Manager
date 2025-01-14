@@ -7,7 +7,9 @@ import character_creation
 from character import Character, load_character, save_character
 from dice_roller import roll
 
+
 active_character = None
+
 
 start_commands = {
     "help": "Prints a list of commands",
@@ -17,6 +19,7 @@ start_commands = {
     "save": "Saves a character",
     "show": "Shows attributes of a character"
 }
+
 
 commands = {
     "help": "Prints a list of commands",
@@ -31,6 +34,7 @@ commands = {
 
 
 version = "0.1"
+
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
