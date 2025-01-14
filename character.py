@@ -148,9 +148,11 @@ class Character:
         self.injury = ""
 
         # rewards
+        self.valour = 1
         self.rewards = [starting_reward]
 
         # virtues
+        self.wisdom = 1
         self.virtues = [starting_virtue]
     
 
