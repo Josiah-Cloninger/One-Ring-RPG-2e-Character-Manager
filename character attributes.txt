@@ -1,8 +1,8 @@
-These are all the attributes that an object of type "Character2" will have. To get the value of one of these, simply call {character object name}.{attribute name}
+These are all the attributes that an object of type "Character" will have. To get the value of one of these, simply call {character object name}.{attribute name}
 Example: print(active_character.name)
 
 culture - str, the name of culture ("Rangers of the North")
-blessing - Blessing2, contains name, flavour, effect, and quote associated with Cultural Blessing ("Blessing2.KINGS_OF_MEN")
+blessing - Blessing, contains name, flavour, effect, and quote associated with Cultural Blessing ("Blessing.KINGS_OF_MEN")
 
 standard_of_living - standard_of_living, updated dynamically based on your current treasure rating
 treasure - int, must be positive
@@ -89,10 +89,10 @@ adventure_points - int, must be positive
 skill_points - int, must be positive
 fellowship_score - int, must be positive
 
-weapons - list[Weapon2]
-armour - Armour2 or None
-headgear - Headgear2 or None
-shield - Shield2 or None
+weapons - list[Weapon]
+armour - Armour or None
+headgear - Headgear or None
+shield - Shield or None
 
 current_endurance - int, must be positive
 fatigue - int, must be positive

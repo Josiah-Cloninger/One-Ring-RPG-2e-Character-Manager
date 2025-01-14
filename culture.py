@@ -2,16 +2,16 @@ from utils import MetaEnum
 from dataclasses import dataclass
 
 
-from blessing2 import Blessing2, Blessings2
+from blessing import Blessing, Blessings
 from standard_of_living import Standards_Of_Living, Standard_Of_Living
 
 
 @dataclass
-class Culture2:
+class Culture:
     name: str
     description: str
     characteristics: str
-    blessing: Blessing2
+    blessing: Blessing
     sol: Standard_Of_Living # standard of living
     sol_description: str
     attributes: list
@@ -33,8 +33,8 @@ class Culture2:
     family_names: str=None
 
 
-class Cultures2(metaclass=MetaEnum):
-    BARDING = Culture2(
+class Cultures(metaclass=MetaEnum):
+    BARDING = Culture(
         name="Bardings",
         description=("\tThe Bardings are Northmen of noble origins hailing from Wilderland, far off to the east. They rebuilt their city of Dale from its "
                      "ashes after the slaying of the Dragon Smaug and they earned a new prosperity trading with nearby kingdoms of Elves and Dwarves. "
@@ -47,7 +47,7 @@ class Cultures2(metaclass=MetaEnum):
                          "\n\tBardings rarely become adventurers before their 18th year, and retire in their forties, when they return home to serve their family and folk. "
                          "When abroad they may be recognised by their gear, as they often carry equipment of superior make. Unlike most denizens of Wilderland, "
                          "Bardings prefer to use swords over axes, and naturally favour the bow, after the example of their King."),
-        blessing=Blessings2.STOUT_HEARTED,
+        blessing=Blessings.STOUT_HEARTED,
         sol=Standards_Of_Living.PROSPEROUS,
         sol_description=("Thanks to its successful trading connections the city of Dale prospers. Those among the Bardings who choose a life of adventure "
                          "are usually members of less affluent families — yet, their wealth is still superior to that of most of the denizens of Eriador."),
@@ -80,7 +80,7 @@ class Cultures2(metaclass=MetaEnum):
         female_names=("Aldis, Asfrid, Bera, Bergdis, Dagmar, Eilif, Erna, Frida, Geira, Gudrun, Halla, Hild, Ingirun, Ingrith, Lif, Linhild, "
                       "Kelda, Runa, Saldis, Sigga, Sigrun, Thora, Thordis, Thorhild, Ulfhild, Ulfrun, Una, Valdis, Vigdis, Walda.")
     )
-    DWARF = Culture2(
+    DWARF = Culture(
         name="Dwarves of Durins Folk",
         description=("\tThe Dwarves are an ancient and proud folk, whose customs and traditions are mostly unknown to outsiders. A dwindling people, they have "
                      "recently recovered some of their lost greatness, and a Dwarven King reigns once again under the Lonely Mountain, in Wilderland. "
@@ -92,7 +92,7 @@ class Cultures2(metaclass=MetaEnum):
                          "Dwarves generally start their life on the road in their fifties, and do not usually consider retiring before their nineties. Around that "
                          "time, many among them choose to dedicate themselves solely to the perfection of their crafts. In battle most Dwarves use axes and swords, "
                          "but those belonging to their easternmost kin wield heavy two-handed mattocks, a weapon derived from their mining tools."),
-        blessing=Blessings2.REDOUBTABLE,
+        blessing=Blessings.REDOUBTABLE,
         other_feature={
             "name": "Naugrim",
             "flavour": ("Dwarves are shorter than Men, but their work as miners and smiths endows them with powerful arms and shoulders. "
@@ -131,7 +131,7 @@ class Cultures2(metaclass=MetaEnum):
         female_names=("Adís, Afrid, Agda, Bersa, Birna, Dagrún, Dís, Drífa, Edda, Elin, Fenja, Frida, Geira, Gísla, Hadda, Hón, Ida, Ilmr, "
                       "Jóra, Kára, Kóna, Líf, Línhild, Már, Mist, Nál, Oda, Ósk, Rán, Rinda, Sefa, Syn, Tóra, Trana, Úlfrún, Vírún, Yrr.")
     )
-    ELF = Culture2(
+    ELF = Culture(
         name="Elves of Lindon",
         description=("The Fair Folk of Eriador have dwelt in the Westlands since before the drowning of Beleriand. They are all members of the Firstborn, "
                      "displaying a wisdom beyond the reach of Men. They rarely leave their sanctuaries in the Grey Havens, for these are their fading years. "
@@ -143,7 +143,7 @@ class Cultures2(metaclass=MetaEnum):
                          "(at about a century of age). Adventurers older than 300 years are rare, as in time all Elves find the sea-longing that lies deep within "
                          "their hearts to become irresistible. In battle, most Elves carry bows and spears. Many wield swords too, but by ancient tradition some "
                          "still favour axes."),
-        blessing=Blessings2.ELVEN_SKILL,
+        blessing=Blessings.ELVEN_SKILL,
         other_feature={
             "name": "The Long Defeat",
             "flavour": "The Elves find it hard to forget the taint of the Shadow once it has left its mark on their spirit.",
@@ -179,7 +179,7 @@ class Cultures2(metaclass=MetaEnum):
         female_names=("Aranel, Arbereth, Berúthiel, Baraniel, Calanril, Celenneth, Elnîth, Eraniel, Finduilas, Gilraen, Gilraeth, Gloredhel, Idril, "
                       "Ioreth, Ivorwen, Lôrwend, Lothíriel, Luindîs, Meneloth, Moriel, Morwen, Narieth, Narniel, Orothêl, Tarandîs.")
     )
-    HOBBIT = Culture2(
+    HOBBIT = Culture(
         name="Hobbits of the Shire",
         description=("Hobbits are a small and merry folk, possessing a love for time-honoured traditions and respectable ways, and a strong dislike for anything "
                      "out of the ordinary. If Hobbits had their way, the days would go by in an unchanging world, as they have since anyone can remember. At least, "
@@ -193,7 +193,7 @@ class Cultures2(metaclass=MetaEnum):
                          "\n\tHobbits do not abandon their comfortable lives easily, but when they do they usually wait for their coming of age at 33. "
                          "A particularly reckless fellow might feel the call to adventure when in their tweens, as Hobbits call their twenties. "
                          "When pushed to resort to weapons, Hobbits choose short swords and hunting bows, which they can shoot with uncanny precision."),
-        blessing=Blessings2.HOBBIT_SENSE,
+        blessing=Blessings.HOBBIT_SENSE,
         other_feature={
             "name": "Halflings",
             "flavour": "Due to their reduced size, Hobbits cannot use larger weapons effectively. The weapons available to Hobbits are:",
@@ -234,7 +234,7 @@ class Cultures2(metaclass=MetaEnum):
                       "Goodchild, Grubb, Headstrong, Hornblower, Maggot, Noakes, North-Tooks, Proudfoot, Puddifoot, Roper, Rumble, Sackville, Smallburrow, "
                       "Took, Twofoot, Whitfoot.")
     )
-    MAN_OF_BREE = Culture2(
+    MAN_OF_BREE = Culture(
         name="Men of Bree",
         description=("The inhabitants of the Bree-land and its four villages lying about Bree-hill are the descendants of the ancient people that first dwelt in the region known today as Eriador, the Lonelands. Few have survived the turmoils that have ravaged the area, but they are still there now. Today, the Men of Bree live at an old meeting of ways, and even if the traffic was far greater in former days, travellers of various sorts still make their way along those roads. Whoever enters the common room of the Inn of Bree is sure to hear strange tales and news from afar, and maybe be swept away by them."),
         characteristics=("Most Men of Bree are brown-haired and rather short, and tend to be stocky and broad. This, combined with their cheerful disposition, "
@@ -243,7 +243,7 @@ class Cultures2(metaclass=MetaEnum):
                          "\n\tActual adventurers from Bree-land are rare indeed. If they leave their villages at all, they do it when the vigour of youth is "
                          "in their limbs, and usually return home to settle down before their fortieth year. Not being of a warlike disposition, the Bree-folk "
                          "favour simple weapons, derived from everyday tools and hunting implements."),
-        blessing=Blessings2.BREE_BLOOD,
+        blessing=Blessings.BREE_BLOOD,
         sol=Standards_Of_Living.COMMON,
         sol_description=("Bree-land is not as wealthy as it once was, but these days the inhabitants of the four villages are no "
                          "more rustic than their neighbours in the Shire, and no less well-off."),
@@ -275,7 +275,7 @@ class Cultures2(metaclass=MetaEnum):
                       "Hardybough, Heathertoes, Hedgedon, Kettlegrass, Lilyhawk, Mossburn, Mugworts, Oakstout, Pickthorn, Pollenroad, Rushlight, "
                       "Shrubrose, Sweetroot, Thistlewool, Wayward.")
     )
-    RANGER = Culture2(
+    RANGER = Culture(
         name="Rangers of the North",
         description=("The Rangers of the North are a secret people, severely dimin- ished in number with the passing of a thousand years. They wander in disguise "
                      "among the ruins of what was once their kingdom of Arnor, tirelessly patrolling its many paths and roads. "
@@ -289,7 +289,7 @@ class Cultures2(metaclass=MetaEnum):
                          "of body and will longer than most Men, but usually cease to travel far from Eriador when they reach their fifties. When in the Wild, "
                          "they wear comfortable but weather-beaten garments, favouring high leather boots and heavy cloaks of dark grey or green cloth, with "
                          "ample hoods that can be cast over a worn helm."),
-        blessing=Blessings2.KINGS_OF_MEN,
+        blessing=Blessings.KINGS_OF_MEN,
         other_feature={
             "name": "Allegiance of the Dúnedain",
             "flavour": ("The Rangers are devoted to fighting Sauron and his min- ions by an ancient tradition of war and strife. "
@@ -329,16 +329,16 @@ class Cultures2(metaclass=MetaEnum):
 
     @classmethod
     def by_name(cls, name):
-        for culture in Cultures2:
-            if type(culture) is Culture2:
+        for culture in Cultures:
+            if type(culture) is Culture:
                 if culture.name == name:
                     return culture
     
     @classmethod
     def names(cls):
         names = []
-        for culture in Cultures2:
-            if type(culture) is Culture2:
+        for culture in Cultures:
+            if type(culture) is Culture:
                 names.append(culture.name)
         return names
 

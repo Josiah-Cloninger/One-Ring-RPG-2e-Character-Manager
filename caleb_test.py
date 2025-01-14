@@ -3,10 +3,10 @@ import os
 import questionary
 from questionary import print
 
-from culture2 import Cultures2, Culture2, all_combat_proficiencies
-from character2 import Character2
-from calling2 import Calling2, Callings2
-from gear2 import Weapons2, Armours2, Shields2, Headgears2
+from culture import Cultures, Culture, all_combat_proficiencies
+from character import Character
+from calling import Calling, Callings
+from gear import Weapons, Armours, Shields, Headgears
 
 
 styles_print = {
@@ -47,11 +47,11 @@ if input("Would you like to have weapons?(y/n)").lower() == "y":
                         ("class:white", a)
                     ],
                     value=a
-                ) for a in Weapons2.names()
+                ) for a in Weapons.names()
             ],
             style=styles_choice
         ).ask()
-        print(str(Weapons2.by_name(answer)))
+        print(str(Weapons.by_name(answer)))
         if input("Would you like to add this weapon?(y/n)").lower() == "y":
             weapons.append(answer)
             if input("Would you like to add another weapon?(y/n)").lower() == "n":

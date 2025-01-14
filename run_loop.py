@@ -4,7 +4,7 @@ import os, sys, types, random
 import character_creation
 
 
-from character2 import Character2, load_character, save_character
+from character import Character, load_character, save_character
 from dice_roller import roll
 
 active_character = None
@@ -107,13 +107,13 @@ def exit():
     sys.exit()
 
 
-def save_current_character(active_character: Character2):
+def save_current_character(active_character: Character):
     save_character(active_character, f"{active_character.name.lower()}.pickle")
     clear_console()
     print(f"{active_character.name} successfully saved!\n")
 
 
-def show_attributes(active_character: Character2, attribute: str):
+def show_attributes(active_character: Character, attribute: str):
     clear_console()
     if attribute is None:
         print("Enter the attribute you would like to see:")
@@ -132,7 +132,7 @@ def show_attributes(active_character: Character2, attribute: str):
             print("Attribute not found\n")
 
 
-def set_attributes(active_character: Character2, attribute: str, value):
+def set_attributes(active_character: Character, attribute: str, value):
     clear_console()
     if attribute is None:
         print("Enter the attribute you would like to set:")  
@@ -159,7 +159,7 @@ def set_attributes(active_character: Character2, attribute: str, value):
                 print("Attribute not fond")
 
 
-def modify_attributes(active_character: Character2, attribute: str, value):
+def modify_attributes(active_character: Character, attribute: str, value):
     clear_console()
     if attribute is None:
         print("Enter the attribute you would like to modify:")  
@@ -199,7 +199,7 @@ def modify_attributes(active_character: Character2, attribute: str, value):
                 print("Attribute not fond")
 
 
-def roll_skill(active_character: Character2, attribute: str):
+def roll_skill(active_character: Character, attribute: str):
     clear_console()
     if attribute is None:
         print("Enter the attribute you would like to roll:")
@@ -295,7 +295,7 @@ def roll(dice_to_roll, advantage, disadvantage):
         return total, feat_die, quality_of_success
     
 
-def rollable_items(active_character: Character2):
+def rollable_items(active_character: Character):
     clear_console()
     rollable_list = []
     for skill in active_character.skill_levels:

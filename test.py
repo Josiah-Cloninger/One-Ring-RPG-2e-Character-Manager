@@ -1,5 +1,5 @@
-from character2 import Character2, save_character, load_character
-from calling2 import Callings2
-from culture2 import Cultures2
-from gear2 import Weapons2, Armours2, Headgears2, Shields2
+from character import Character, save_character, load_character
+from calling import Callings
+from culture import Cultures
+from gear import Weapons, Armours, Headgears, Shields
 from standard_of_living import Standards_Of_Living
