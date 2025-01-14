@@ -118,16 +118,18 @@ def show_attributes(active_character: Character2, attribute: str):
     if attribute is None:
         print("Enter the attribute you would like to see:")
         attribute = input("> ")
-    match attribute:
-        case "help":
-            clear_console
-            attr_help()
-        case _:
-            clear_console()
-            try:
-                print(f"{attribute}: {getattr(active_character, attribute)}\n")
-            except AttributeError:
-                print("Attribute not found\n")
+    if attribute == "help":
+        clear_console()
+        attr_help()
+    elif attribute == str(active_character.name.lower()):
+        clear_console()
+        print(active_character)
+    else:
+        clear_console()
+        try:
+            print(f"{attribute}: {getattr(active_character, attribute)}\n")
+        except AttributeError:
+            print("Attribute not found\n")
 
 
 def set_attributes(active_character: Character2, attribute: str, value):
