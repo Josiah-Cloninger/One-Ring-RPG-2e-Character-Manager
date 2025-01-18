@@ -299,7 +299,7 @@ def previous_experience(character: Character):
         print("Skill Levels:\n", style=styles_print["yellow"])
         for skill, level in character.skill_levels.items():
             print(f"{skill}: {level}")
-        print("\Combat Proficiency Levels:\n", style=styles_print["yellow"])
+        print("Combat Proficiency Levels:\n", style=styles_print["yellow"])
         for skill, level in character.combat_proficiencies.items():
             print(f"{skill}: {level}")
         print("\nPoints Remaining:\n", style=styles_print["yellow"])

@@ -63,7 +63,7 @@ def help():
 
 def attr_help():
     print("\n")
-    print("availabe attributes include:\n")
+    print("available attributes include:\n")
     for attr in dir(active_character):
         if not attr.startswith("__") and not callable(getattr(active_character, attr)):
             print(f"{attr}")
@@ -117,11 +117,19 @@ def save_current_character(active_character: Character):
     print(f"{active_character.name} successfully saved!\n")
 
 
+# def show_data(active_character: Character, attribute: str):
+#     match attribute:
+#         case active_character.weapons:
+#             show_weapons()
+#         case active_character.skill_levels, active_character.combat_proficiencies:
+#             show_attributes(active_character, attribute)
+
+
 def show_attributes(active_character: Character, attribute: str):
     clear_console()
     if attribute is None:
         print("Enter the attribute you would like to see:")
-        attribute = input("> ")
+        attribute = input("> ").lower()
     if attribute == "help":
         clear_console()
         attr_help()
@@ -136,11 +144,15 @@ def show_attributes(active_character: Character, attribute: str):
             print("Attribute not found\n")
 
 
+# def show_weapons(activecharacter: Character, attribute: str):
+#     print(active_character.weapons)
+
+
 def set_attributes(active_character: Character, attribute: str, value):
     clear_console()
     if attribute is None:
         print("Enter the attribute you would like to set:")  
-        attribute = input("> ")
+        attribute = input("> ").lower()
     match attribute:
         case "help":
             attr_help()
@@ -150,7 +162,7 @@ def set_attributes(active_character: Character, attribute: str, value):
                 print(f"{attribute}: {getattr(active_character, attribute)}\n")
                 if value is None:
                     print(f"Enter what you would like to change {attribute} to:")
-                    value = input("> ")
+                    value = input("> ").lower()
                 attr_type=type(getattr(active_character, attribute))
                 match attr_type:
                     case int:
@@ -167,21 +179,21 @@ def modify_attributes(active_character: Character, attribute: str, value):
     clear_console()
     if attribute is None:
         print("Enter the attribute you would like to modify:")  
-        attribute = input("> ")
+        attribute = input("> ").lower()
     match attribute:
         case "help":
             attr_help()
         case "virtue":
             if value is None:
                 print("Enter the name of the virtue you would like to add:")
-                value = input("> ")
+                value = input("> ").lower()
             active_character.add_virtue(value)
             clear_console()
             print(f"{value} successfully added to virtues\n")
         case "reward":
             if value is None:
                 print("Enter the name of the reward you would like to add:")
-                value = input("> ")
+                value = input("> ").lower()
             active_character.add_reward(value)
             clear_console()
             print(f"{value} successfully added to rewards\n")
@@ -190,7 +202,7 @@ def modify_attributes(active_character: Character, attribute: str, value):
                 print(f"{attribute}: {getattr(active_character, attribute)}\n")
                 if value is None:
                     print(f"Enter how much you would like to change {attribute} by:")
-                    value = input("> ")
+                    value = input("> ").lower()
                 attr_type=type(getattr(active_character, attribute))
                 match attr_type:
                     case int:
@@ -207,7 +219,7 @@ def roll_skill(active_character: Character, attribute: str):
     clear_console()
     if attribute is None:
         print("Enter the attribute you would like to roll:")
-        attribute = input("> ")
+        attribute = input("> ").lower()
     match attribute:
         case "help":
             for i in rollable_items(active_character):
