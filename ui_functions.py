@@ -67,6 +67,8 @@ def valid_attributes(active_character: Character):
     valid_attributes.append("shield")
     valid_attributes.append("headgear")
 
+    valid_attributes.append(active_character.name.lower())
+
     valid_attributes.sort()
 
     return valid_attributes
@@ -152,6 +154,8 @@ def show_attribute(active_character: Character, commands: list[str]):
         print(f"Valid attributes include:\n {valid_attributes(active_character)}\n")
     elif attribute in weapon_names:
         print(f"{attribute}: {active_character.weapons[weapon_names.index(attribute)]}\n")
+    elif attribute == active_character.name.lower():
+        print(active_character)
     elif attribute in valid_attributes(active_character):
         print(f"{attribute}: {getattr(active_character, attribute)}\n")
     else:

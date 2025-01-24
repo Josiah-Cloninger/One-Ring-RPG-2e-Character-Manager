@@ -1,8 +1,6 @@
 from ui_functions import (clear_console, start_help, create_character, 
                           select_character_to_load, save_current_character, 
-                          show_attribute, set_attribute, roll_skill)
-
-from character import (load_character)
+                          show_attribute, set_attribute, roll_skill, help)
 
 
 active_character = None
