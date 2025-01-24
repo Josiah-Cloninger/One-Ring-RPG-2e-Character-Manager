@@ -359,6 +359,22 @@ def set_attribute(active_character: Character, commands: list[str]):
             case "notes":
                 active_character.weapons[weapon_index].notes = value
 
+
+    elif attribute == "virtues":
+        value = commands[2]
+        if value is None:
+            print("Enter the name of the virtue you would like to add:")
+            value = input("> ").lower()
+        active_character.add_virtue(commands[2])
+
+
+    elif attribute == "rewards":
+        value = commands[2]
+        if value is None:
+            print("Enter the name of the reward you would like to add:")
+            value = input("> ").lower()
+        active_character.add_reward(commands[2])
+
         
     elif attribute in simple_attributes(active_character):
         value = commands[2]
