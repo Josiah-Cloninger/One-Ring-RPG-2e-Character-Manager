@@ -3,7 +3,7 @@ import os, sys, random
 import character_creation
 
 
-version = "0.1"
+version = "1.0"
 
 
 start_commands = {
@@ -55,10 +55,37 @@ def help():
 
 def valid_attributes(active_character: Character):
     valid_attributes = []
+
     for attribute in dir(active_character):
         if not attribute.startswith("__") and not callable(getattr(active_character, attribute)):
             valid_attributes.append(attribute)
+
+    for weapon in active_character.weapons:
+        valid_attributes.append(f"{weapon.name.lower()}")
+
+    valid_attributes.append("armour")
+    valid_attributes.append("shield")
+    valid_attributes.append("headgear")
+
+    valid_attributes.sort()
+
     return valid_attributes
+
+
+def simple_attributes(active_character: Character):
+    """returns the list of attributes that are simple data types (int, float, str)"""
+    attributes = []
+    for attribute in dir(active_character):
+        if not attribute.startswith("__") and not callable(getattr(active_character, attribute)):
+            attributes.append(attribute)
+    return attributes
+
+
+def weapon_names(active_character: Character):
+    weapon_names = []
+    for weapon in active_character.weapons:
+        weapon_names.append(weapon.name.lower())
+    return weapon_names
 
 
 def create_character():
@@ -108,21 +135,246 @@ def save_current_character(active_character: Character):
     print(f"{active_character.name} successfully saved!\n")
 
 
-def show_attribute(active_character: Character, attribute: str):
+def show_attribute(active_character: Character, commands: list[str]):
     clear_console()
+
+    attribute = commands[1]
+
+    weapon_names = []
+    for weapon in active_character.weapons:
+        weapon_names.append(weapon.name.lower())
     
     if attribute is None:
         print("Enter the attribute you would like to show: ")
         attribute = input("> ").lower()
     
     if attribute == "help":
-        print(f"\nAvailable attributes include:\n {valid_attributes(active_character)}\n")
+        print(f"Valid attributes include:\n {valid_attributes(active_character)}\n")
+    elif attribute in weapon_names:
+        print(f"{attribute}: {active_character.weapons[weapon_names.index(attribute)]}\n")
     elif attribute in valid_attributes(active_character):
         print(f"{attribute}: {getattr(active_character, attribute)}\n")
     else:
         print("Invalid attribute\n")
 
 
+def set_attribute(active_character: Character, commands: list[str]):
+    clear_console()
+
+    attribute = commands[1]
+    if attribute is None:
+        print("Enter the attribute you would like to change: ")
+        attribute = input("> ").lower()
+    
+    if attribute == "help":
+        print(f"Valid attributes include:\n {valid_attributes(active_character)}\n")
+
+    while attribute not in valid_attributes(active_character):
+        print(f"Invalid attribute. Valid attributes include:\n {valid_attributes(active_character)}\n")
+        attribute = input("> ").lower()
+
+    if attribute == "armour":
+        armour_attribute = commands[2]
+        if armour_attribute is None:
+            clear_console()
+            print(f"Your current armour is {active_character.armour.name}\n",
+                    f"Protection: {active_character.armour.protection}\n",
+                    f"Load: {active_character.armour.load}\n\n\n"
+                    f"Enter the name of the attribute you would like to modify:")
+            armour_attribute = input("> ").lower()
+        while armour_attribute not in ["protection", "load", "name"]:
+            print("Invalid attribute. Valid attributes include:\n protection\n load\n name\n")
+            armour_attribute = input("> ").lower()
+
+        value = commands[3]
+        while True:
+            if value is None:
+                clear_console()
+                print(f"Your current armour is {active_character.armour.name}\n",
+                    f"Protection: {active_character.armour.protection}\n",
+                    f"Load: {active_character.armour.load}\n\n\n", 
+                    f"Enter the new value for {armour_attribute}: ")
+                value = input("> ").lower()
+
+            try:
+                if type(getattr(active_character, attribute)) == int:
+                    value = int(value)
+                if type(getattr(active_character, attribute)) == float:
+                    value = float(value)
+            except ValueError:
+                print("That is not a valid value for this attribute. Please enter a number value.")
+            else:
+                break
+        
+        match armour_attribute:
+            case "name":
+                active_character.armour.name = value
+            case "protection":
+                active_character.armour.protection = value
+            case "load":
+                active_character.armour.load = value
+        
+
+    elif attribute == "shield":
+        shield_attribute = commands[2]
+        if shield_attribute is None:
+            clear_console()
+            print(f"Your current shield is {active_character.shield.name}\n",
+                    f"Parry_mod: {active_character.shield.parry_mod}\n",
+                    f"Load: {active_character.shield.load}\n\n\n"
+                    f"Enter the name of the attribute you would like to modify:")
+            shield_attribute = input("> ").lower()
+        while shield_attribute not in ["parry_mod", "load", "name"]:
+            print("Invalid attribute. Valid attributes include:\n parry_mod\n load\n name\n")
+            shield_attribute = input("> ").lower()
+
+        value = commands[3]
+        while True:
+            if value is None:
+                clear_console()
+                print(f"Your current armour is {active_character.shield.name}\n",
+                    f"Parry_mod: {active_character.shield.parry_mod}\n",
+                    f"Load: {active_character.shield.load}\n\n\n", 
+                    f"Enter the new value for {shield_attribute}: ")
+                value = input("> ").lower()
+
+            try:
+                if type(getattr(active_character, attribute)) == int:
+                    value = int(value)
+                if type(getattr(active_character, attribute)) == float:
+                    value = float(value)
+            except ValueError:
+                print("That is not a valid value for this attribute. Please enter a number value.")
+            else:
+                break
+        
+        match shield_attribute:
+            case "name":
+                active_character.shield.name = value
+            case "parry_mod":
+                active_character.shield.parry_mod = value
+            case "load":
+                active_character.shield.load = value
+        
+                
+    elif attribute == "headgear":
+        headgear_attribute = commands[2]
+        if headgear_attribute is None:
+            clear_console()
+            print(f"Your current headgear is {active_character.headgear.name}\n",
+                    f"Protection: {active_character.headgear.protection}\n",
+                    f"Load: {active_character.headgear.load}\n\n\n"
+                    f"Enter the name of the attribute you would like to modify:")
+            headgear_attribute = input("> ").lower()
+        while headgear_attribute not in ["protection", "load", "name"]:
+            print("Invalid attribute. Valid attributes include:\n protection\n load\n name\n")
+            headgear_attribute = input("> ").lower()
+
+        value = commands[3]
+        while True:
+            if value is None:
+                clear_console()
+                print(f"Your current armour is {active_character.headgear.name}\n",
+                    f"Protection: {active_character.headgear.protection}\n",
+                    f"Load: {active_character.headgear.load}\n\n\n", 
+                    f"Enter the new value for {headgear_attribute}: ")
+                value = input("> ").lower()
+
+            try:
+                if type(getattr(active_character, attribute)) == int:
+                    value = int(value)
+                if type(getattr(active_character, attribute)) == float:
+                    value = float(value)
+            except ValueError:
+                print("That is not a valid value for this attribute. Please enter a number value.")
+            else:
+                break
+        
+        match headgear_attribute:
+            case "name":
+                active_character.headgear.name = value
+            case "protection":
+                active_character.headgear.protection = value
+            case "load":
+                active_character.headgear.load = value
+
+
+    elif attribute in weapon_names(active_character):
+        weapon_attribute = commands[2]
+        weapon_index = weapon_names(active_character).index(attribute)
+        if weapon_attribute is None:
+            clear_console()
+            print(f"Your {attribute}'s current stats are:\n",
+                  f"Name: {active_character.weapons[weapon_index].name}\n",
+                  f"Damage: {active_character.weapons[weapon_index].damage}\n",
+                  f"Injury: {active_character.weapons[weapon_index].injury}\n",
+                  f"Load: {active_character.weapons[weapon_index].load}\n",
+                  f"Notes: {active_character.weapons[weapon_index].notes}\n\n\n",
+                  f"Enter the name of the attribute you would like to modify:")
+            weapon_attribute = input("> ").lower()
+        while weapon_attribute not in ["name", "damage", "injury", "load", "notes"]:
+            print("Invalid attribute. Valid attributes include:\n name\n damage\n injury\n load\n notes\n")
+            weapon_attribute = input("> ").lower()
+
+        value = commands[3]
+        while True:
+            if value is None:
+                clear_console()
+                print(f"Your {attribute}'s current stats are:\n",
+                      f"Name: {active_character.weapons[weapon_index].name}\n",
+                      f"Damage: {active_character.weapons[weapon_index].damage}\n",
+                      f"Injury: {active_character.weapons[weapon_index].injury}\n",
+                      f"Load: {active_character.weapons[weapon_index].load}\n",
+                      f"Notes: {active_character.weapons[weapon_index].notes}\n\n\n", 
+                      f"Enter the new value for {weapon_attribute}: ")
+                value = input("> ").lower()
+
+            try:
+                if type(getattr(active_character.weapons[weapon_index], weapon_attribute)) == int:
+                    value = int(value)
+                if type(getattr(active_character.weapons[weapon_index], weapon_attribute)) == float:
+                    value = float(value)
+            except ValueError:
+                print("That is not a valid value for this attribute. Please enter a number value.")
+            else:
+                break
+        
+        match weapon_attribute:
+            case "name":
+                active_character.weapons[weapon_index].name = value
+            case "damage":
+                active_character.weapons[weapon_index].damage = value
+            case "injury":
+                active_character.weapons[weapon_index].injury = value
+            case "load":
+                active_character.weapons[weapon_index].load = value
+            case "notes":
+                active_character.weapons[weapon_index].notes = value
+
+        
+    elif attribute in simple_attributes(active_character):
+        value = commands[2]
+        while True:
+            if value is None:
+                print(f"{attribute} is currently set to {getattr(active_character, attribute)}. \n\n\nEnter the new value for {attribute}: ")
+                value = input("> ").lower()
+
+            try:
+                if type(getattr(active_character, attribute)) == int:
+                    value = int(value)
+                if type(getattr(active_character, attribute)) == float:
+                    value = float(value)
+            except ValueError:
+                print("That is not a valid value for this attribute. Please enter a number value.")
+            else:
+                break
+        setattr(active_character, attribute, value)
+
+    clear_console()
+
+    print(f"Successfully set {attribute} to {value}\n")
+
+        
 def roll_skill(active_character: Character, attribute: str):
     clear_console()
     if attribute is None:
