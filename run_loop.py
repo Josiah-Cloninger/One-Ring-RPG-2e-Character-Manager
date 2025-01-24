@@ -1,12 +1,13 @@
 from ui_functions import (clear_console, start_help, create_character, 
                           select_character_to_load, save_current_character, 
                           show_attribute, set_attribute, roll_skill, help)
+from character import load_character
 
 
 active_character = None
 
 
-clear_console()
+clear_console(active_character)
 while True:
     if active_character is None:
         print("Please start by either loading an exhisting character with 'load' or creating a new character with 'create'")
@@ -46,5 +47,7 @@ while True:
                 set_attribute(active_character, user_commands)
             case "roll":
                 roll_skill(active_character, user_commands[1])
+            case "revert":
+                active_character = load_character(f"{active_character.name.lower()}_hardsave.pickle")
             case _:
                 print("Invalid command\n")

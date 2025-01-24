@@ -1,6 +1,7 @@
 from character import Character, save_character, load_character
 import os, sys, random
 import character_creation
+import pickle
 
 
 version = "1.0"
@@ -24,12 +25,15 @@ commands = {
     "save": "Saves the current character",
     "set": "Sets character's attributes",
     "show": "Shows attributes of a character",
-    "roll": "Rolls for the chosen skill"
+    "roll": "Rolls for the chosen skill", 
+    "revert": "Reverts the character to the last manually saved state"
 }
 
 
-def clear_console():
+def clear_console(active_character: Character = None):
     os.system('cls' if os.name == 'nt' else 'clear')
+    if active_character is not None:
+        autosave(active_character)
     title()
 
 
@@ -94,7 +98,7 @@ def create_character():
     active_character = character_creation.main()
     if input("Would you like to save and continue with this character? (y/n)").lower() == "y":
         save_character(active_character, f"{active_character.name}.pickle")
-        clear_console()
+        clear_console(active_character)
         print(f"{active_character.name} successfully created and saved!")   
         return active_character         
                 
@@ -107,7 +111,7 @@ def select_character_to_load(character_name: str):
         if character_name.lower() == "exit":
             exit()
         elif character_name.lower() == "menu":
-            clear_console()
+            clear_console(active_character)
             return
         elif character_name.lower() == "help":
             print("\nname of the character to load")
@@ -115,13 +119,13 @@ def select_character_to_load(character_name: str):
             print("exit\n")
         else:
             try:
-                active_character = load_character(f"{character_name}.pickle")
+                active_character = load_character(f"{character_name}")
                 break
             except FileNotFoundError:
+                clear_console()
                 print("No character with that name was found. Please enter a different name")
                 character_name = input("> ").lower()
-        character_name = None
-    clear_console()
+    clear_console(active_character)
     print(f"{active_character.name} successfully loaded!\n")
     return active_character
 
@@ -133,12 +137,12 @@ def exit():
 
 def save_current_character(active_character: Character):
     save_character(active_character, f"{active_character.name.lower()}.pickle")
-    clear_console()
+    clear_console(active_character)
     print(f"{active_character.name} successfully saved!\n")
 
 
 def show_attribute(active_character: Character, commands: list[str]):
-    clear_console()
+    clear_console(active_character)
 
     attribute = commands[1]
 
@@ -163,7 +167,7 @@ def show_attribute(active_character: Character, commands: list[str]):
 
 
 def set_attribute(active_character: Character, commands: list[str]):
-    clear_console()
+    clear_console(active_character)
 
     attribute = commands[1]
     if attribute is None:
@@ -180,7 +184,7 @@ def set_attribute(active_character: Character, commands: list[str]):
     if attribute == "armour":
         armour_attribute = commands[2]
         if armour_attribute is None:
-            clear_console()
+            clear_console(active_character)
             print(f"Your current armour is {active_character.armour.name}\n",
                     f"Protection: {active_character.armour.protection}\n",
                     f"Load: {active_character.armour.load}\n\n\n"
@@ -193,7 +197,7 @@ def set_attribute(active_character: Character, commands: list[str]):
         value = commands[3]
         while True:
             if value is None:
-                clear_console()
+                clear_console(active_character)
                 print(f"Your current armour is {active_character.armour.name}\n",
                     f"Protection: {active_character.armour.protection}\n",
                     f"Load: {active_character.armour.load}\n\n\n", 
@@ -222,7 +226,7 @@ def set_attribute(active_character: Character, commands: list[str]):
     elif attribute == "shield":
         shield_attribute = commands[2]
         if shield_attribute is None:
-            clear_console()
+            clear_console(active_character)
             print(f"Your current shield is {active_character.shield.name}\n",
                     f"Parry_mod: {active_character.shield.parry_mod}\n",
                     f"Load: {active_character.shield.load}\n\n\n"
@@ -235,7 +239,7 @@ def set_attribute(active_character: Character, commands: list[str]):
         value = commands[3]
         while True:
             if value is None:
-                clear_console()
+                clear_console(active_character)
                 print(f"Your current armour is {active_character.shield.name}\n",
                     f"Parry_mod: {active_character.shield.parry_mod}\n",
                     f"Load: {active_character.shield.load}\n\n\n", 
@@ -264,7 +268,7 @@ def set_attribute(active_character: Character, commands: list[str]):
     elif attribute == "headgear":
         headgear_attribute = commands[2]
         if headgear_attribute is None:
-            clear_console()
+            clear_console(active_character)
             print(f"Your current headgear is {active_character.headgear.name}\n",
                     f"Protection: {active_character.headgear.protection}\n",
                     f"Load: {active_character.headgear.load}\n\n\n"
@@ -277,7 +281,7 @@ def set_attribute(active_character: Character, commands: list[str]):
         value = commands[3]
         while True:
             if value is None:
-                clear_console()
+                clear_console(active_character)
                 print(f"Your current armour is {active_character.headgear.name}\n",
                     f"Protection: {active_character.headgear.protection}\n",
                     f"Load: {active_character.headgear.load}\n\n\n", 
@@ -307,7 +311,7 @@ def set_attribute(active_character: Character, commands: list[str]):
         weapon_attribute = commands[2]
         weapon_index = weapon_names(active_character).index(attribute)
         if weapon_attribute is None:
-            clear_console()
+            clear_console(active_character)
             print(f"Your {attribute}'s current stats are:\n",
                   f"Name: {active_character.weapons[weapon_index].name}\n",
                   f"Damage: {active_character.weapons[weapon_index].damage}\n",
@@ -323,7 +327,7 @@ def set_attribute(active_character: Character, commands: list[str]):
         value = commands[3]
         while True:
             if value is None:
-                clear_console()
+                clear_console(active_character)
                 print(f"Your {attribute}'s current stats are:\n",
                       f"Name: {active_character.weapons[weapon_index].name}\n",
                       f"Damage: {active_character.weapons[weapon_index].damage}\n",
@@ -374,13 +378,13 @@ def set_attribute(active_character: Character, commands: list[str]):
                 break
         setattr(active_character, attribute, value)
 
-    clear_console()
+    clear_console(active_character)
 
     print(f"Successfully set {attribute} to {value}\n")
 
         
 def roll_skill(active_character: Character, attribute: str):
-    clear_console()
+    clear_console(active_character)
     if attribute is None:
         print("Enter the attribute you would like to roll:")
         attribute = input("> ").lower()
@@ -476,7 +480,7 @@ def roll(dice_to_roll, advantage, disadvantage):
     
 
 def rollable_items(active_character: Character):
-    clear_console()
+    clear_console(active_character)
     rollable_list = []
     for skill in active_character.skill_levels:
         rollable_list.append(skill)
@@ -492,3 +496,6 @@ def rollable_items(active_character: Character):
     return rollable_list
 
 
+def autosave(active_character: Character):
+    with open(f"{active_character.name}_autosave.pickle", "wb") as file:
+        pickle.dump(active_character, file)

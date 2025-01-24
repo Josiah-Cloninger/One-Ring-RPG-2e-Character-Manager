@@ -25,12 +25,12 @@ styles_choice = questionary.Style([
 ])
 
 
-def clear_console():
+def clear_console(active_character):
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def title():
-    clear_console()
+    clear_console(active_character)
     questionary.print("The One Rings RPG Character Sheet\n", style=styles_print["yellow"])
 
 title()
