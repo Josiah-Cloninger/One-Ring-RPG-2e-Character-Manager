@@ -360,8 +360,8 @@ class Character:
     )
 
 
-def save_character(character: Character, filename: str):
-    with open(f"{filename}_hardsave.pickle", "wb") as file:
+def save_character(character: Character):
+    with open(f"{character.name}_hardsave.pickle", "wb") as file:
         pickle.dump(character, file)
 
 

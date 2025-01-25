@@ -25,12 +25,12 @@ styles_choice = questionary.Style([
 ])
 
 
-def clear_console(active_character):
+def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def title():
-    clear_console(active_character)
+    clear_console()
     questionary.print("The One Rings RPG Character Sheet\n", style=styles_print["yellow"])
 
 
@@ -233,6 +233,7 @@ def select_favoured_skills(selected_culture: Culture,selected_calling: Calling):
             validate=lambda answer: "Please select two favoured skills." if len(answer) != 2 else True
         ).ask()
     )
+    return favoured_skills
 
 
 def select_skill_upgrade(character: Character):
@@ -478,8 +479,9 @@ def main():
                                   starting_virtue = selected_virtue,
                                   starting_reward = selected_reward
                                   )
-    for weapon in selected_weapons:
-        active_character.add_weapon(Weapons.by_name(weapon))
+    if selected_weapons is not None:
+        for weapon in selected_weapons:
+            active_character.add_weapon(Weapons.by_name(weapon))
     active_character.change_armour(Armours.by_name(selected_armour))
     active_character.change_shield(Shields.by_name(selected_shield))
     active_character.change_headgear(Headgears.by_name(selected_headgear))

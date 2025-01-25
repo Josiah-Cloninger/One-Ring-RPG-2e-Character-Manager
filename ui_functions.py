@@ -97,7 +97,7 @@ def weapon_names(active_character: Character):
 def create_character():
     active_character = character_creation.main()
     if input("Would you like to save and continue with this character? (y/n)").lower() == "y":
-        save_character(active_character, f"{active_character.name}.pickle")
+        save_character(active_character)
         clear_console(active_character)
         print(f"{active_character.name} successfully created and saved!")   
         return active_character         
@@ -136,7 +136,7 @@ def exit():
 
 
 def save_current_character(active_character: Character):
-    save_character(active_character, f"{active_character.name.lower()}.pickle")
+    save_character(active_character)
     clear_console(active_character)
     print(f"{active_character.name} successfully saved!\n")
 
