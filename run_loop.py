@@ -48,6 +48,8 @@ while True:
             case "roll":
                 roll_skill(active_character, user_commands[1])
             case "revert":
-                active_character = load_character(f"{active_character.name.lower()}_hardsave.pickle")
+                clear_console()
+                active_character = load_character(active_character.name)
+                print("Character reverted to the last manually saved state\n")
             case _:
                 print("Invalid command\n")
