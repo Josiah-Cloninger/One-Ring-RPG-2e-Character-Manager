@@ -197,13 +197,14 @@ def create_layout():
 
 def main():
     active_character = load_character("Lif")
+    print(sg.Window.get_screen_size())
+    x, y = sg.Window.get_screen_size()
 
     background_layout = [
         [sg.Col([[sg.T('_', enable_events=True, key='-MINIMIZE-'), sg.Text('❎', enable_events=True, key='Exit')]], element_justification='r', key='-C-', grab=True,
         pad=(0, 0))],
-        [sg.Image(r"One Ring RPG Blank Character Sheet Close.png")]
+        [sg.Image(r"One Ring RPG Blank Character Sheet Close.png", size=(x, y))]
 ]
-    print(sg.Window.get_screen_size())
     window_background = sg.Window('Background', background_layout, no_titlebar=True, finalize=True, margins=(0, 0), element_padding=(0,0))
     window_background['-C-'].expand(True, False, False)  # expand the titlebar's rightmost column so that it resizes correctly
 
