@@ -23,7 +23,8 @@ while active_character is None:
             case "load":
                 active_character = select_character_to_load(input_list[1])
             case _:
-                print("Invalid command\n")
+                clear_console()
+                print("Invalid command\n\n")
     
 while True:
     print("\nEnter a command:")
