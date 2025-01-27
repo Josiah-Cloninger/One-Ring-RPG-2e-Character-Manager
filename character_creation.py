@@ -1,5 +1,3 @@
-import os
-
 import questionary
 from questionary import print
 
@@ -7,7 +5,7 @@ from culture import Cultures, Culture, all_combat_proficiencies
 from character import Character
 from calling import Calling, Callings
 from gear import Weapons, Armours, Shields, Headgears
-
+from ui_functions import clear_console
 
 styles_print = {
     "culture": "#0001e0",
@@ -25,17 +23,8 @@ styles_choice = questionary.Style([
 ])
 
 
-def clear_console():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-
-def title():
-    clear_console()
-    questionary.print("The One Rings RPG Character Sheet\n", style=styles_print["yellow"])
-
-
 def select_culture():
-    title()
+    clear_console()
     questionary.print("Select Culture:\n", style=styles_print["yellow"])
     answer = questionary.select(
         "",
@@ -53,7 +42,7 @@ def select_culture():
 
 
 def select_attributes(selected_culture: Culture):
-    title()
+    clear_console()
     culture_attributes = []
     enumerater = 0
     times_run = 0
@@ -97,7 +86,7 @@ def select_attributes(selected_culture: Culture):
 
 
 def select_combat_proficiencies(selected_culture: Culture):
-    title()
+    clear_console()
     
     # selecting one of the combat proficiencies indicated by your culture to start at level 2
     questionary.print("Select one of the following Combat Proficiencies to start at level 2:\n", style=styles_print["yellow"])
@@ -141,7 +130,7 @@ def select_combat_proficiencies(selected_culture: Culture):
 
 
 def select_distinctive_features(selected_background):
-    title()
+    clear_console()
     questionary.print("Select Distinctive Features:\n", style=styles_print["yellow"])
     selected_distinctive_features = questionary.checkbox(
         "",
@@ -160,7 +149,7 @@ def select_distinctive_features(selected_background):
 
 
 def select_name():
-    title()
+    clear_console()
     questionary.print("Enter Name:\n", style=styles_print["yellow"])
     selected_name = questionary.text(
         "",
@@ -170,7 +159,7 @@ def select_name():
 
 
 def select_age():
-    title()
+    clear_console()
     questionary.print("Enter Age:\n", style=styles_print["yellow"])
     selected_age = questionary.text(
         "",
@@ -180,7 +169,7 @@ def select_age():
 
 
 def select_calling():
-    title()
+    clear_console()
     questionary.print("Select Calling:\n", style=styles_print["yellow"])
     answer = questionary.select(
         "",
@@ -199,7 +188,7 @@ def select_calling():
 
 def select_favoured_skills(selected_culture: Culture,selected_calling: Calling):
     favoured_skills = []
-    title()
+    clear_console()
 
     # selecting favoured skill from culture
     questionary.print("Select one favoured skill from you culture:\n", style=styles_print["yellow"])
@@ -237,7 +226,7 @@ def select_favoured_skills(selected_culture: Culture,selected_calling: Calling):
 
 
 def select_skill_upgrade(character: Character):
-    title()
+    clear_console()
     questionary.print("Upgrade Common Skill:\n", style=styles_print["yellow"])
     answer = questionary.select(
         "",
@@ -265,7 +254,7 @@ def upgrade_skill(character: Character, skill: str, previous_experience_points: 
 
 
 def select_weapon_skill_upgrade(character: Character):
-    title()
+    clear_console()
     questionary.print("Upgrade Weapon Skill:\n", style=styles_print["yellow"])
     answer = questionary.select(
         "",
@@ -296,7 +285,7 @@ def previous_experience(character: Character):
     continue_loop = True
     previous_experience_points = 10
     while previous_experience_points > 0 and continue_loop:
-        title()
+        clear_console()
         print("Skill Levels:\n", style=styles_print["yellow"])
         for skill, level in character.skill_levels.items():
             print(f"{skill}: {level}")
@@ -329,7 +318,7 @@ def previous_experience(character: Character):
 
 
 def select_virtue():
-    title()
+    clear_console()
     questionary.print("Enter Virtue Name:\n", style=styles_print["yellow"])
     selected_virtue = questionary.text(
         "",
@@ -339,7 +328,7 @@ def select_virtue():
 
 
 def select_reward():
-    title()
+    clear_console()
     questionary.print("Enter Reward Name:\n", style=styles_print["yellow"])
     selected_reward = questionary.text(
         "",
@@ -349,11 +338,11 @@ def select_reward():
 
 
 def starting_gear(selected_combat_proficiencies):
-    title()
+    clear_console()
     if input("Would you like to have weapons?(y/n)").lower() == "y":
         weapons = []
         while True:
-            title()
+            clear_console()
             print("Current weapon levels:\n")
             for name in selected_combat_proficiencies:
                 print(f"{name}\t  :      {selected_combat_proficiencies[name]}")
@@ -383,10 +372,10 @@ def starting_gear(selected_combat_proficiencies):
     else:
         weapons = None
 
-    title()
+    clear_console()
     if input("Would you like to have armour?(y/n)").lower() == "y":
         while True:
-            title()
+            clear_console()
             print("Select your armour:\n")
             armour = questionary.select(
                 "",
@@ -406,10 +395,10 @@ def starting_gear(selected_combat_proficiencies):
     else:
         armour = None
 
-    title()
+    clear_console()
     if input("Would you like to have a shield?(y/n)").lower() == "y":
         while True:
-            title()
+            clear_console()
             print("Select your starting shield:\n")
             shield = questionary.select(
                 "",
@@ -429,10 +418,10 @@ def starting_gear(selected_combat_proficiencies):
     else:
         shield = None
 
-    title()
+    clear_console()
     if input("Would you like to have headgear?(y/n)").lower() == "y":
         while True:
-            title()
+            clear_console()
             print("Select your starting headgear:\n")
             headgear = questionary.select(
                 "",
@@ -456,7 +445,7 @@ def starting_gear(selected_combat_proficiencies):
 
 
 def main():
-    title()
+    clear_console()
     selected_culture = select_culture()
     selected_attributes = select_attributes(selected_culture)
     selected_combat_proficiencies = select_combat_proficiencies(selected_culture)

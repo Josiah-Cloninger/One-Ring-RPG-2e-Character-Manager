@@ -56,6 +56,15 @@ def help():
     print()
 
 
+def create_character():
+    active_character = character_creation.main()
+    if input("Would you like to save and continue with this character? (y/n)").lower() == "y":
+        save_character(active_character)
+        clear_console(active_character)
+        print(f"{active_character.name} successfully created and saved!")
+        return active_character
+
+
 def valid_attributes(active_character: Character):
     valid_attributes = []
 
@@ -92,15 +101,6 @@ def weapon_names(active_character: Character):
         weapon_names.append(weapon.name.lower())
     return weapon_names
 
-
-def create_character():
-    active_character = character_creation.main()
-    if input("Would you like to save and continue with this character? (y/n)").lower() == "y":
-        save_character(active_character)
-        clear_console(active_character)
-        print(f"{active_character.name} successfully created and saved!")   
-        return active_character         
-                
 
 def select_character_to_load(character_name: str):
     while True:
