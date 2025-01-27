@@ -8,6 +8,7 @@ active_character = None
 
 clear_console()
 
+# Either load an existing character, or create a new one
 while active_character is None:
         print("Please start by either loading an exhisting character with 'load' or creating a new character with 'create'")
         string_input = input("> ").lower()
@@ -26,6 +27,7 @@ while active_character is None:
                 clear_console()
                 print("Invalid command\n\n")
     
+# The main menu for the character manager. Should only be here with an "active character"
 while True:
     print("\nEnter a command:")
     string_input = input("> ").lower()
