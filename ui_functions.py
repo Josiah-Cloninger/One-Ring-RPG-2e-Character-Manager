@@ -129,11 +129,6 @@ def select_character_to_load(character_name: str):
     return active_character
 
 
-def exit():
-    print("Goodbye!")
-    sys.exit()
-
-
 def save_current_character(active_character: Character):
     save_character(active_character)
     clear_console(active_character)
