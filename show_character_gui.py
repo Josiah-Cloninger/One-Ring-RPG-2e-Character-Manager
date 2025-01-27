@@ -4,6 +4,8 @@ import time
 
 from ui_functions import show_attribute, load_character
 
+#cap on scroll
+
 
 def focus(window):
     return window.TKroot.focus_displayof() is not None
@@ -188,48 +190,226 @@ def create_layout():
     }
 
 
-    layout = [
-        [sg.Graph(canvas_size=(1920, 1080), graph_bottom_left=(0, 0), graph_top_right=(1920, 1080), key='-GRAPH-'),],
-        # [sg.draw_text(f"{active_character.name}", font=("Helvetica", 20), text_color='black')],
-    ]
-    return layout
+def draw_awe(active_character, window):
+    if active_character.awe == 0:
+        pass
+    if active_character.awe >= 1:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(454, 629))
+    if active_character.awe >= 2:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(482, 629))
+    if active_character.awe >= 3:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(510, 629))
+    if active_character.awe >= 4:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(538, 629))
+    if active_character.awe >= 5:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(565, 629))
+    if active_character.awe >= 6:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(593, 629))
+
+
+def draw_athletics(active_character, window):
+    if active_character.athletics == 0:
+        pass
+    if active_character.athletics >= 1:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(454, 598))
+    if active_character.athletics >= 2:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(482, 598))
+    if active_character.athletics >= 3:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(510, 598))
+    if active_character.athletics >= 4:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(538, 598))
+    if active_character.athletics >= 5:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(565, 598))
+    if active_character.athletics >= 6:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(593, 598))
+
+
+def draw_awareness(active_character, window):
+    if active_character.awareness == 0:
+        pass
+    if active_character.awareness >= 1:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(454, 565))
+    if active_character.awareness >= 2:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(482, 565))
+    if active_character.awareness >= 3:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(510, 565))
+    if active_character.awareness >= 4:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(538, 565))
+    if active_character.awareness >= 5:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(565, 565))
+    if active_character.awareness >= 6:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(593, 565))
+
+
+def draw_hunting(active_character, window):
+    if active_character.hunting == 0:
+        pass
+    if active_character.hunting >= 1:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(454, 534))
+    if active_character.hunting >= 2:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(482, 534))
+    if active_character.hunting >= 3:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(510, 534))
+    if active_character.hunting >= 4:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(538, 534))
+    if active_character.hunting >= 5:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(565, 534))
+    if active_character.hunting >= 6:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(593, 534))
+
+
+def draw_song(active_character, window):
+    if active_character.song == 0:
+        pass
+    if active_character.song >= 1:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(454, 502))
+    if active_character.song >= 2:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(482, 502))
+    if active_character.song >= 3:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(510, 502))
+    if active_character.song >= 4:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(538, 502))
+    if active_character.song >= 5:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(565, 502))
+    if active_character.song >= 6:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(593, 502))
+
+
+def draw_craft(active_character, window):
+    if active_character.craft == 0:
+        pass
+    if active_character.craft >= 1:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(454, 470))
+    if active_character.craft >= 2:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(482, 470))
+    if active_character.craft >= 3:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(510, 470))
+    if active_character.craft >= 4:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(538, 470))
+    if active_character.craft >= 5:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(565, 470))
+    if active_character.craft >= 6:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(593, 470))
+
+
+def draw_enhearten(active_character, window):
+    if active_character.enhearten == 0:
+        pass
+    if active_character.enhearten >= 1:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(788, 629))
+    if active_character.enhearten >= 2:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(816, 629))
+    if active_character.enhearten >= 3:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(844, 629))
+    if active_character.enhearten >= 4:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(872, 629))
+    if active_character.enhearten >= 5:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(899, 629))
+    if active_character.enhearten >= 6:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(927, 629))
+
+
+def draw_travel(active_character, window):
+    if active_character.travel == 0:
+        pass
+    if active_character.travel >= 1:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(788, 598))
+    if active_character.travel >= 2:        
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(816, 598))
+    if active_character.travel >= 3:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(844, 598))
+    if active_character.travel >= 4:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(872, 598))
+    if active_character.travel >= 5:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(899, 598))
+    if active_character.travel >= 6:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(927, 598))
+
+
+def draw_insight(active_character, window):
+    if active_character.insight == 0:
+        pass
+    if active_character.insight >= 1:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(788, 565))
+    if active_character.insight >= 2:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(816, 565))
+    if active_character.insight >= 3:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(844, 565))
+    if active_character.insight >= 4:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(872, 565))
+    if active_character.insight >= 5:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(899, 565))
+    if active_character.insight >= 6:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(927, 565))
+
+
+def draw_skills(active_character, window):
+    draw_awe(active_character, window)
+    draw_athletics(active_character, window)
+    draw_awareness(active_character, window)
+    draw_hunting(active_character, window)
+    draw_song(active_character, window)
+    draw_craft(active_character, window)
+    draw_enhearten(active_character, window)
+    draw_travel(active_character, window)
+    draw_insight(active_character, window)
 
 
 def main():
-    active_character = load_character("Lif")
-    print(sg.Window.get_screen_size())
+    active_character = load_character("Arathorn")
+    str_flaws = ", ".join([flaw for flaw in active_character.flaws])
+    str_virtues =  ", ".join([virtue for virtue in active_character.virtues])
+    str_rewards = ", ".join([reward for reward in active_character.rewards])
+    str_distinctive_features = ", ".join([distinctive_feature for distinctive_feature in active_character.distinctive_features])
     x, y = sg.Window.get_screen_size()
 
-    background_layout = [
-        [sg.Col([[sg.T('_', enable_events=True, key='-MINIMIZE-'), sg.Text('❎', enable_events=True, key='Exit')]], element_justification='r', key='-C-', grab=True,
-        pad=(0, 0))],
-        [sg.Image(r"One Ring RPG Blank Character Sheet Close.png", size=(x, y))]
-]
-    window_background = sg.Window('Background', background_layout, no_titlebar=True, finalize=True, margins=(0, 0), element_padding=(0,0))
-    window_background['-C-'].expand(True, False, False)  # expand the titlebar's rightmost column so that it resizes correctly
+    layout = [
+        [sg.Graph(canvas_size=(1920, 1080), background_color="black", graph_bottom_left=(0, 0), graph_top_right=(1920, 1080), expand_x=True, expand_y=True, change_submits=True, drag_submits=True, key='-GRAPH-')]
+    ]
 
-    layout = create_layout()
-
-    window = sg.Window("Character Information", layout, finalize=True, transparent_color=sg.theme_background_color(), resizable=True, element_justification='c', margins=(0, 0), element_padding=(0,0))
-    window['-GRAPH-'].draw_text(active_character.name, location=(960, 1040), color='black', font=("Helvetica", 20), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.age, location=(630, 975), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window['-GRAPH-'].draw_text(active_character.culture, location=(320, 975), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window['-GRAPH-'].draw_text(active_character.calling, location=(280, 900), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window['-GRAPH-'].draw_text(active_character.shadow_path, location=(675, 940), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window['-GRAPH-'].draw_text(active_character.patron, location=(675, 900), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window = sg.Window("Character Sheet", layout, return_keyboard_events=True, finalize=True, resizable=True, element_justification='c', margins=(0, 0), element_padding=(0,0))
+    window['-GRAPH-'].draw_image(r"TOR_Elf_Character_Sheet_fillable (1).png", location=(0, y-120))
+    window['-GRAPH-'].draw_text(active_character.name, location=(970, 1000), color='black', font=("Helvetica", 22), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.age, location=(675, 938), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window['-GRAPH-'].draw_text(active_character.culture, location=(410, 938), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window["-GRAPH-"].draw_text(active_character.blessing.name, location=(410, 903), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window['-GRAPH-'].draw_text(active_character.calling, location=(370, 873), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window['-GRAPH-'].draw_text(active_character.shadow_path, location=(725, 873), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window['-GRAPH-'].draw_text(active_character.patron, location=(690, 903), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window['-GRAPH-'].draw_text(active_character.standard_of_living, location=(740, 935), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window['-GRAPH-'].draw_text(active_character.treasure, location=(936, 928), color='black', font=("Helvetica", 20), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(str_distinctive_features, location=(990, 935), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window['-GRAPH-'].draw_text(str_flaws, location=(980, 873), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window['-GRAPH-'].draw_text(active_character.strength_score, location=(508, 787), color='black', font=("Helvetica", 18), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.strength_tn, location=(445, 748), color='black', font=("Helvetica", 22), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.max_endurance, location=(508, 710), color='black', font=("Helvetica", 18), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.current_endurance, location=(1383, 510), color='black', font=("Helvetica", 22), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.heart_score, location=(842, 785), color='black', font=("Helvetica", 18), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.heart_tn, location=(778, 750), color='black', font=("Helvetica", 22), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.max_hope, location=(842, 710), color='black', font=("Helvetica", 18), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.wits_score, location=(1175, 785), color='black', font=("Helvetica", 18), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.wits_tn, location=(1112, 750), color='black', font=("Helvetica", 22), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.parry, location=(1175, 710), color='black', font=("Helvetica", 18), text_location=sg.TEXT_LOCATION_CENTER)
+    draw_skills(active_character, window)
     window.maximize()
-    window.bind('<FocusIn>', 'FocusIn')
-    window.bind('<FocusOut>', 'FocusOut')
     while True:
-
         event, values = window.read()
         if event in (sg.WINDOW_CLOSED, 'Exit'):
             break
-        if event in ('FocusIn', 'FocusOut'):
-            widget = window.user_bind_event.widget
-            check_focus(window, window_background, widget)
+        if event == "MouseWheel:Up":
+            window['-GRAPH-'].move(0, -25)
+        if event == "MouseWheel:Down":
+            window['-GRAPH-'].move(0, 25)
+        if event == "Up:38":
+            window['-GRAPH-'].move(0, -25)
+        if event == "Down:40":
+            window['-GRAPH-'].move(0, 25)
+        if event == "Left:37":
+            window['-GRAPH-'].move(25, 0)
+        if event == "Right:39":
+            window['-GRAPH-'].move(-25, 0)
 
-
+    window.close()
 
 
 
