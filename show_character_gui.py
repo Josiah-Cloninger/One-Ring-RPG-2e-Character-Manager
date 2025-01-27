@@ -7,17 +7,6 @@ from ui_functions import show_attribute, load_character
 #cap on scroll
 
 
-def focus(window):
-    return window.TKroot.focus_displayof() is not None
-
-
-def check_focus(window, window_background, widget):
-    # Some events for children of window passed
-    if widget == window.TKroot:
-        window_background.BringToFront()
-        window.BringToFront()
-
-
 def create_layout():
     active_character = load_character("Lif")
     print(active_character)
@@ -309,6 +298,14 @@ def draw_enhearten(active_character, window):
         window["-GRAPH-"].draw_image(r"Rombus.png", location=(927, 629))
 
 
+# def test(active_character, window):
+#     column_1 = [active_character.awe, active_character.athletics, active_character.awareness, active_character.hunting, active_character.song, active_character.craft]
+#     column_2 = [active_character.enhearten, active_character.travel, active_character.insight, active_character.healing, ]
+#     for skill in column_3:
+#         if 
+
+
+
 def draw_travel(active_character, window):
     if active_character.travel == 0:
         pass
@@ -343,6 +340,23 @@ def draw_insight(active_character, window):
         window["-GRAPH-"].draw_image(r"Rombus.png", location=(927, 565))
 
 
+def draw_healing(active_character, window):
+    if active_character.healing == 0:
+        pass
+    if active_character.healing >= 1:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(788, 534))
+    if active_character.healing >= 2:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(816, 534))
+    if active_character.healing >= 3:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(844, 534))
+    if active_character.healing >= 4:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(872, 534))    
+    if active_character.healing >= 5:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(899, 534))
+    if active_character.healing >= 6:
+        window["-GRAPH-"].draw_image(r"Rombus.png", location=(927, 534))
+
+
 def draw_skills(active_character, window):
     draw_awe(active_character, window)
     draw_athletics(active_character, window)
@@ -353,6 +367,7 @@ def draw_skills(active_character, window):
     draw_enhearten(active_character, window)
     draw_travel(active_character, window)
     draw_insight(active_character, window)
+    draw_healing(active_character, window)
 
 
 def main():
@@ -361,14 +376,13 @@ def main():
     str_virtues =  ", ".join([virtue for virtue in active_character.virtues])
     str_rewards = ", ".join([reward for reward in active_character.rewards])
     str_distinctive_features = ", ".join([distinctive_feature for distinctive_feature in active_character.distinctive_features])
-    x, y = sg.Window.get_screen_size()
 
     layout = [
         [sg.Graph(canvas_size=(1920, 1080), background_color="black", graph_bottom_left=(0, 0), graph_top_right=(1920, 1080), expand_x=True, expand_y=True, change_submits=True, drag_submits=True, key='-GRAPH-')]
     ]
 
     window = sg.Window("Character Sheet", layout, return_keyboard_events=True, finalize=True, resizable=True, element_justification='c', margins=(0, 0), element_padding=(0,0))
-    window['-GRAPH-'].draw_image(r"TOR_Elf_Character_Sheet_fillable (1).png", location=(0, y-120))
+    window['-GRAPH-'].draw_image(r"TOR_Elf_Character_Sheet_fillable (1).png", location=(0, 1080))
     window['-GRAPH-'].draw_text(active_character.name, location=(970, 1000), color='black', font=("Helvetica", 22), text_location=sg.TEXT_LOCATION_CENTER)
     window['-GRAPH-'].draw_text(active_character.age, location=(675, 938), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
     window['-GRAPH-'].draw_text(active_character.culture, location=(410, 938), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
