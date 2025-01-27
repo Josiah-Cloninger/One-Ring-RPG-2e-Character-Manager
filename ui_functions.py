@@ -65,6 +65,33 @@ def create_character():
         return active_character
 
 
+def select_character_to_load(character_name: str):
+    while True:
+        if character_name is None:
+            print("Enter the name of the character to load: ")
+            character_name = input("> ").lower()
+        if character_name.lower() == "exit":
+            exit()
+        elif character_name.lower() == "menu":
+            clear_console(active_character)
+            return
+        elif character_name.lower() == "help":
+            print("\nname of the character to load")
+            print("menu")
+            print("exit\n")
+        else:
+            try:
+                active_character = load_character(f"{character_name}")
+                break
+            except FileNotFoundError:
+                clear_console()
+                print("No character with that name was found. Please enter a different name")
+                character_name = input("> ").lower()
+    clear_console(active_character)
+    print(f"{active_character.name} successfully loaded!\n")
+    return active_character
+
+
 def valid_attributes(active_character: Character):
     valid_attributes = []
 
@@ -100,33 +127,6 @@ def weapon_names(active_character: Character):
     for weapon in active_character.weapons:
         weapon_names.append(weapon.name.lower())
     return weapon_names
-
-
-def select_character_to_load(character_name: str):
-    while True:
-        if character_name is None:
-            print("Enter the name of the character to load: ")
-            character_name = input("> ").lower()
-        if character_name.lower() == "exit":
-            exit()
-        elif character_name.lower() == "menu":
-            clear_console(active_character)
-            return
-        elif character_name.lower() == "help":
-            print("\nname of the character to load")
-            print("menu")
-            print("exit\n")
-        else:
-            try:
-                active_character = load_character(f"{character_name}")
-                break
-            except FileNotFoundError:
-                clear_console()
-                print("No character with that name was found. Please enter a different name")
-                character_name = input("> ").lower()
-    clear_console(active_character)
-    print(f"{active_character.name} successfully loaded!\n")
-    return active_character
 
 
 def save_current_character(active_character: Character):
