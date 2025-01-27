@@ -12,44 +12,43 @@ start_commands = {
     "exit": "Exits the program",
     "create": "Creates a new character",
     "load": "Loads a character",
-    "save": "Saves a character",
-    "show": "Shows attributes of a character"
 }
 
 
 commands = {
-    "help": "Prints a list of commands",
-    "exit": "Exits the program",
-    "create character": "Creates a new character",
-    "load": "Loads a character",
-    "save": "Saves the current character",
-    "set": "Sets character's attributes",
-    "show": "Shows attributes of a character",
-    "roll": "Rolls for the chosen skill", 
-    "revert": "Reverts the character to the last manually saved state"
+    "help": "Prints a list of commands.",
+    "exit": "Exits the program.",
+    "create character": "Creates a new character.",
+    "load": "Loads a character.",
+    "save": "Saves the current character.",
+    "set": "Sets character's attributes.",
+    "show": "Shows attributes of a character.",
+    "roll": "Rolls for the chosen skill.", 
+    "revert": "Reverts the character to the last manually saved state."
 }
 
 
 def clear_console(active_character: Character = None):
+    """Clears the console and prints the title. If a character object is passed, it will autosave that character."""
     os.system('cls' if os.name == 'nt' else 'clear')
     if active_character is not None:
         autosave(active_character)
-    title()
-
-
-def title():
-    print("One Ring RPG Character Manager\nVersion : " + version + "\n"
-        "Enter 'help' at any time for a list of commands or 'exit' to quit\n\n")
-
+    print(f"One Ring RPG Character Manager\n"
+          f"Version : {version}\n"
+          f"Enter 'help' at any time for a list of commands or 'exit' to quit\n\n")
+    
 
 def start_help():
-    print("\n")
-    for command, description in start_commands.items():
+    """Prints the commands available to someone who just started the program."""
+    clear_console()
+    print("Valid commands include: \n")
+    for command, description in start_commands.items(): 
         print(f"{command}: {description}")
     print("\n")
 
 
 def help():
+    """Prints the commands available to someone who has an active character."""
     clear_console()
     print("Valid commands include:\n")
     for command, description in commands.items():
