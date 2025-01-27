@@ -65,28 +65,34 @@ def create_character():
         return active_character
 
 
-def select_character_to_load(character_name: str):
+def select_character_to_load(input_command: str):
+    """Walks the user through selecting a character to load."""
+    clear_console()
     while True:
-        if character_name is None:
-            print("Enter the name of the character to load: ")
-            character_name = input("> ").lower()
-        if character_name.lower() == "exit":
+        if input_command is None:
+            print("Enter the name of the character you would like to load: ")
+            input_command = input("> ").lower()
+        if input_command == "exit":
             exit()
-        elif character_name.lower() == "menu":
-            clear_console(active_character)
+        elif input_command == "menu":
+            clear_console()
             return
-        elif character_name.lower() == "help":
-            print("\nname of the character to load")
-            print("menu")
-            print("exit\n")
+        elif input_command == "help":
+            clear_console()
+            print("Valid commands include: \n")
+            print("exit: Exits the program.")
+            print("menu: Returns to the main menu.")
+            print("{character name}: Loads the character with that name.\n\n")
+            input_command = None
         else:
+            character_name = input_command
             try:
                 active_character = load_character(f"{character_name}")
                 break
             except FileNotFoundError:
                 clear_console()
-                print("No character with that name was found. Please enter a different name")
-                character_name = input("> ").lower()
+                print("No character with that name was found.\n\n")
+                input_command = None
     clear_console(active_character)
     print(f"{active_character.name} successfully loaded!\n")
     return active_character

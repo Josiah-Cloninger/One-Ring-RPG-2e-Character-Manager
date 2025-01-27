@@ -10,10 +10,10 @@ clear_console()
 
 while active_character is None:
         print("Please start by either loading an exhisting character with 'load' or creating a new character with 'create'")
-        user_commands = input("> ").lower()
-        user_commands = user_commands.split()
-        user_commands.extend([None]*(10 - len(user_commands)))
-        match user_commands[0]:
+        string_input = input("> ").lower()
+        input_list = string_input.split()
+        input_list.extend([None]*(10 - len(input_list)))
+        match input_list[0]:
             case "help":
                 start_help()
             case "exit":
@@ -21,16 +21,16 @@ while active_character is None:
             case "create":
                 active_character = create_character()
             case "load":
-                active_character = select_character_to_load(user_commands[1])
+                active_character = select_character_to_load(input_list[1])
             case _:
                 print("Invalid command\n")
     
 while True:
     print("\nEnter a command:")
-    user_commands = input("> ").lower()
-    user_commands = user_commands.split()
-    user_commands.extend([None]*(10 - len(user_commands)))
-    match user_commands[0]:
+    string_input = input("> ").lower()
+    input_list = string_input.split()
+    input_list.extend([None]*(10 - len(input_list)))
+    match input_list[0]:
         case "help":
             help()
         case "exit":
@@ -38,15 +38,15 @@ while True:
         case "create":
             active_character = create_character()
         case "load":
-            active_character = select_character_to_load(user_commands[1])
+            active_character = select_character_to_load(input_list[1])
         case "save":
             save_current_character(active_character)
         case "show":
-            show_attribute(active_character, user_commands)
+            show_attribute(active_character, input_list)
         case "set":
-            set_attribute(active_character, user_commands)
+            set_attribute(active_character, input_list)
         case "roll":
-            roll_skill(active_character, user_commands[1])
+            roll_skill(active_character, input_list[1])
         case "revert":
             clear_console()
             active_character = load_character(active_character.name)
