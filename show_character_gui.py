@@ -298,11 +298,12 @@ def draw_enhearten(active_character, window):
         window["-GRAPH-"].draw_image(r"Rombus.png", location=(927, 629))
 
 
-# def test(active_character, window):
-#     column_1 = [active_character.awe, active_character.athletics, active_character.awareness, active_character.hunting, active_character.song, active_character.craft]
-#     column_2 = [active_character.enhearten, active_character.travel, active_character.insight, active_character.healing, ]
-#     for skill in column_3:
-#         if 
+def test(active_character, window):
+    column_1 = [active_character.awe, active_character.athletics, active_character.awareness, active_character.hunting, active_character.song, active_character.craft]
+    column_2 = [active_character.enhearten, active_character.travel, active_character.insight, active_character.healing, active_character.courtsey, active_character.battle]
+    column_3 = [active_character.persuade, active_character.stealth, active_character.scan, active_character.explore, active_character.riddle, active_character.lore]
+    for skill in column_1:
+        if skill is 
 
 
 
