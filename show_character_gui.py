@@ -298,12 +298,12 @@ def draw_enhearten(active_character, window):
         window["-GRAPH-"].draw_image(r"Rombus.png", location=(927, 629))
 
 
-def test(active_character, window):
-    column_1 = [active_character.awe, active_character.athletics, active_character.awareness, active_character.hunting, active_character.song, active_character.craft]
-    column_2 = [active_character.enhearten, active_character.travel, active_character.insight, active_character.healing, active_character.courtsey, active_character.battle]
-    column_3 = [active_character.persuade, active_character.stealth, active_character.scan, active_character.explore, active_character.riddle, active_character.lore]
-    for skill in column_1:
-        if skill is 
+# def test(active_character, window):
+#     column_1 = [active_character.awe, active_character.athletics, active_character.awareness, active_character.hunting, active_character.song, active_character.craft]
+#     column_2 = [active_character.enhearten, active_character.travel, active_character.insight, active_character.healing, active_character.courtsey, active_character.battle]
+#     column_3 = [active_character.persuade, active_character.stealth, active_character.scan, active_character.explore, active_character.riddle, active_character.lore]
+#     for skill in column_1:
+#         if skill is 
 
 
 
@@ -372,7 +372,7 @@ def draw_skills(active_character, window):
 
 
 def main():
-    active_character = load_character("Arathorn")
+    active_character = load_character("Lif")
     str_flaws = ", ".join([flaw for flaw in active_character.flaws])
     str_virtues =  ", ".join([virtue for virtue in active_character.virtues])
     str_rewards = ", ".join([reward for reward in active_character.rewards])
@@ -382,7 +382,7 @@ def main():
         [sg.Graph(canvas_size=(1920, 1080), background_color="black", graph_bottom_left=(0, 0), graph_top_right=(1920, 1080), expand_x=True, expand_y=True, change_submits=True, drag_submits=True, key='-GRAPH-')]
     ]
 
-    window = sg.Window("Character Sheet", layout, return_keyboard_events=True, finalize=True, resizable=True, element_justification='c', margins=(0, 0), element_padding=(0,0))
+    window = sg.Window("Character Sheet", layout, icon=r"Ring_Icon.ico", return_keyboard_events=True, finalize=True, resizable=True, element_justification='c', margins=(0, 0), element_padding=(0,0))
     window['-GRAPH-'].draw_image(r"TOR_Elf_Character_Sheet_fillable (1).png", location=(0, 1080))
     window['-GRAPH-'].draw_text(active_character.name, location=(970, 1000), color='black', font=("Helvetica", 22), text_location=sg.TEXT_LOCATION_CENTER)
     window['-GRAPH-'].draw_text(active_character.age, location=(675, 938), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
