@@ -14,7 +14,6 @@ start_commands = {
     "load": "Loads a character",
 }
 
-
 commands = {
     "help": "Prints a list of commands.",
     "exit": "Exits the program.",
@@ -27,6 +26,187 @@ commands = {
     "revert": "Reverts the character to the last manually saved state."
 }
 
+viewable_attributes = {
+    "Name": "Your character's name",
+
+    "Culture": "Your character's heroic culture",
+    "Blessing": "Your character's cultural blessing",
+    "Calling": "Your character's calling",
+
+    "Age": "Your character's age",
+    "Standard of Living": "Your character's standard of living",
+    "Treasure": "Your character's treasure rating",
+    "Patron": "Your character's patron",
+    "Shadow Path": "Your character's shadow path",
+
+    "Distinctive Features": "Your character's distinctive features",
+    "Flaws": "Your character's flaws",
+
+    # Attributes and Derived Stats
+    "Strength": "Your character's strength rating",
+    "Strength TN": "The TN for your character's Strength Skills",
+    "Max Endurance": "Your character's maximum endurance",
+
+    "Heart": "Your character's heart rating",
+    "Heart TN": "The TN for your character's Heart Skills",
+    "Max Hope": "Your character's maximum hope",
+
+    "Wits": "Your character's wits rating",
+    "Wits TN": "The TN for your character's Wits Skills",
+    "Parry": "Your character's parry rating",
+
+    # Skills
+    "Awe": "Your character's awe skill level",
+    "Athletics": "Your character's athletics skill level",
+    "Awareness": "Your character's awareness skill level",
+    "Hunting": "Your character's hunting skill level",
+    "Song": "Your character's song skill level",
+    "Craft": "Your character's craft skill level",
+
+    "Enhearten": "Your character's enhearten skill level",
+    "Travel": "Your character's travel skill level",
+    "Insight": "Your character's insight skill level",
+    "Healing": "Your character's healing skill level",
+    "Courtesy": "Your character's courtesy skill level",
+    "Battle": "Your character's battle skill level",
+
+    "Persuade": "Your character's persuade skill level",
+    "Stealth": "Your character's stealth skill level",
+    "Scan": "Your character's scan skill level",
+    "Explore": "Your character's explore skill level",
+    "Riddle": "Your character's riddle skill level",
+    "Lore": "Your character's lore skill level",
+
+    # Combat Proficencies
+    "Axes": "Your character's axes proficincey level",
+    "Bows": "Your character's bows proficincey level",
+    "Spears": "Your character's spears proficincey level",
+    "Swords": "Your character's swords proficincey level",
+
+    # Valour/Wisdom
+    "Valour": "Your character's valour rating",
+    "Rewards": "A list of your character's rewards",
+    "Wisdom": "Your character's wisdom rating",
+    "Virtues": "A list of your character's virtues",
+
+    # Gear
+    "Weapons": "A list of your character's weapons",
+    "Armour": "Your character's armour",
+    "Shield": "Your character's shield",
+    "Headgear": "Your character's headgear",
+    "Traveling Gear": "Your character's travelling gear",
+
+    # Other
+    "Adventure Points": "Your character's adventure points",
+    "Skill Points": "Your character's skill points",
+    "Fellowship Score": "Your character's fellowship score",
+
+    # Endurance/Hope
+    "Current Endurance": "Your character's current endurance",
+    "Load": "The combined load of all your character's war gear and fatigue",
+    "Fatigue": "Your character's fatigue level",
+    "Current Hope": "Your character's current hope",
+    "Shadow": "Your character's shadow points and shadow scars combined",
+    "Shadow Points": "Your character's shadow points",
+    "Shadow Scars": "Your character's shadow scars",
+
+    # Conditions
+    "Weary": "Weather or not your character is weary",
+    "Miserable": "Weather or not your character is miserable",
+    "Wounded": "Weather or not your character is wounded",
+    "Injury": "How many more days you character will be wounded for"
+}
+
+editable_attributes = {
+    "Name": "Your character's name",
+
+    "Age": "Your character's age",
+    "Treasure": "Your character's current treasure points",
+    "Patron": "Your character's patron",
+
+    "Distinctive Features": "Your character's distinctive features",
+
+    # Attributes and Derived Stats
+    "Strength": "Your character's strength rating",
+    "Strength TN": "The TN for your character's Strength Skills",
+    "Max Endurance": "Your character's maximum endurance",
+
+    "Heart": "Your character's heart rating",
+    "Heart TN": "The TN for your character's Heart Skills",
+    "Max Hope": "Your character's maximum hope",
+
+    "Wits": "Your character's wits rating",
+    "Wits TN": "The TN for your character's Wits Skills",
+    "Parry": "Your character's parry rating",
+
+    # Skills
+    "Awe": "Your character's awe skill level",
+    "Athletics": "Your character's athletics skill level",
+    "Awareness": "Your character's awareness skill level",
+    "Hunting": "Your character's hunting skill level",
+    "Song": "Your character's song skill level",
+    "Craft": "Your character's craft skill level",
+
+    "Enhearten": "Your character's enhearten skill level",
+    "Travel": "Your character's travel skill level",
+    "Insight": "Your character's insight skill level",
+    "Healing": "Your character's healing skill level",
+    "Courtesy": "Your character's courtesy skill level",
+    "Battle": "Your character's battle skill level",
+
+    "Persuade": "Your character's persuade skill level",
+    "Stealth": "Your character's stealth skill level",
+    "Scan": "Your character's scan skill level",
+    "Explore": "Your character's explore skill level",
+    "Riddle": "Your character's riddle skill level",
+    "Lore": "Your character's lore skill level",
+
+    "Favoured Skills": "A list of your character's favoured skills",
+
+    # Combat Proficencies
+    "Axes": "Your character's axes proficincey level",
+    "Bows": "Your character's bows proficincey level",
+    "Spears": "Your character's spears proficincey level",
+    "Swords": "Your character's swords proficincey level",
+
+    # Valour/Wisdom
+    "Valour": "Your character's valour rating",
+    "Rewards": "A list of your character's rewards",
+    "Wisdom": "Your character's wisdom rating",
+    "Virtues": "A list of your character's virtues",
+
+    # Gear
+    "Weapons": "A list of your character's weapons",
+    "Armour": "Your character's armour",
+    "Shield": "Your character's shield",
+    "Headgear": "Your character's headgear",
+    "Traveling Gear": "Your character's travelling gear",
+
+    # Other
+    "Adventure Points": "Your character's adventure points",
+    "Skill Points": "Your character's skill points",
+    "Fellowship Score": "Your character's fellowship score",
+
+    # Endurance/Hope
+    "Current Endurance": "Your character's current endurance",
+    "Fatigue": "Your character's fatigue level",
+    "Current Hope": "Your character's current hope",
+    "Shadow Points": "Your character's shadow points",
+    "Shadow Scars": "Your character's shadow scars",
+
+    # Conditions
+    "Wounded": "Weather or not your character is wounded",
+    "Injury": "How many more days you character will be wounded for"
+}
+
+keys = list(viewable_attributes.keys())
+keys.sort()
+viewable_attributes = {key: viewable_attributes[key] for key in keys}
+
+keys = list(editable_attributes.keys())
+keys.sort()
+editable_attributes = {key: editable_attributes[key] for key in keys}
+
 
 def clear_console(active_character: Character = None):
     """Clears the console and prints the title. If a character object is passed, it will autosave that character."""
@@ -34,7 +214,7 @@ def clear_console(active_character: Character = None):
     if active_character is not None:
         autosave(active_character)
     print(f"One Ring RPG Character Manager\n"
-          f"Version : {version}\n"
+          f"Version: {version}\n"
           f"Enter 'help' at any time for a list of commands or 'exit' to quit\n\n")
     
 
@@ -94,29 +274,8 @@ def select_character_to_load(input_command: str):
                 print("No character with that name was found.\n\n")
                 input_command = None
     clear_console(active_character)
-    print(f"{active_character.name} successfully loaded!\n")
+    print(f"{active_character.name} successfully loaded!\n\n")
     return active_character
-
-
-def valid_attributes(active_character: Character):
-    valid_attributes = []
-
-    for attribute in dir(active_character):
-        if not attribute.startswith("__") and not callable(getattr(active_character, attribute)):
-            valid_attributes.append(attribute)
-
-    for weapon in active_character.weapons:
-        valid_attributes.append(f"{weapon.name.lower()}")
-
-    valid_attributes.append("armour")
-    valid_attributes.append("shield")
-    valid_attributes.append("headgear")
-
-    valid_attributes.append(active_character.name.lower())
-
-    valid_attributes.sort()
-
-    return valid_attributes
 
 
 def simple_attributes(active_character: Character):
@@ -142,261 +301,178 @@ def save_current_character(active_character: Character):
 
 
 def show_attribute(active_character: Character, commands: list[str]):
-    clear_console(active_character)
 
-    attribute = commands[1]
+    attribute = " ".join(commands[1:])
 
-    weapon_names = []
-    for weapon in active_character.weapons:
-        weapon_names.append(weapon.name.lower())
-    
-    if attribute is None:
-        print("Enter the attribute you would like to show: ")
+    if attribute == "":
+        clear_console(active_character)
+        print("Enter the attribute you would like to view: ")
         attribute = input("> ").lower()
-    
-    if attribute == "help":
-        print(f"Valid attributes include:\n {valid_attributes(active_character)}\n")
-    elif attribute in weapon_names:
-        print(f"{attribute}: {active_character.weapons[weapon_names.index(attribute)]}\n")
-    elif attribute == active_character.name.lower():
-        print(active_character)
-    elif attribute in valid_attributes(active_character):
-        print(f"{attribute}: {getattr(active_character, attribute)}\n")
-    else:
-        print("Invalid attribute\n")
 
+    clear_console(active_character)
+    match attribute:
+        case "help":
+            print(f"Valid attributes include:")
+            for viewee, description in viewable_attributes.items():
+                print(f"{viewee}: {description}")
+            print("\n")
+
+        case "name":
+            print(f"{attribute}: {active_character.name}\n\n")
+        case "culture" | "heroic culture" | "heroic_culture":
+            print(f"{attribute}: {active_character.culture}\n\n")
+        case "blessing" | "cultural blessing"| "cultural_blessing":
+            print(f"{attribute}: {active_character.blessing}\n\n")
+        case "calling":
+            print(f"{attribute}: {active_character.calling}\n\n")
+        case "age":
+            print(f"{attribute}: {active_character.age}\n\n")
+        case "standard of living" | "sol" | "standard_of_living":
+            print(f"{attribute}: {active_character.standard_of_living}\n\n")
+        case "treasure" | "treasure rating" | "treasrue points" | "treasure_rating" | "treasure_points":
+            print(f"{attribute}: {active_character.treasure}\n\n")
+        case "patron":
+            print(f"{attribute}: {active_character.patron}\n\n")
+        case "shadow path":
+            print(f"{attribute}: {active_character.shadow_path}\n\n")
+        case "distinctive features" | "features" | "distinctive_features":
+            print(f"{attribute}: {active_character.distinctive_features}\n\n")
+        case "flaws":
+            print(f"{attribute}: {active_character.flaws}\n\n")
+
+        case "strength" | "strength score" | "strength_score":
+            print(f"{attribute}: {active_character.strength_score}\n\n")
+        case "strength tn" | "strength_tn":
+            print(f"{attribute}: {active_character.strength_tn}\n\n")
+        case "max endurance" | "max_endurance":
+            print(f"{attribute}: {active_character.max_endurance}\n\n")
+
+        case "heart" | "heart score" | "heart_score":
+            print(f"{attribute}: {active_character.heart_score}\n\n")
+        case "heart tn" | "heart_tn":
+            print(f"{attribute}: {active_character.heart_tn}\n\n")
+        case "max hope" | "max_hope":
+            print(f"{attribute}: {active_character.max_hope}\n\n")
+
+        case "wits" | "wits score" | "wits_score":
+            print(f"{attribute}: {active_character.wits_score}\n\n")
+        case "wits tn" | "wits_tn":
+            print(f"{attribute}: {active_character.wits_tn}\n\n")
+        case "parry" | "parry rating" | "parry_rating":
+            print(f"{attribute}: {active_character.parry}\n\n")
+
+        case "awe" | "awe level" | "awe_level":
+            print(f"{attribute}: {active_character.awe}\n\n")
+        case "athletics" | "athletics level" | "athletics_level":
+            print(f"{attribute}: {active_character.athletics}\n\n")
+        case "awareness" | "awareness level" | "awareness_level":
+            print(f"{attribute}: {active_character.awareness}\n\n")
+        case "hunting" | "hunting level" | "hunting_level":
+            print(f"{attribute}: {active_character.hunting}\n\n")
+        case "song" | "song level" | "song_level":
+            print(f"{attribute}: {active_character.song}\n\n")
+        case "craft" | "craft level" | "craft_level":
+            print(f"{attribute}: {active_character.craft}\n\n")
+        case "enhearten" | "enhearten level" | "enhearten_level":
+            print(f"{attribute}: {active_character.enhearten}\n\n")
+        case "travel" | "travel level" | "travel_level":
+            print(f"{attribute}: {active_character.travel}\n\n")
+        case "insight" | "insight level" | "insight_level":
+            print(f"{attribute}: {active_character.insight}\n\n")
+        case "healing" | "healing level" | "healing_level":
+            print(f"{attribute}: {active_character.healing}\n\n")
+        case "courtesy" | "courtesy level" | "courtesy_level":
+            print(f"{attribute}: {active_character.courtesy}\n\n")
+        case "battle" | "battle level" | "battle_level":
+            print(f"{attribute}: {active_character.battle}\n\n")
+        case "persuade" | "persuade level" | "persuade_level":
+            print(f"{attribute}: {active_character.persuade}\n\n")
+        case "stealth" | "stealth level" | "stealth_level":
+            print(f"{attribute}: {active_character.stealth}\n\n")
+        case "scan" | "scan level" | "scan_level":
+            print(f"{attribute}: {active_character.scan}\n\n")
+        case "explore" | "explore level" | "explore_level":
+            print(f"{attribute}: {active_character.explore}\n\n")
+        case "riddle" | "riddle level" | "riddle_level":
+            print(f"{attribute}: {active_character.riddle}\n\n")
+        case "lore" | "lore level" | "lore_level":
+            print(f"{attribute}: {active_character.lore}\n\n")
+        case "favoured skills" | "favored skills":
+            print(f"{attribute}: {active_character.favoured_skills}\n\n")
+
+        case "axes" | "axes skill" | "axes_skill" | "axe" | "axe skill" | "axe_skill":
+            print(f"{attribute}: {active_character.axes_skill}\n\n")
+        case "bows" | "bows skill" | "bows_skill" | "bow" | "bow skill" | "bow_skill":
+            print(f"{attribute}: {active_character.bows_skill}\n\n")
+        case "spears" | "spears skill" | "spears_skill" | "spear" | "spear skill" | "spear_skill":
+            print(f"{attribute}: {active_character.spears_skill}\n\n")
+        case "swords" | "swords skill" | "swords_skill" | "sword" | "sword skill" | "sword_skill":
+            print(f"{attribute}: {active_character.swords_skill}\n\n")
+
+        case "valour":
+            print(f"{attribute}: {active_character.valour}\n\n")
+        case "rewards":
+            print(f"{attribute}: {active_character.rewards}\n\n")
+        case "wisdom":
+            print(f"{attribute}: {active_character.wisdom}\n\n")
+        case "virtues":
+            print(f"{attribute}: {active_character.virtues}\n\n")
+
+        case "weapons":
+            print(f"{attribute}: {active_character.weapons}\n\n")
+        case "armour" | "armor":
+            print(f"{attribute}: {active_character.armour}\n\n")
+        case "shield":
+            print(f"{attribute}: {active_character.shield}\n\n")
+        case "headgear":
+            print(f"{attribute}: {active_character.headgear}\n\n")
+        case "traveling gear" | "items":
+            print(f"{attribute}: {active_character.traveling_gear}\n\n")
+
+        case "adventure points" | "adventure_points" | "ap":
+            print(f"{attribute}: {active_character.adventure_points}\n\n")
+        case "skill points"| "skill_points" | "sp":
+            print(f"{attribute}: {active_character.skill_points}\n\n")
+        case "fellowship score" | "fellowship_score" | "fs":
+            print(f"{attribute}: {active_character.fellowship_score}\n\n")
+
+        case "current endurance" | "current_endurance":
+            print(f"{attribute}: {active_character.current_endurance}\n\n")
+        case "load":
+            print(f"{attribute}: {active_character.load}\n\n")
+        case "fatigue":
+            print(f"{attribute}: {active_character.fatigue}\n\n")
+
+        case "current hope" | "current_hope":
+            print(f"{attribute}: {active_character.current_hope}\n\n")
+        case "shadow":
+            print(f"{attribute}: {active_character.shadow}\n\n")
+        case "shadow points" | "shadow_points":
+            print(f"{attribute}: {active_character.shadow_points}\n\n")
+        case "shadow scars" | "shadow_scars":
+            print(f"{attribute}: {active_character.shadow_scars}\n\n")
+
+        case "weary":
+            print(f"{attribute}: {active_character.is_weary}\n\n")
+        case "miserable":
+            print(f"{attribute}: {active_character.is_miserable}\n\n")
+        case "wounded":
+            print(f"{attribute}: {active_character.is_wounded}\n\n")
+        case "injury":
+            print(f"{attribute}: {active_character.injury}\n\n")
+            
+        case _:
+            if attribute in viewable_attributes.keys():
+                print(f"***THIS IS AN ERROR. PLEASE REPORT TO THE DEVELOPER WITH THE FOLLOWING CODE***"
+                      f"***{attribute} is in viewable_attributes but match case in show_attribute didn't catch it***\n")
+            else:
+                print(f"Invalid attribute: {attribute}\n\n")
+            
 
 def set_attribute(active_character: Character, commands: list[str]):
     clear_console(active_character)
 
-    attribute = commands[1]
-    if attribute is None:
-        print("Enter the attribute you would like to change: ")
-        attribute = input("> ").lower()
     
-    if attribute == "help":
-        print(f"Valid attributes include:\n {valid_attributes(active_character)}\n")
-
-    while attribute not in valid_attributes(active_character):
-        print(f"Invalid attribute. Valid attributes include:\n {valid_attributes(active_character)}\n")
-        attribute = input("> ").lower()
-
-    if attribute == "armour":
-        armour_attribute = commands[2]
-        if armour_attribute is None:
-            clear_console(active_character)
-            print(f"Your current armour is {active_character.armour.name}\n",
-                    f"Protection: {active_character.armour.protection}\n",
-                    f"Load: {active_character.armour.load}\n\n\n"
-                    f"Enter the name of the attribute you would like to modify:")
-            armour_attribute = input("> ").lower()
-        while armour_attribute not in ["protection", "load", "name"]:
-            print("Invalid attribute. Valid attributes include:\n protection\n load\n name\n")
-            armour_attribute = input("> ").lower()
-
-        value = commands[3]
-        while True:
-            if value is None:
-                clear_console(active_character)
-                print(f"Your current armour is {active_character.armour.name}\n",
-                    f"Protection: {active_character.armour.protection}\n",
-                    f"Load: {active_character.armour.load}\n\n\n", 
-                    f"Enter the new value for {armour_attribute}: ")
-                value = input("> ").lower()
-
-            try:
-                if type(getattr(active_character, attribute)) == int:
-                    value = int(value)
-                if type(getattr(active_character, attribute)) == float:
-                    value = float(value)
-            except ValueError:
-                print("That is not a valid value for this attribute. Please enter a number value.")
-            else:
-                break
-        
-        match armour_attribute:
-            case "name":
-                active_character.armour.name = value
-            case "protection":
-                active_character.armour.protection = value
-            case "load":
-                active_character.armour.load = value
-        
-
-    elif attribute == "shield":
-        shield_attribute = commands[2]
-        if shield_attribute is None:
-            clear_console(active_character)
-            print(f"Your current shield is {active_character.shield.name}\n",
-                    f"Parry_mod: {active_character.shield.parry_mod}\n",
-                    f"Load: {active_character.shield.load}\n\n\n"
-                    f"Enter the name of the attribute you would like to modify:")
-            shield_attribute = input("> ").lower()
-        while shield_attribute not in ["parry_mod", "load", "name"]:
-            print("Invalid attribute. Valid attributes include:\n parry_mod\n load\n name\n")
-            shield_attribute = input("> ").lower()
-
-        value = commands[3]
-        while True:
-            if value is None:
-                clear_console(active_character)
-                print(f"Your current armour is {active_character.shield.name}\n",
-                    f"Parry_mod: {active_character.shield.parry_mod}\n",
-                    f"Load: {active_character.shield.load}\n\n\n", 
-                    f"Enter the new value for {shield_attribute}: ")
-                value = input("> ").lower()
-
-            try:
-                if type(getattr(active_character, attribute)) == int:
-                    value = int(value)
-                if type(getattr(active_character, attribute)) == float:
-                    value = float(value)
-            except ValueError:
-                print("That is not a valid value for this attribute. Please enter a number value.")
-            else:
-                break
-        
-        match shield_attribute:
-            case "name":
-                active_character.shield.name = value
-            case "parry_mod":
-                active_character.shield.parry_mod = value
-            case "load":
-                active_character.shield.load = value
-        
-                
-    elif attribute == "headgear":
-        headgear_attribute = commands[2]
-        if headgear_attribute is None:
-            clear_console(active_character)
-            print(f"Your current headgear is {active_character.headgear.name}\n",
-                    f"Protection: {active_character.headgear.protection}\n",
-                    f"Load: {active_character.headgear.load}\n\n\n"
-                    f"Enter the name of the attribute you would like to modify:")
-            headgear_attribute = input("> ").lower()
-        while headgear_attribute not in ["protection", "load", "name"]:
-            print("Invalid attribute. Valid attributes include:\n protection\n load\n name\n")
-            headgear_attribute = input("> ").lower()
-
-        value = commands[3]
-        while True:
-            if value is None:
-                clear_console(active_character)
-                print(f"Your current armour is {active_character.headgear.name}\n",
-                    f"Protection: {active_character.headgear.protection}\n",
-                    f"Load: {active_character.headgear.load}\n\n\n", 
-                    f"Enter the new value for {headgear_attribute}: ")
-                value = input("> ").lower()
-
-            try:
-                if type(getattr(active_character, attribute)) == int:
-                    value = int(value)
-                if type(getattr(active_character, attribute)) == float:
-                    value = float(value)
-            except ValueError:
-                print("That is not a valid value for this attribute. Please enter a number value.")
-            else:
-                break
-        
-        match headgear_attribute:
-            case "name":
-                active_character.headgear.name = value
-            case "protection":
-                active_character.headgear.protection = value
-            case "load":
-                active_character.headgear.load = value
-
-
-    elif attribute in weapon_names(active_character):
-        weapon_attribute = commands[2]
-        weapon_index = weapon_names(active_character).index(attribute)
-        if weapon_attribute is None:
-            clear_console(active_character)
-            print(f"Your {attribute}'s current stats are:\n",
-                  f"Name: {active_character.weapons[weapon_index].name}\n",
-                  f"Damage: {active_character.weapons[weapon_index].damage}\n",
-                  f"Injury: {active_character.weapons[weapon_index].injury}\n",
-                  f"Load: {active_character.weapons[weapon_index].load}\n",
-                  f"Notes: {active_character.weapons[weapon_index].notes}\n\n\n",
-                  f"Enter the name of the attribute you would like to modify:")
-            weapon_attribute = input("> ").lower()
-        while weapon_attribute not in ["name", "damage", "injury", "load", "notes"]:
-            print("Invalid attribute. Valid attributes include:\n name\n damage\n injury\n load\n notes\n")
-            weapon_attribute = input("> ").lower()
-
-        value = commands[3]
-        while True:
-            if value is None:
-                clear_console(active_character)
-                print(f"Your {attribute}'s current stats are:\n",
-                      f"Name: {active_character.weapons[weapon_index].name}\n",
-                      f"Damage: {active_character.weapons[weapon_index].damage}\n",
-                      f"Injury: {active_character.weapons[weapon_index].injury}\n",
-                      f"Load: {active_character.weapons[weapon_index].load}\n",
-                      f"Notes: {active_character.weapons[weapon_index].notes}\n\n\n", 
-                      f"Enter the new value for {weapon_attribute}: ")
-                value = input("> ").lower()
-
-            try:
-                if type(getattr(active_character.weapons[weapon_index], weapon_attribute)) == int:
-                    value = int(value)
-                if type(getattr(active_character.weapons[weapon_index], weapon_attribute)) == float:
-                    value = float(value)
-            except ValueError:
-                print("That is not a valid value for this attribute. Please enter a number value.")
-            else:
-                break
-        
-        match weapon_attribute:
-            case "name":
-                active_character.weapons[weapon_index].name = value
-            case "damage":
-                active_character.weapons[weapon_index].damage = value
-            case "injury":
-                active_character.weapons[weapon_index].injury = value
-            case "load":
-                active_character.weapons[weapon_index].load = value
-            case "notes":
-                active_character.weapons[weapon_index].notes = value
-
-
-    elif attribute == "virtues":
-        value = commands[2]
-        if value is None:
-            print("Enter the name of the virtue you would like to add:")
-            value = input("> ").lower()
-        active_character.add_virtue(commands[2])
-
-
-    elif attribute == "rewards":
-        value = commands[2]
-        if value is None:
-            print("Enter the name of the reward you would like to add:")
-            value = input("> ").lower()
-        active_character.add_reward(commands[2])
-
-        
-    elif attribute in simple_attributes(active_character):
-        value = commands[2]
-        while True:
-            if value is None:
-                print(f"{attribute} is currently set to {getattr(active_character, attribute)}. \n\n\nEnter the new value for {attribute}: ")
-                value = input("> ").lower()
-
-            try:
-                if type(getattr(active_character, attribute)) == int:
-                    value = int(value)
-                if type(getattr(active_character, attribute)) == float:
-                    value = float(value)
-            except ValueError:
-                print("That is not a valid value for this attribute. Please enter a number value.")
-            else:
-                break
-        setattr(active_character, attribute, value)
-
-    clear_console(active_character)
-
-    print(f"Successfully set {attribute} to {value}\n")
 
         
 def roll_skill(active_character: Character, attribute: str):

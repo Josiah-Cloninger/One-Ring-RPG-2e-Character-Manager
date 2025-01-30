@@ -13,7 +13,6 @@ while active_character is None:
         print("Please start by either loading an exhisting character with 'load' or creating a new character with 'create'")
         string_input = input("> ").lower()
         input_list = string_input.split()
-        input_list.extend([None]*(10 - len(input_list)))
         match input_list[0]:
             case "help":
                 start_help()
@@ -29,10 +28,9 @@ while active_character is None:
     
 # The main menu for the character manager. Should only be here with an "active character"
 while True:
-    print("\nEnter a command:")
+    print("Enter a command:")
     string_input = input("> ").lower()
     input_list = string_input.split()
-    input_list.extend([None]*(10 - len(input_list)))
     match input_list[0]:
         case "help":
             help()

@@ -226,6 +226,11 @@ class Character:
         return self.combat_proficiencies["spears"]
 
 
+    @property
+    def shadow(self):
+        return self.shadow_points + self.shadow_scars
+
+
     def add_treasure(self, value: int):
         if self.treasure > -value:
             self.treasure += value

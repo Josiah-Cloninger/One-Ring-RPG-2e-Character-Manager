@@ -27,7 +27,7 @@ def clear_console(active_character: Character = None):
     """Clears the console and prints the title. If a character object is passed, it will autosave that character."""
     os.system('cls' if os.name == 'nt' else 'clear')
     print(f"One Ring RPG Character Manager\n"
-          f"Version : 1.0\n"
+          f"Version: 1.0\n"
           f"Enter 'help' at any time for a list of commands or 'exit' to quit\n\n")
     
 
