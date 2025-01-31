@@ -207,6 +207,331 @@ keys = list(editable_attributes.keys())
 keys.sort()
 editable_attributes = {key: editable_attributes[key] for key in keys}
 
+user_translator = {
+    # name
+    "name": "name",
+
+    "culture":        "culture", 
+    "heroic culture": "culture", 
+    "heroic_culture": "culture",
+
+    "blessing":          "blessing", 
+    "cultural blessing": "blessing", 
+    "cultural_blessing": "blessing",
+
+    "calling": "calling",
+
+    "age": "age",
+
+    "standard of living": "standard of living", 
+    "sol":                "standard of living", 
+    "standard_of_living": "standard of living",
+
+    "treasure":        "treasure", 
+    "treasure rating": "treasure", 
+    "treasrue points": "treasure", 
+    "treasure_rating": "treasure", 
+    "treasure_points": "treasure",
+
+    "patron": "patron",
+
+    "shadow path": "shadow path",
+
+    "distinctive features": "distinctive features", 
+    "features":             "distinctive features", 
+    "feature":              "distinctive features",
+
+    "flaws": "flaws",
+
+
+    # strength 
+    "strength score":  "strength score", 
+    "strength_score" : "strength score",
+    "strength" :       "strength score", 
+    "str":             "strength score", 
+
+    "strength tn":  "strength tn", 
+    "strength_tn" : "strength tn",
+    "str tn":       "strength tn", 
+    
+    "max endurance": "max endurance", 
+
+    # heart
+    "heart score": "heart score",
+    "heart_score": "heart score",
+    "heart": "heart score",
+    "hrt": "heart score",
+
+    "heart tn": "heart tn",
+    "heart_tn": "heart tn",
+    "hrt tn": "heart tn",
+
+    "max hope": "max hope",
+
+    # wits
+    "wits score": "wits score",
+    "wits_score": "wits score",
+    "wits": "wits score",
+    "wts": "wits score",
+
+    "wits tn": "wits tn",
+    "wits_tn": "wits tn",
+    "wts tn": "wits tn",
+
+    "parry": "parry",
+
+
+    # Skills
+    "awe":             "awe",
+    "awe level":       "awe",
+    "awe_level":       "awe",
+    "awe skill":       "awe",
+    "awe_skill":       "awe",
+    "awe skill level": "awe",
+    "awe_skill_level": "awe",
+
+    "athletics":             "athletics",
+    "athletics level":       "athletics",
+    "athletics_level":       "athletics",
+    "athletics skill":       "athletics",
+    "athletics_skill":       "athletics",
+    "athletics skill level": "athletics",
+    "athletics_skill_level": "athletics",
+
+    "awareness":             "awareness",
+    "awareness level":       "awareness",
+    "awareness_level":       "awareness",
+    "awareness skill":       "awareness",
+    "awareness_skill":       "awareness",
+    "awareness skill level": "awareness",
+    "awareness_skill_level": "awareness",
+
+    "hunting":             "hunting",
+    "hunting level":       "hunting",
+    "hunting_level":       "hunting",
+    "hunting skill":       "hunting",
+    "hunting_skill":       "hunting",
+    "hunting skill level": "hunting",
+    "hunting_skill_level": "hunting",
+
+    "song":             "song",
+    "song level":       "song",
+    "song_level":       "song",
+    "song skill":       "song",
+    "song_skill":       "song",
+    "song skill level": "song",
+    "song_skill_level": "song",
+
+    "craft":             "craft",
+    "craft level":       "craft",
+    "craft_level":       "craft",
+    "craft skill":       "craft",
+    "craft_skill":       "craft",
+    "craft skill level": "craft",
+    "craft_skill_level": "craft",
+
+
+    "enhearten":             "enhearten",
+    "enhearten level":       "enhearten",
+    "enhearten_level":       "enhearten",
+    "enhearten skill":       "enhearten",
+    "enhearten_skill":       "enhearten",
+    "enhearten skill level": "enhearten",
+    "enhearten_skill_level": "enhearten",
+
+    "travel":             "travel",
+    "travel level":       "travel",
+    "travel_level":       "travel",
+    "travel skill":       "travel",
+    "travel_skill":       "travel",
+    "travel skill level": "travel",
+    "travel_skill_level": "travel",
+
+    "insight":             "insight",
+    "insight level":       "insight",
+    "insight_level":       "insight",
+    "insight skill":       "insight",
+    "insight_skill":       "insight",
+    "insight skill level": "insight",
+    "insight_skill_level": "insight",
+
+    "healing":             "healing",
+    "healing level":       "healing",
+    "healing_level":       "healing",
+    "healing skill":       "healing",
+    "healing_skill":       "healing",
+    "healing skill level": "healing",
+    "healing_skill_level": "healing",
+
+    "courtesy":             "courtesy",
+    "courtesy level":       "courtesy",
+    "courtesy_level":       "courtesy",
+    "courtesy skill":       "courtesy",
+    "courtesy_skill":       "courtesy",
+    "courtesy skill level": "courtesy",
+    "courtesy_skill_level": "courtesy",
+
+    "battle":             "battle",
+    "battle level":       "battle",
+    "battle_level":       "battle",
+    "battle skill":       "battle",
+    "battle_skill":       "battle",
+    "battle skill level": "battle",
+    "battle_skill_level": "battle",
+
+
+    "persuade":             "persuade",
+    "persuade level":       "persuade",
+    "persuade_level":       "persuade",
+    "persuade skill":       "persuade",
+    "persuade_skill":       "persuade",
+    "persuade skill level": "persuade",
+    "persuade_skill_level": "persuade",
+
+    "stealth":             "stealth",
+    "stealth level":       "stealth",
+    "stealth_level":       "stealth",
+    "stealth skill":       "stealth",
+    "stealth_skill":       "stealth",
+    "stealth skill level": "stealth",
+    "stealth_skill_level": "stealth",
+
+    "scan":             "scan",
+    "scan level":       "scan",
+    "scan_level":       "scan",
+    "scan skill":       "scan",
+    "scan_skill":       "scan",
+    "scan skill level": "scan",
+    "scan_skill_level": "scan",
+
+    "explore":             "explore",
+    "explore level":       "explore",
+    "explore_level":       "explore",
+    "explore skill":       "explore",
+    "explore_skill":       "explore",
+    "explore skill level": "explore",
+    "explore_skill_level": "explore",
+
+    "riddle":             "riddle",
+    "riddle level":       "riddle",
+    "riddle_level":       "riddle",
+    "riddle skill":       "riddle",
+    "riddle_skill":       "riddle",
+    "riddle skill level": "riddle",
+    "riddle_skill_level": "riddle",
+
+    "lore":             "lore",
+    "lore level":       "lore",
+    "lore_level":       "lore",
+    "lore skill":       "lore",
+    "lore_skill":       "lore",
+    "lore skill level": "lore",
+    "lore_skill_level": "lore",
+
+
+    # Combat Proficencies
+    "axes skill": "axes skill",
+    "axes_skill": "axes skill",
+    "axe skill":  "axes skill",
+    "axe_skill":  "axes skill",
+    "axe" : "axes skill",
+    "axes": "axes skill",
+
+    "bows skill": "bows skill",
+    "bows_skill": "bows skill",
+    "bow skill":  "bows skill",
+    "bow_skill":  "bows skill",
+    "bow" : "bows skill",
+    "bows": "bows skill",
+
+    "spears skill": "spears skill",
+    "spears_skill": "spears skill",
+    "spear skill":  "spears skill",
+    "spear_skill":  "spears skill",
+    "spear" : "spears skill",
+    "spears": "spears skill",
+
+    "swords skill": "swords skill",
+    "swords_skill": "swords skill",
+    "sword skill":  "swords skill",
+    "sword_skill":  "swords skill",
+    "sword" : "swords skill",
+    "swords": "swords skill",
+
+
+    # Valour/Wisdom
+    "valour": "valour",
+
+    "rewards": "rewards",
+
+    "wisdom": "wisdom",
+
+    "virtues": "virtues",
+
+
+    # Gear
+    "weapons": "weapons",
+
+    "armour": "armour",
+    "armor": "armour",
+
+    "shield": "shield",
+
+    "headgear": "headgear",
+
+    "traveling gear": "traveling gear",
+    "travel gear": "traveling gear",
+    "tg": "traveling gear",
+    "items": "traveling gear",
+
+
+    # Other
+    "adventure points": "adventure points",
+    "adventure_points": "adventure points",
+    "ap":               "adventure points",
+
+    "skill points": "skill points",
+    "skill_points": "skill points",
+    "sp":           "skill points",
+
+    "fellowship score":  "fellowship score",
+    "fellowship_score":  "fellowship score",
+    "fs":                "fellowship score",
+    "fellowship points": "fellowship score",
+    "fellowship_points": "fellowship score",
+    "fp":                "fellowship score",
+
+
+    # Endurance/Hope
+    "current endurance": "current endurance",
+    "current_endurance": "current endurance",
+
+    "load": "load",
+
+    "fatigue": "fatigue",
+
+    "current hope": "current hope",
+    "current_hope": "current hope",
+
+    "shadow": "shadow",
+
+    "shadow points": "shadow points",
+    "shadow_points": "shadow points",
+
+    "shadow scars": "shadow scars",
+    "shadow_scars": "shadow scars",
+
+
+    # Conditions
+    "weary": "weary",
+
+    "miserable": "miserable",
+
+    "wounded": "wounded",
+
+    "injury": "injury"
+}
+
 
 def clear_console(active_character: Character = None):
     """Clears the console and prints the title. If a character object is passed, it will autosave that character."""
@@ -301,7 +626,6 @@ def save_current_character(active_character: Character):
 
 
 def show_attribute(active_character: Character, commands: list[str]):
-
     attribute = " ".join(commands[1:])
 
     if attribute == "":
@@ -310,163 +634,164 @@ def show_attribute(active_character: Character, commands: list[str]):
         attribute = input("> ").lower()
 
     clear_console(active_character)
-    match attribute:
-        case "help":
-            print(f"Valid attributes include:")
-            for viewee, description in viewable_attributes.items():
-                print(f"{viewee}: {description}")
-            print("\n")
+    try:
+        match user_translator[attribute]:
+            case "help":
+                print(f"Valid attributes include:")
+                for viewee, description in viewable_attributes.items():
+                    print(f"{viewee}: {description}")
+                print("\n")
 
-        case "name":
-            print(f"{attribute}: {active_character.name}\n\n")
-        case "culture" | "heroic culture" | "heroic_culture":
-            print(f"{attribute}: {active_character.culture}\n\n")
-        case "blessing" | "cultural blessing"| "cultural_blessing":
-            print(f"{attribute}: {active_character.blessing}\n\n")
-        case "calling":
-            print(f"{attribute}: {active_character.calling}\n\n")
-        case "age":
-            print(f"{attribute}: {active_character.age}\n\n")
-        case "standard of living" | "sol" | "standard_of_living":
-            print(f"{attribute}: {active_character.standard_of_living}\n\n")
-        case "treasure" | "treasure rating" | "treasrue points" | "treasure_rating" | "treasure_points":
-            print(f"{attribute}: {active_character.treasure}\n\n")
-        case "patron":
-            print(f"{attribute}: {active_character.patron}\n\n")
-        case "shadow path":
-            print(f"{attribute}: {active_character.shadow_path}\n\n")
-        case "distinctive features" | "features" | "distinctive_features":
-            print(f"{attribute}: {active_character.distinctive_features}\n\n")
-        case "flaws":
-            print(f"{attribute}: {active_character.flaws}\n\n")
+            case "name":
+                print(f"{attribute}: {active_character.name}\n\n")
+            case "culture":
+                print(f"{attribute}: {active_character.culture}\n\n")
+            case "blessing":
+                print(f"{attribute}: {active_character.blessing}\n\n")
+            case "calling":
+                print(f"{attribute}: {active_character.calling}\n\n")
+            case "age":
+                print(f"{attribute}: {active_character.age}\n\n")
+            case "standard of living":
+                print(f"{attribute}: {active_character.standard_of_living}\n\n")
+            case "treasure":
+                print(f"{attribute}: {active_character.treasure}\n\n")
+            case "patron":
+                print(f"{attribute}: {active_character.patron}\n\n")
+            case "shadow path":
+                print(f"{attribute}: {active_character.shadow_path}\n\n")
+            case "distinctive features":
+                print(f"{attribute}: {active_character.distinctive_features}\n\n")
+            case "flaws":
+                print(f"{attribute}: {active_character.flaws}\n\n")
 
-        case "strength" | "strength score" | "strength_score":
-            print(f"{attribute}: {active_character.strength_score}\n\n")
-        case "strength tn" | "strength_tn":
-            print(f"{attribute}: {active_character.strength_tn}\n\n")
-        case "max endurance" | "max_endurance":
-            print(f"{attribute}: {active_character.max_endurance}\n\n")
+            case "strength score":
+                print(f"{attribute}: {active_character.strength_score}\n\n")
+            case "strength tn":
+                print(f"{attribute}: {active_character.strength_tn}\n\n")
+            case "max endurance":
+                print(f"{attribute}: {active_character.max_endurance}\n\n")
 
-        case "heart" | "heart score" | "heart_score":
-            print(f"{attribute}: {active_character.heart_score}\n\n")
-        case "heart tn" | "heart_tn":
-            print(f"{attribute}: {active_character.heart_tn}\n\n")
-        case "max hope" | "max_hope":
-            print(f"{attribute}: {active_character.max_hope}\n\n")
+            case "heart score":
+                print(f"{attribute}: {active_character.heart_score}\n\n")
+            case "heart tn":
+                print(f"{attribute}: {active_character.heart_tn}\n\n")
+            case "max hope":
+                print(f"{attribute}: {active_character.max_hope}\n\n")
 
-        case "wits" | "wits score" | "wits_score":
-            print(f"{attribute}: {active_character.wits_score}\n\n")
-        case "wits tn" | "wits_tn":
-            print(f"{attribute}: {active_character.wits_tn}\n\n")
-        case "parry" | "parry rating" | "parry_rating":
-            print(f"{attribute}: {active_character.parry}\n\n")
+            case "wits score":
+                print(f"{attribute}: {active_character.wits_score}\n\n")
+            case "wits tn":
+                print(f"{attribute}: {active_character.wits_tn}\n\n")
+            case "parry":
+                print(f"{attribute}: {active_character.parry}\n\n")
 
-        case "awe" | "awe level" | "awe_level":
-            print(f"{attribute}: {active_character.awe}\n\n")
-        case "athletics" | "athletics level" | "athletics_level":
-            print(f"{attribute}: {active_character.athletics}\n\n")
-        case "awareness" | "awareness level" | "awareness_level":
-            print(f"{attribute}: {active_character.awareness}\n\n")
-        case "hunting" | "hunting level" | "hunting_level":
-            print(f"{attribute}: {active_character.hunting}\n\n")
-        case "song" | "song level" | "song_level":
-            print(f"{attribute}: {active_character.song}\n\n")
-        case "craft" | "craft level" | "craft_level":
-            print(f"{attribute}: {active_character.craft}\n\n")
-        case "enhearten" | "enhearten level" | "enhearten_level":
-            print(f"{attribute}: {active_character.enhearten}\n\n")
-        case "travel" | "travel level" | "travel_level":
-            print(f"{attribute}: {active_character.travel}\n\n")
-        case "insight" | "insight level" | "insight_level":
-            print(f"{attribute}: {active_character.insight}\n\n")
-        case "healing" | "healing level" | "healing_level":
-            print(f"{attribute}: {active_character.healing}\n\n")
-        case "courtesy" | "courtesy level" | "courtesy_level":
-            print(f"{attribute}: {active_character.courtesy}\n\n")
-        case "battle" | "battle level" | "battle_level":
-            print(f"{attribute}: {active_character.battle}\n\n")
-        case "persuade" | "persuade level" | "persuade_level":
-            print(f"{attribute}: {active_character.persuade}\n\n")
-        case "stealth" | "stealth level" | "stealth_level":
-            print(f"{attribute}: {active_character.stealth}\n\n")
-        case "scan" | "scan level" | "scan_level":
-            print(f"{attribute}: {active_character.scan}\n\n")
-        case "explore" | "explore level" | "explore_level":
-            print(f"{attribute}: {active_character.explore}\n\n")
-        case "riddle" | "riddle level" | "riddle_level":
-            print(f"{attribute}: {active_character.riddle}\n\n")
-        case "lore" | "lore level" | "lore_level":
-            print(f"{attribute}: {active_character.lore}\n\n")
-        case "favoured skills" | "favored skills":
-            print(f"{attribute}: {active_character.favoured_skills}\n\n")
+            case "awe":
+                print(f"{attribute}: {active_character.awe}\n\n")
+            case "athletics":
+                print(f"{attribute}: {active_character.athletics}\n\n")
+            case "awareness":
+                print(f"{attribute}: {active_character.awareness}\n\n")
+            case "hunting":
+                print(f"{attribute}: {active_character.hunting}\n\n")
+            case "song":
+                print(f"{attribute}: {active_character.song}\n\n")
+            case "craft":
+                print(f"{attribute}: {active_character.craft}\n\n")
+            case "enhearten":
+                print(f"{attribute}: {active_character.enhearten}\n\n")
+            case "travel":
+                print(f"{attribute}: {active_character.travel}\n\n")
+            case "insight":
+                print(f"{attribute}: {active_character.insight}\n\n")
+            case "healing":
+                print(f"{attribute}: {active_character.healing}\n\n")
+            case "courtesy":
+                print(f"{attribute}: {active_character.courtesy}\n\n")
+            case "battle":
+                print(f"{attribute}: {active_character.battle}\n\n")
+            case "persuade":
+                print(f"{attribute}: {active_character.persuade}\n\n")
+            case "stealth":
+                print(f"{attribute}: {active_character.stealth}\n\n")
+            case "scan":
+                print(f"{attribute}: {active_character.scan}\n\n")
+            case "explore":
+                print(f"{attribute}: {active_character.explore}\n\n")
+            case "riddle":
+                print(f"{attribute}: {active_character.riddle}\n\n")
+            case "lore":
+                print(f"{attribute}: {active_character.lore}\n\n")
+            case "favoured skills":
+                print(f"{attribute}: {active_character.favoured_skills}\n\n")
 
-        case "axes" | "axes skill" | "axes_skill" | "axe" | "axe skill" | "axe_skill":
-            print(f"{attribute}: {active_character.axes_skill}\n\n")
-        case "bows" | "bows skill" | "bows_skill" | "bow" | "bow skill" | "bow_skill":
-            print(f"{attribute}: {active_character.bows_skill}\n\n")
-        case "spears" | "spears skill" | "spears_skill" | "spear" | "spear skill" | "spear_skill":
-            print(f"{attribute}: {active_character.spears_skill}\n\n")
-        case "swords" | "swords skill" | "swords_skill" | "sword" | "sword skill" | "sword_skill":
-            print(f"{attribute}: {active_character.swords_skill}\n\n")
+            case "axes":
+                print(f"{attribute}: {active_character.axes_skill}\n\n")
+            case "bows":
+                print(f"{attribute}: {active_character.bows_skill}\n\n")
+            case "spears":
+                print(f"{attribute}: {active_character.spears_skill}\n\n")
+            case "swords":
+                print(f"{attribute}: {active_character.swords_skill}\n\n")
 
-        case "valour":
-            print(f"{attribute}: {active_character.valour}\n\n")
-        case "rewards":
-            print(f"{attribute}: {active_character.rewards}\n\n")
-        case "wisdom":
-            print(f"{attribute}: {active_character.wisdom}\n\n")
-        case "virtues":
-            print(f"{attribute}: {active_character.virtues}\n\n")
+            case "valour":
+                print(f"{attribute}: {active_character.valour}\n\n")
+            case "rewards":
+                print(f"{attribute}: {active_character.rewards}\n\n")
+            case "wisdom":
+                print(f"{attribute}: {active_character.wisdom}\n\n")
+            case "virtues":
+                print(f"{attribute}: {active_character.virtues}\n\n")
 
-        case "weapons":
-            print(f"{attribute}: {active_character.weapons}\n\n")
-        case "armour" | "armor":
-            print(f"{attribute}: {active_character.armour}\n\n")
-        case "shield":
-            print(f"{attribute}: {active_character.shield}\n\n")
-        case "headgear":
-            print(f"{attribute}: {active_character.headgear}\n\n")
-        case "traveling gear" | "items":
-            print(f"{attribute}: {active_character.traveling_gear}\n\n")
+            case "weapons":
+                print(f"{attribute}: {active_character.weapons}\n\n")
+            case "armour":
+                print(f"{attribute}: {active_character.armour}\n\n")
+            case "shield":
+                print(f"{attribute}: {active_character.shield}\n\n")
+            case "headgear":
+                print(f"{attribute}: {active_character.headgear}\n\n")
+            case "traveling gear":
+                print(f"{attribute}: {active_character.traveling_gear}\n\n")
 
-        case "adventure points" | "adventure_points" | "ap":
-            print(f"{attribute}: {active_character.adventure_points}\n\n")
-        case "skill points"| "skill_points" | "sp":
-            print(f"{attribute}: {active_character.skill_points}\n\n")
-        case "fellowship score" | "fellowship_score" | "fs":
-            print(f"{attribute}: {active_character.fellowship_score}\n\n")
+            case "adventure points":
+                print(f"{attribute}: {active_character.adventure_points}\n\n")
+            case "skill points":
+                print(f"{attribute}: {active_character.skill_points}\n\n")
+            case "fellowship score":
+                print(f"{attribute}: {active_character.fellowship_score}\n\n")
 
-        case "current endurance" | "current_endurance":
-            print(f"{attribute}: {active_character.current_endurance}\n\n")
-        case "load":
-            print(f"{attribute}: {active_character.load}\n\n")
-        case "fatigue":
-            print(f"{attribute}: {active_character.fatigue}\n\n")
+            case "current endurance":
+                print(f"{attribute}: {active_character.current_endurance}\n\n")
+            case "load":
+                print(f"{attribute}: {active_character.load}\n\n")
+            case "fatigue":
+                print(f"{attribute}: {active_character.fatigue}\n\n")
 
-        case "current hope" | "current_hope":
-            print(f"{attribute}: {active_character.current_hope}\n\n")
-        case "shadow":
-            print(f"{attribute}: {active_character.shadow}\n\n")
-        case "shadow points" | "shadow_points":
-            print(f"{attribute}: {active_character.shadow_points}\n\n")
-        case "shadow scars" | "shadow_scars":
-            print(f"{attribute}: {active_character.shadow_scars}\n\n")
+            case "current hope":
+                print(f"{attribute}: {active_character.current_hope}\n\n")
+            case "shadow":
+                print(f"{attribute}: {active_character.shadow}\n\n")
+            case "shadow points":
+                print(f"{attribute}: {active_character.shadow_points}\n\n")
+            case "shadow scars":
+                print(f"{attribute}: {active_character.shadow_scars}\n\n")
 
-        case "weary":
-            print(f"{attribute}: {active_character.is_weary}\n\n")
-        case "miserable":
-            print(f"{attribute}: {active_character.is_miserable}\n\n")
-        case "wounded":
-            print(f"{attribute}: {active_character.is_wounded}\n\n")
-        case "injury":
-            print(f"{attribute}: {active_character.injury}\n\n")
+            case "weary":
+                print(f"{attribute}: {active_character.is_weary}\n\n")
+            case "miserable":
+                print(f"{attribute}: {active_character.is_miserable}\n\n")
+            case "wounded":
+                print(f"{attribute}: {active_character.is_wounded}\n\n")
+            case "injury":
+                print(f"{attribute}: {active_character.injury}\n\n")
             
-        case _:
-            if attribute in viewable_attributes.keys():
-                print(f"***THIS IS AN ERROR. PLEASE REPORT TO THE DEVELOPER WITH THE FOLLOWING CODE***"
-                      f"***{attribute} is in viewable_attributes but match case in show_attribute didn't catch it***\n")
-            else:
-                print(f"Invalid attribute: {attribute}\n\n")
+            case _:
+                print(f"***THIS IS AN ERROR. PLEASE REPORT TO THE DEVELOPER WITH THE FOLLOWING CODE***\n"
+                      f"***{attribute} is in user_translator but match case in show_attribute didn't catch it***\n")
+    except KeyError:
+        print(f"'{attribute}' is not a valid attribute.\n\n")
+            
             
 
 def set_attribute(active_character: Character, commands: list[str]):
@@ -589,5 +914,6 @@ def rollable_items(active_character: Character):
 
 
 def autosave(active_character: Character):
-    with open(f"{active_character.name}_autosave.pickle", "wb") as file:
+    with open(f"{active_character.name}_autosave.pickle", 
+    "wb") as file:
         pickle.dump(active_character, file)
