@@ -23,7 +23,7 @@ styles_choice = questionary.Style([
 ])
 
 
-def clear_console(active_character: Character = None):
+def clear_console():
     """Clears the console and prints the title. If a character object is passed, it will autosave that character."""
     os.system('cls' if os.name == 'nt' else 'clear')
     print(f"One Ring RPG Character Manager\n"

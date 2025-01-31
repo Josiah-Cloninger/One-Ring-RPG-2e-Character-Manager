@@ -2,6 +2,7 @@ from character import Character, save_character, load_character
 import os, sys, random
 import character_creation
 import pickle
+from gear import Weapons, Armours, Shields, Headgears
 
 
 version = "1.0"
@@ -428,6 +429,11 @@ user_translator = {
     "lore skill level": "lore",
     "lore_skill_level": "lore",
 
+    "favoured skills": "favoured skills",
+    "favoured_skills": "favoured skills",
+    "favored skills": "favoured skills",
+    "favored_skills": "favoured skills",
+
 
     # Combat Proficencies
     "axes skill": "axes skill",
@@ -523,21 +529,27 @@ user_translator = {
 
 
     # Conditions
-    "weary": "weary",
+    "weary":    "weary",
+    "is weary": "weary",
+    "is_weary": "weary",
 
     "miserable": "miserable",
+    "is miserable": "miserable",
+    "is_miserable": "miserable",
 
     "wounded": "wounded",
+    "is wounded": "wounded",
+    "is_wounded": "wounded",
 
-    "injury": "injury"
+    "injury": "injury",
+
+    "all": "all"
 }
 
 
-def clear_console(active_character: Character = None):
+def clear_console():
     """Clears the console and prints the title. If a character object is passed, it will autosave that character."""
     os.system('cls' if os.name == 'nt' else 'clear')
-    if active_character is not None:
-        autosave(active_character)
     print(f"One Ring RPG Character Manager\n"
           f"Version: {version}\n"
           f"Enter 'help' at any time for a list of commands or 'exit' to quit\n\n")
@@ -565,7 +577,7 @@ def create_character():
     active_character = character_creation.main()
     if input("Would you like to save and continue with this character? (y/n)").lower() == "y":
         save_character(active_character)
-        clear_console(active_character)
+        clear_console()
         print(f"{active_character.name} successfully created and saved!")
         return active_character
 
@@ -598,7 +610,7 @@ def select_character_to_load(input_command: str):
                 clear_console()
                 print("No character with that name was found.\n\n")
                 input_command = None
-    clear_console(active_character)
+    clear_console()
     print(f"{active_character.name} successfully loaded!\n\n")
     return active_character
 
@@ -621,19 +633,19 @@ def weapon_names(active_character: Character):
 
 def save_current_character(active_character: Character):
     save_character(active_character)
-    clear_console(active_character)
-    print(f"{active_character.name} successfully saved!\n")
+    clear_console()
+    print(f"{active_character.name} successfully saved!\n\n")
 
 
 def show_attribute(active_character: Character, commands: list[str]):
     attribute = " ".join(commands[1:])
 
     if attribute == "":
-        clear_console(active_character)
+        clear_console()
         print("Enter the attribute you would like to view: ")
         attribute = input("> ").lower()
 
-    clear_console(active_character)
+    clear_console()
     try:
         match user_translator[attribute]:
             case "help":
@@ -725,13 +737,13 @@ def show_attribute(active_character: Character, commands: list[str]):
             case "favoured skills":
                 print(f"{attribute}: {active_character.favoured_skills}\n\n")
 
-            case "axes":
+            case "axes skill":
                 print(f"{attribute}: {active_character.axes_skill}\n\n")
-            case "bows":
+            case "bows skill":
                 print(f"{attribute}: {active_character.bows_skill}\n\n")
-            case "spears":
+            case "spears skill":
                 print(f"{attribute}: {active_character.spears_skill}\n\n")
-            case "swords":
+            case "swords skill":
                 print(f"{attribute}: {active_character.swords_skill}\n\n")
 
             case "valour":
@@ -785,6 +797,9 @@ def show_attribute(active_character: Character, commands: list[str]):
                 print(f"{attribute}: {active_character.is_wounded}\n\n")
             case "injury":
                 print(f"{attribute}: {active_character.injury}\n\n")
+
+            case "all":
+                print(active_character)
             
             case _:
                 print(f"***THIS IS AN ERROR. PLEASE REPORT TO THE DEVELOPER WITH THE FOLLOWING CODE***\n"
@@ -795,13 +810,548 @@ def show_attribute(active_character: Character, commands: list[str]):
             
 
 def set_attribute(active_character: Character, commands: list[str]):
-    clear_console(active_character)
+    clear_console()
 
-    
+    was_successfull = True
+
+    attribute = " ".join(commands[1:])
+
+    if attribute == "":
+        clear_console()
+        print("Enter the attribute you would like to view: ")
+        attribute = input("> ").lower()
+
+        # checking to see if the attribute given is valid
+        try:
+            test = user_translator[attribute]
+        except KeyError:
+            print(f"'{attribute}' is not a valid attribute.\n\n")
+
+    clear_console()
+
+    print(f"Enter the value you would like to set '{attribute}' to: ")
+    value = input("> ")
+
+    match user_translator[attribute]:
+        case "help":
+            print(f"Valid attributes include:")
+            for viewee, description in editable_attributes.items():
+                print(f"{viewee}: {description}")
+            print("\n")
+
+        case "name":
+            active_character.name = value
+
+        case "age":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Age must be an integer.\n\n")
+            else:
+                active_character.age = value
+
+        case "treasure":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Treasure must be an integer.\n\n")
+            else:
+                active_character.treasure = value
+
+        case "patron":
+            active_character.patron = value
+
+        case "distinctive features":
+            print("Would you like to add or remove a distinctive feature? (add/remove): ")
+            answer = input("> ").lower()
+            match answer:
+                case "add":
+                    active_character.distinctive_features.append(value)
+                case "remove":
+                    try:
+                        active_character.distinctive_features.remove(value)
+                    except ValueError:
+                        print(f"{value} is not in your list of distinctive features.\n\n")
+                case _:
+                    print("Invalid input.\n\n")
+
+        case "strength score":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Strength score must be an integer.\n\n")
+            else:
+                active_character.strength_score = value
+
+        case "strength tn":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Strength TN must be an integer.\n\n")
+            else:
+                active_character.strength_tn = value
+
+        case "max endurance":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Max endurance must be an integer.\n\n")
+            else:
+                active_character.max_endurance = value
+
+
+        case "heart score":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Heart score must be an integer.\n\n")
+            else:
+                active_character.heart_score = value
+
+        case "heart tn":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Heart TN must be an integer.\n\n")
+            else:
+                active_character.heart_tn = value
+
+        case "max hope":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Max hope must be an integer.\n\n")
+            else:
+                active_character.max_hope = value
+
+
+        case "wits score":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Wits score must be an integer.\n\n")
+            else:
+                active_character.wits_score = value
+
+        case "wits tn":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Wits TN must be an integer.\n\n")
+            else:
+                active_character.wits_tn = value
+
+        case "parry":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Parry must be an integer.\n\n")
+            else:
+                active_character.parry = value
+
+
+        case "awe":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Awe must be an integer.\n\n")
+            else:
+                active_character.awe = value
+        
+        case "athletics":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Athletics must be an integer.\n\n")
+            else:
+                active_character.athletics = value
+        
+        case "awareness":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Awareness must be an integer.\n\n")
+            else:
+                active_character.awareness = value
+        
+        case "hunting":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Hunting must be an integer.\n\n")
+            else:
+                active_character.hunting = value
+        
+        case "song":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Song must be an integer.\n\n")
+            else:
+                active_character.song = value
+        
+        case "craft":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Craft must be an integer.\n\n")
+            else:
+                active_character.craft = value
+        
+        case "enhearten":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Enhearten must be an integer.\n\n")
+            else:
+                active_character.enhearten = value
+        
+        case "travel":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Travel must be an integer.\n\n")
+            else:
+                active_character.travel = value
+        
+        case "insight":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Insight must be an integer.\n\n")
+            else:
+                active_character.insight = value
+        
+        case "healing":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Healing must be an integer.\n\n")
+            else:
+                active_character.healing = value
+        
+        case "courtesy":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Courtesy must be an integer.\n\n")
+            else:
+                active_character.courtesy = value
+        
+        case "battle":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Battle must be an integer.\n\n")
+            else:
+                active_character.battle = value
+        
+        case "persuade":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Persuade must be an integer.\n\n")
+            else:
+                active_character.persuade = value
+        
+        case "stealth":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Stealth must be an integer.\n\n")
+            else:
+                active_character.stealth = value
+        
+        case "scan":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Scan must be an integer.\n\n")
+            else:
+                active_character.scan = value
+        
+        case "explore":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Explore must be an integer.\n\n")
+            else:
+                active_character.explore = value
+        
+        case "riddle":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Riddle must be an integer.\n\n")
+            else:
+                active_character.riddle = value
+        
+        case "lore":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Lore must be an integer.\n\n")
+            else:
+                active_character.lore = value
+        
+        case "favoured skills":
+            print("Would you like to add or remove a favoured skill? (add/remove): ")
+            answer = input("> ").lower()
+            match answer:
+                case "add":
+                    active_character.favoured_skills.append(value)
+                case "remove":
+                    try:
+                        active_character.distinctive_features.remove(value)
+                    except ValueError:
+                        print(f"{value} is not in your list of favoured skills.\n\n")
+                case _:
+                    print("Invalid input.\n\n")
+        
+
+        case "axes skill":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Axes skill must be an integer.\n\n")
+            else:
+                active_character.combat_proficiencies["axes"] = value
+        
+        case "bows skill":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Bows skill must be an integer.\n\n")
+            else:
+                active_character.combat_proficiencies["bows"] = value
+        
+        case "spears skill":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Spears skill must be an integer.\n\n")
+            else:
+                active_character.combat_proficiencies["spears"] = value
+        
+        case "swords skill":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Swords skill must be an integer.\n\n")
+            else:
+                active_character.combat_proficiencies["swords"] = value
+        
+
+        case "valour":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Valour must be an integer.\n\n")
+            else:
+                active_character.valour = value
+        
+        case "rewards":
+            print("Would you like to add or remove a reward? (add/remove): ")
+            answer = input("> ").lower()
+            match answer:
+                case "add":
+                    active_character.rewards.append(value)
+                case "remove":
+                    try:
+                        active_character.rewards.remove(value)
+                    except ValueError:
+                        print(f"{value} is not in your list of rewards.\n\n")
+                case _:
+                    print("Invalid input.\n\n")
+        
+        case "wisdom":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Wisdom must be an integer.\n\n")
+            else:
+                active_character.wisdom = value
+        
+        case "virtues":
+            print("Would you like to add or remove a virtue? (add/remove): ")
+            answer = input("> ").lower()
+            match answer:
+                case "add":
+                    active_character.virtues.append(value)
+                case "remove":
+                    try:
+                        active_character.virtues.remove(value)
+                    except ValueError:
+                        print(f"{value} is not in your list of virtues.\n\n")
+                case _:
+                    print("Invalid input.\n\n")
+        
+
+        case "weapons":
+            print("Would you like to add or remove a weapon? (add/remove): ")
+            answer = input("> ").lower()
+            match answer:
+                case "add":
+                    active_character.weapons.append(Weapons.by_name(value))
+                case "remove":
+                    if value in weapon_names():
+                        for weapon in active_character.weapons:
+                            if weapon.name == value:
+                                active_character.weapons.remove(weapon)
+                    else:
+                        print(f"{value} is not in your list of weapons.\n\n")
+                case _:
+                    print("Invalid input.\n\n")
+        
+        case "armour":
+            print("Would you like to remove or replace armour? (remove/replace): ")
+            answer = input("> ").lower()
+            match answer:
+                case "remove":
+                    active_character.armour = None
+                case "replace":
+                    active_character.armour = Armours.by_name(value)
+                case _:
+                    print("Invalid Input\n\n")
+        
+        case "shield":
+            print("Would you like to remove or replace a shield? (remove/replace): ")
+            answer = input("> ").lower()
+            match answer:
+                case "remove":
+                    active_character.shield = None
+                case "replace":
+                    active_character.shield = Shields.by_name(value)
+                case _:
+                    print("Invalid Input\n\n")
+        
+        case "headgear":
+            print("Would you like to remove or replace headgear? (remove/replace): ")
+            answer = input("> ").lower()
+            match answer:
+                case "remove":
+                    active_character.headgear = None
+                case "replace":
+                    active_character.headgear = Headgears.by_name(value)
+                case _:
+                    print("Invalid Input\n\n")
+        
+        case "traveling gear":
+            print("Would you like to add or remove a piece of traveling gear? (add/remove): ")
+            answer = input("> ").lower()
+            match answer:
+                case "add":
+                    active_character.traveling_gear.append(value)
+                case "remove":
+                    try:
+                        active_character.traveling_gear.remove(value)
+                    except ValueError:
+                        print(f"{value} is not in your list of traveling gear.\n\n")
+                case _:
+                    print("Invalid input.\n\n")
+        
+
+        case "adventure points":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Adventure points must be an integer.\n\n")
+            else:
+                active_character.adventure_points = value
+        
+        case "skill points":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Skill points must be an integer.\n\n")
+            else:
+                active_character.skill_points = value
+        
+        case "fellowship score":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Fellowship score must be an integer.\n\n")
+            else:
+                active_character.fellowship_score = value
+        
+
+        case "current endurance":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Current endurance must be an integer.\n\n")
+            else:
+                active_character.current_endurance = value
+                
+        case "fatigue":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Fatigue must be an integer.\n\n")
+            else:
+                active_character.fatigue = value
+        
+
+        case "current hope":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Current hope must be an integer.\n\n")
+            else:
+                active_character.current_hope = value
+                
+        case "shadow points":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Shadow points must be an integer.\n\n")
+            else:
+                active_character.shadow_points = value
+        
+        case "shadow scars":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Shadow scars must be an integer.\n\n")
+            else:
+                active_character.shadow_scars = value
+        
+
+        case "wounded":
+            if value in ["True", "true", "TRUE"]:
+                value = True
+                active_character.is_wounded = value
+            elif value in ["False", "false", "FALSE"]:
+                value = False
+                active_character.is_wounded = value
+            else:
+                print("Wounded must be a boolean (either TRUE or FALSE).\n\n")
+        
+        case "injury":
+            try:
+                value = int(value)
+            except ValueError:
+                print("Injury must be an integer.\n\n")
+            else:
+                active_character.injury = value
+        
+        
+        case _:
+            clear_console()
+            print(f"***THIS IS AN ERROR. PLEASE REPORT TO THE DEVELOPER WITH THE FOLLOWING CODE***\n"
+                f"***{attribute} is in user_translator but match case in show_attribute didn't catch it***\n")
+            was_successfull = False
+            
+    if was_successfull:
+        clear_console()
+        print(f"{attribute} successfully set to {value}.\n\n")
+            
+    autosave(active_character)
 
         
 def roll_skill(active_character: Character, attribute: str):
-    clear_console(active_character)
+    clear_console()
     if attribute is None:
         print("Enter the attribute you would like to roll:")
         attribute = input("> ").lower()
@@ -897,7 +1447,7 @@ def roll(dice_to_roll, advantage, disadvantage):
     
 
 def rollable_items(active_character: Character):
-    clear_console(active_character)
+    clear_console()
     rollable_list = []
     for skill in active_character.skill_levels:
         rollable_list.append(skill)
