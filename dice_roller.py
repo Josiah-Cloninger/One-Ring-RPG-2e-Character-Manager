@@ -4,7 +4,7 @@ import os
 from character import Character, load_character
 
 
-def clear_console(active_character):
+def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
@@ -66,13 +66,13 @@ def select_character_to_load(character_name: str):
             print("No character with that name was found. Please enter a different name")
             filename = input("> ").lower()
 
-    clear_console(active_character)
+    clear_console()
     print(f"{active_character.name} successfully loaded!\n")
     return active_character
 
 
 def roll_skill(active_character: Character, attribute: str):
-    clear_console(active_character)
+    clear_console()
     if attribute is None:
         print("Enter the attribute you would like to see:")
         attribute = input("> ")
@@ -81,7 +81,7 @@ def roll_skill(active_character: Character, attribute: str):
             clear_console
             rollable_items()
         case _:
-            clear_console(active_character)
+            clear_console()
             if attribute == "armour":
                 print(f"{roll(active_character.armour.protection, True, False)}\n")
             if attribute in active_character.combat_proficiencies:
