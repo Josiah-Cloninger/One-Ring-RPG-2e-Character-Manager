@@ -78,6 +78,10 @@ viewable_attributes = {
     "Riddle": "Your character's riddle skill level",
     "Lore": "Your character's lore skill level",
 
+    "Favoured Skills": "A list of your character's favoured skills",
+
+    "Skills": "A list of your character's skill levels",
+
     # Combat Proficencies
     "Axes": "Your character's axes proficincey level",
     "Bows": "Your character's bows proficincey level",
@@ -434,6 +438,8 @@ user_translator = {
     "favored skills": "favoured skills",
     "favored_skills": "favoured skills",
 
+    "skills": "skills",
+
 
     # Combat Proficencies
     "axes skill": "axes skill",
@@ -582,7 +588,7 @@ def create_character():
         return active_character
 
 
-def select_character_to_load(input_command: str):
+def select_character_to_load(input_command: str = None):
     """Walks the user through selecting a character to load."""
     clear_console()
     while True:
@@ -736,6 +742,10 @@ def show_attribute(active_character: Character, commands: list[str]):
                 print(f"{attribute}: {active_character.lore}\n\n")
             case "favoured skills":
                 print(f"{attribute}: {active_character.favoured_skills}\n\n")
+            case "skills":
+                for skill, level in active_character.skill_levels.items():
+                    print(f"{skill}: {level}")
+                print("\n")
 
             case "axes skill":
                 print(f"{attribute}: {active_character.axes_skill}\n\n")
@@ -818,7 +828,7 @@ def set_attribute(active_character: Character, commands: list[str]):
 
     if attribute == "":
         clear_console()
-        print("Enter the attribute you would like to view: ")
+        print("Enter the attribute you would like to set: ")
         attribute = input("> ").lower()
 
         # checking to see if the attribute given is valid
@@ -1106,8 +1116,8 @@ def set_attribute(active_character: Character, commands: list[str]):
                     except ValueError:
                         print(f"{value} is not in your list of favoured skills.\n\n")
                 case _:
-                    print("Invalid input.\n\n")
-        
+                    print("Invalid input.\n\n")\
+       
 
         case "axes skill":
             try:
@@ -1192,9 +1202,13 @@ def set_attribute(active_character: Character, commands: list[str]):
             answer = input("> ").lower()
             match answer:
                 case "add":
-                    active_character.weapons.append(Weapons.by_name(value))
+                    if value in Weapons.names():
+                        active_character.weapons.append(Weapons.by_name(value))
+                    else:
+                        clear_console()
+                        print(f"{value} is not a valid weapon.\n\n")
                 case "remove":
-                    if value in weapon_names():
+                    if value in weapon_names(active_character):
                         for weapon in active_character.weapons:
                             if weapon.name == value:
                                 active_character.weapons.remove(weapon)
