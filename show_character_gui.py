@@ -232,12 +232,11 @@ def draw_points(active_character, window):
 
 
 def show_character_gui(active_character):
-
     # str_virtues =  ", ".join([virtue for virtue in active_character.virtues])
     # str_rewards = ", ".join([reward for reward in active_character.rewards])
-
+    size = (1920, 1080)
     layout = [
-        [sg.Graph(canvas_size=(1920, 1080), background_color="black", graph_bottom_left=(0, 0), graph_top_right=(1920, 1080), expand_x=True, expand_y=True, change_submits=True, drag_submits=True, key='-GRAPH-')]
+        [sg.Graph(size, (0, 0), size, background_color="black",  expand_x=True, expand_y=True, pad=(0, 0), key='-GRAPH-')]
     ]
 
     window = sg.Window("Character Sheet", layout, icon=r"Ring_Icon.ico", return_keyboard_events=True, finalize=True, resizable=True, element_justification='c', margins=(0, 0), element_padding=(0,0))
@@ -249,23 +248,43 @@ def show_character_gui(active_character):
     draw_gear_info(active_character, window)
     draw_points(active_character, window)
     draw_conditions(active_character, window)
+    # graph = window['-GRAPH-']
+    # window.bind('<Configure>', ' Configure')
+
+    # ## Change the pack order of Graph (row frame) to laste one.
+    # graph_row_frame_pack_info = graph.widget.master.pack_info()
+    # graph.widget.master.pack(**graph_row_frame_pack_info)
     window.maximize()
+    index = 0
+    up_down_index = 0
     while True:
         event, values = window.read()
         if event in (sg.WINDOW_CLOSED, 'Exit'):
             break
-        if event == "MouseWheel:Up":
+        if event == "MouseWheel:Up" and up_down_index <= 45:
             window['-GRAPH-'].move(0, -25)
-        if event == "MouseWheel:Down":
+            up_down_index += 1
+        if event == "MouseWheel:Down" and up_down_index >= -45:
             window['-GRAPH-'].move(0, 25)
-        if event == "Up:38":
+            up_down_index -= 1
+        if event == "Up:38" and up_down_index <= 45:
             window['-GRAPH-'].move(0, -25)
-        if event == "Down:40":
+            up_down_index += 1
+        if event == "Down:40" and up_down_index >= -45:
             window['-GRAPH-'].move(0, 25)
+            up_down_index -= 1 
         if event == "Left:37":
             window['-GRAPH-'].move(25, 0)
         if event == "Right:39":
             window['-GRAPH-'].move(-25, 0)
+
+        # e = graph.user_bind_event
+        # w0, h0 = graph.CanvasSize
+        # # Update the canvas size for coordinate conversion
+        # w1, h1 = graph.CanvasSize = e.width, e.height
+        # w_scale, h_scale = w1/w0, h1/h0
+        # graph.widget.scale("all", 0, 0, w_scale, h_scale)
+
 
     window.close()
 
