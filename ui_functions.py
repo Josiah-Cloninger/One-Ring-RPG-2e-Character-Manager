@@ -206,6 +206,35 @@ editable_attributes = {
     "Injury": "How many more days you character will be wounded for"
 }
 
+
+STRENGTH_SKILLS = [
+    "awe",
+    "athletics",
+    "awareness",
+    "hunting",
+    "song",
+    "craft"
+]
+
+HEART_SKILLS = [
+    "enhearten",
+    "travel",
+    "insight",
+    "healing",
+    "courtesy",
+    "battle"
+]
+
+WITS_SKILLS = [
+    "persuade",
+    "stealth",
+    "scan",
+    "explore",
+    "riddle",
+    "lore"
+]
+
+
 keys = list(viewable_attributes.keys())
 keys.sort()
 viewable_attributes = {key: viewable_attributes[key] for key in keys}
@@ -230,9 +259,9 @@ user_translator = {
 
     "age": "age",
 
-    "standard of living": "standard of living", 
-    "sol":                "standard of living", 
-    "standard_of_living": "standard of living",
+    "standard of living": "standard_of_living", 
+    "sol":                "standard_of_living", 
+    "standard_of_living": "standard_of_living",
 
     "treasure":        "treasure", 
     "treasure rating": "treasure", 
@@ -242,48 +271,48 @@ user_translator = {
 
     "patron": "patron",
 
-    "shadow path": "shadow path",
+    "shadow path": "shadow_path",
 
-    "distinctive features": "distinctive features", 
-    "features":             "distinctive features", 
-    "feature":              "distinctive features",
+    "distinctive features": "distinctive_features", 
+    "features":             "distinctive_features", 
+    "feature":              "distinctive_features",
 
     "flaws": "flaws",
 
 
     # strength 
-    "strength score":  "strength score", 
-    "strength_score" : "strength score",
-    "strength" :       "strength score", 
-    "str":             "strength score", 
+    "strength score":  "strength_score", 
+    "strength_score" : "strength_score",
+    "strength" :       "strength_score", 
+    "str":             "strength_score", 
 
-    "strength tn":  "strength tn", 
-    "strength_tn" : "strength tn",
-    "str tn":       "strength tn", 
+    "strength tn":  "strength_tn", 
+    "strength_tn" : "strength_tn",
+    "str tn":       "strength_tn", 
     
-    "max endurance": "max endurance", 
+    "max endurance": "max_endurance", 
 
     # heart
-    "heart score": "heart score",
-    "heart_score": "heart score",
-    "heart": "heart score",
-    "hrt": "heart score",
+    "heart score": "heart_score",
+    "heart_score": "heart_score",
+    "heart":       "heart_score",
+    "hrt":         "heart_score",
 
-    "heart tn": "heart tn",
-    "heart_tn": "heart tn",
-    "hrt tn": "heart tn",
+    "heart tn": "heart_tn",
+    "heart_tn": "heart_tn",
+    "hrt tn":   "heart_tn",
 
-    "max hope": "max hope",
+    "max hope": "max_hope",
 
     # wits
-    "wits score": "wits score",
-    "wits_score": "wits score",
-    "wits": "wits score",
-    "wts": "wits score",
+    "wits score": "wits_score",
+    "wits_score": "wits_score",
+    "wits":       "wits_score",
+    "wts":        "wits_score",
 
-    "wits tn": "wits tn",
-    "wits_tn": "wits tn",
-    "wts tn": "wits tn",
+    "wits tn": "wits_tn",
+    "wits_tn": "wits_tn",
+    "wts tn":  "wits_tn",
 
     "parry": "parry",
 
@@ -435,42 +464,42 @@ user_translator = {
     "lore skill level": "lore",
     "lore_skill_level": "lore",
 
-    "favoured skills": "favoured skills",
-    "favoured_skills": "favoured skills",
-    "favored skills": "favoured skills",
-    "favored_skills": "favoured skills",
+    "favoured skills": "favoured_skills",
+    "favoured_skills": "favoured_skills",
+    "favored skills":  "favoured_skills",
+    "favored_skills":  "favoured_skills",
 
     "skills": "skills",
 
 
     # Combat Proficencies
-    "axes skill": "axes skill",
-    "axes_skill": "axes skill",
-    "axe skill":  "axes skill",
-    "axe_skill":  "axes skill",
-    "axe" : "axes skill",
-    "axes": "axes skill",
+    "axes skill": "axes_skill",
+    "axes_skill": "axes_skill",
+    "axe skill":  "axes_skill",
+    "axe_skill":  "axes_skill",
+    "axe" :       "axes_skill",
+    "axes":       "axes_skill",
 
-    "bows skill": "bows skill",
-    "bows_skill": "bows skill",
-    "bow skill":  "bows skill",
-    "bow_skill":  "bows skill",
-    "bow" : "bows skill",
-    "bows": "bows skill",
+    "bows skill": "bows_skill",
+    "bows_skill": "bows_skill",
+    "bow skill":  "bows_skill",
+    "bow_skill":  "bows_skill",
+    "bow" :       "bows_skill",
+    "bows":       "bows_skill",
 
-    "spears skill": "spears skill",
-    "spears_skill": "spears skill",
-    "spear skill":  "spears skill",
-    "spear_skill":  "spears skill",
-    "spear" : "spears skill",
-    "spears": "spears skill",
+    "spears skill": "spears_skill",
+    "spears_skill": "spears_skill",
+    "spear skill":  "spears_skill",
+    "spear_skill":  "spears_skill",
+    "spear" :       "spears_skill",
+    "spears":       "spears_skill",
 
-    "swords skill": "swords skill",
-    "swords_skill": "swords skill",
-    "sword skill":  "swords skill",
-    "sword_skill":  "swords skill",
-    "sword" : "swords skill",
-    "swords": "swords skill",
+    "swords skill": "swords_skill",
+    "swords_skill": "swords_skill",
+    "sword skill":  "swords_skill",
+    "sword_skill":  "swords_skill",
+    "sword" :       "swords_skill",
+    "swords":       "swords_skill",
 
 
     # Valour/Wisdom
@@ -493,47 +522,47 @@ user_translator = {
 
     "headgear": "headgear",
 
-    "traveling gear": "traveling gear",
-    "travel gear": "traveling gear",
-    "tg": "traveling gear",
-    "items": "traveling gear",
+    "traveling gear": "traveling_gear",
+    "travel gear":    "traveling_gear",
+    "tg":             "traveling_gear",
+    "items":          "traveling_gear",
 
 
     # Other
-    "adventure points": "adventure points",
-    "adventure_points": "adventure points",
-    "ap":               "adventure points",
+    "adventure points": "adventure_points",
+    "adventure_points": "adventure_points",
+    "ap":               "adventure_points",
 
-    "skill points": "skill points",
-    "skill_points": "skill points",
-    "sp":           "skill points",
+    "skill points": "skill_points",
+    "skill_points": "skill_points",
+    "sp":           "skill_points",
 
-    "fellowship score":  "fellowship score",
-    "fellowship_score":  "fellowship score",
-    "fs":                "fellowship score",
-    "fellowship points": "fellowship score",
-    "fellowship_points": "fellowship score",
-    "fp":                "fellowship score",
+    "fellowship score":  "fellowship_score",
+    "fellowship_score":  "fellowship_score",
+    "fs":                "fellowship_score",
+    "fellowship points": "fellowship_score",
+    "fellowship_points": "fellowship_score",
+    "fp":                "fellowship_score",
 
 
     # Endurance/Hope
-    "current endurance": "current endurance",
-    "current_endurance": "current endurance",
+    "current endurance": "current_endurance",
+    "current_endurance": "current_endurance",
 
     "load": "load",
 
     "fatigue": "fatigue",
 
-    "current hope": "current hope",
-    "current_hope": "current hope",
+    "current hope": "current_hope",
+    "current_hope": "current_hope",
 
     "shadow": "shadow",
 
-    "shadow points": "shadow points",
-    "shadow_points": "shadow points",
+    "shadow points": "shadow_points",
+    "shadow_points": "shadow_points",
 
-    "shadow scars": "shadow scars",
-    "shadow_scars": "shadow scars",
+    "shadow scars": "shadow_scars",
+    "shadow_scars": "shadow_scars",
 
 
     # Conditions
@@ -541,11 +570,11 @@ user_translator = {
     "is weary": "weary",
     "is_weary": "weary",
 
-    "miserable": "miserable",
+    "miserable":    "miserable",
     "is miserable": "miserable",
     "is_miserable": "miserable",
 
-    "wounded": "wounded",
+    "wounded":    "wounded",
     "is wounded": "wounded",
     "is_wounded": "wounded",
 
@@ -673,7 +702,7 @@ def show_attribute(active_character: Character, commands: list[str]):
                 print(f"{attribute}: {active_character.calling}\n\n")
             case "age":
                 print(f"{attribute}: {active_character.age}\n\n")
-            case "standard of living":
+            case "standard_of_living":
                 print(f"{attribute}: {active_character.standard_of_living}\n\n")
             case "treasure":
                 print(f"{attribute}: {active_character.treasure}\n\n")
@@ -681,28 +710,28 @@ def show_attribute(active_character: Character, commands: list[str]):
                 print(f"{attribute}: {active_character.patron}\n\n")
             case "shadow path":
                 print(f"{attribute}: {active_character.shadow_path}\n\n")
-            case "distinctive features":
+            case "distinctive_features":
                 print(f"{attribute}: {active_character.distinctive_features}\n\n")
             case "flaws":
                 print(f"{attribute}: {active_character.flaws}\n\n")
 
-            case "strength score":
+            case "strength_score":
                 print(f"{attribute}: {active_character.strength_score}\n\n")
-            case "strength tn":
+            case "strength_tn":
                 print(f"{attribute}: {active_character.strength_tn}\n\n")
-            case "max endurance":
+            case "max_endurance":
                 print(f"{attribute}: {active_character.max_endurance}\n\n")
 
-            case "heart score":
+            case "heart_score":
                 print(f"{attribute}: {active_character.heart_score}\n\n")
-            case "heart tn":
+            case "heart_tn":
                 print(f"{attribute}: {active_character.heart_tn}\n\n")
-            case "max hope":
+            case "max_hope":
                 print(f"{attribute}: {active_character.max_hope}\n\n")
 
-            case "wits score":
+            case "wits_score":
                 print(f"{attribute}: {active_character.wits_score}\n\n")
-            case "wits tn":
+            case "wits_tn":
                 print(f"{attribute}: {active_character.wits_tn}\n\n")
             case "parry":
                 print(f"{attribute}: {active_character.parry}\n\n")
@@ -750,13 +779,13 @@ def show_attribute(active_character: Character, commands: list[str]):
                     print(f"{skill}: {level}")
                 print("\n")
 
-            case "axes skill":
+            case "axes_skill":
                 print(f"{attribute}: {active_character.axes_skill}\n\n")
-            case "bows skill":
+            case "bows_skill":
                 print(f"{attribute}: {active_character.bows_skill}\n\n")
-            case "spears skill":
+            case "spears_skill":
                 print(f"{attribute}: {active_character.spears_skill}\n\n")
-            case "swords skill":
+            case "swords_skill":
                 print(f"{attribute}: {active_character.swords_skill}\n\n")
 
             case "valour":
@@ -776,30 +805,30 @@ def show_attribute(active_character: Character, commands: list[str]):
                 print(f"{attribute}: {active_character.shield}\n\n")
             case "headgear":
                 print(f"{attribute}: {active_character.headgear}\n\n")
-            case "traveling gear":
+            case "traveling_gear":
                 print(f"{attribute}: {active_character.traveling_gear}\n\n")
 
-            case "adventure points":
+            case "adventure_points":
                 print(f"{attribute}: {active_character.adventure_points}\n\n")
-            case "skill points":
+            case "skill_points":
                 print(f"{attribute}: {active_character.skill_points}\n\n")
-            case "fellowship score":
+            case "fellowship_score":
                 print(f"{attribute}: {active_character.fellowship_score}\n\n")
 
-            case "current endurance":
+            case "current_endurance":
                 print(f"{attribute}: {active_character.current_endurance}\n\n")
             case "load":
                 print(f"{attribute}: {active_character.load}\n\n")
             case "fatigue":
                 print(f"{attribute}: {active_character.fatigue}\n\n")
 
-            case "current hope":
+            case "current_hope":
                 print(f"{attribute}: {active_character.current_hope}\n\n")
             case "shadow":
                 print(f"{attribute}: {active_character.shadow}\n\n")
-            case "shadow points":
+            case "shadow_points":
                 print(f"{attribute}: {active_character.shadow_points}\n\n")
-            case "shadow scars":
+            case "shadow_scars":
                 print(f"{attribute}: {active_character.shadow_scars}\n\n")
 
             case "weary":
@@ -888,7 +917,7 @@ def set_attribute(active_character: Character, commands: list[str]):
             clear_console()
             print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
-        case "distinctive features":
+        case "distinctive_features":
             print("Would you like to add or remove a distinctive feature? (add/remove): ")
             answer = input("> ").lower()
             match answer:
@@ -912,7 +941,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 case _:
                     print("Invalid input.\n\n")
 
-        case "strength score":
+        case "strength_score":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -925,7 +954,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
-        case "strength tn":
+        case "strength_tn":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -938,7 +967,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
-        case "max endurance":
+        case "max_endurance":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -952,7 +981,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
 
-        case "heart score":
+        case "heart_score":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -965,7 +994,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
-        case "heart tn":
+        case "heart_tn":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -978,7 +1007,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
-        case "max hope":
+        case "max_hope":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ") 
@@ -992,7 +1021,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
 
-        case "wits score":
+        case "wits_score":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -1005,7 +1034,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
-        case "wits tn":
+        case "wits_tn":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -1266,7 +1295,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
-        case "favoured skills":
+        case "favoured_skills":
             print("Would you like to add or remove a favoured skill? (add/remove): ")
             answer = input("> ").lower()
             match answer:
@@ -1291,7 +1320,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                     print("Invalid input.\n\n")\
        
 
-        case "axes skill":
+        case "axes_skill":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -1304,7 +1333,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
-        case "bows skill":
+        case "bows_skill":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -1317,7 +1346,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
-        case "spears skill":
+        case "spears_skill":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -1330,7 +1359,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
-        case "swords skill":
+        case "swords_skill":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -1495,7 +1524,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 case _:
                     print("Invalid Input\n\n")
         
-        case "traveling gear":
+        case "traveling_gear":
             print("Would you like to add or remove a piece of traveling gear? (add/remove): ")
             answer = input("> ").lower()
             match answer:
@@ -1520,7 +1549,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                     print("Invalid input.\n\n")
         
 
-        case "adventure points":
+        case "adventure_points":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -1533,7 +1562,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
-        case "skill points":
+        case "skill_points":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -1546,7 +1575,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
-        case "fellowship score":
+        case "fellowship_score":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -1560,7 +1589,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
 
-        case "current endurance":
+        case "current_endurance":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -1587,7 +1616,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
 
-        case "current hope":
+        case "current_hope":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -1600,7 +1629,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
                 
-        case "shadow points":
+        case "shadow_points":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -1613,7 +1642,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
-        case "shadow scars":
+        case "shadow_scars":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
             value = input("> ")
@@ -1664,118 +1693,74 @@ def set_attribute(active_character: Character, commands: list[str]):
             
     autosave(active_character)
 
-        
-def roll_skill(active_character: Character, attribute: str):
-    clear_console()
-    if attribute is None:
-        print("Enter the attribute you would like to roll:")
-        attribute = input("> ").lower()
-    match attribute:
-        case "help":
-            for i in rollable_items(active_character):
-                print(i)
-            print("\n")
-        case _:
-            rollable_list = rollable_items(active_character)
-            advantage, disadvantage = has_advantage_or_disadvange()
-            if attribute == "armour":
-                total, feat_die, quality_of_success = roll(int(active_character.armour.protection), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            elif attribute == "bows_skill":
-                total, feat_die, quality_of_success = roll(int(active_character.combat_proficiencies["bows"]), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            elif attribute == "swords_skill":
-                total, feat_die, quality_of_success = roll(int(active_character.combat_proficiencies["swords"]), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            elif attribute == "axes_skill":
-                total, feat_die, quality_of_success = roll(int(active_character.combat_proficiencies["axes"]), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            elif attribute == "spears_skill":
-                total, feat_die, quality_of_success = roll(int(active_character.combat_proficiencies["spears"]), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            elif attribute in rollable_list:
-                total, feat_die, quality_of_success = roll(int(active_character.skill_levels[attribute]), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            elif attribute == "wit_score":
-                total, feat_die, quality_of_success = roll(int(active_character.wits_score), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            elif attribute == "strength_score":
-                total, feat_die, quality_of_success = roll(int(active_character.strength_score), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            elif attribute == "heart_score":
-                total, feat_die, quality_of_success = roll(int(active_character.heart_score), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            else:
-                print("Attribute not found\n")
 
-
-def has_advantage_or_disadvange():
-    user_input = input("Do you have advantage (y/n)\n> ").lower()
-    if user_input == "y":
-        advantage = True
+def roll(skill_level: int, is_favoured: bool, tn: int = None):
+    if is_favoured:
+        feat_1 = random.randint(0, 11)
+        feat_2 = random.randint(0, 11)
+        if feat_1 > feat_2:
+            feat_result = feat_1
+        else:
+            feat_result = feat_2
     else:
-        advantage = False
-    user_input = input("Do you have disadvantage (y/n)\n> ").lower()
-    if user_input == "y":
-        disadvantage = True
-    else:
-        disadvantage = False
-    return advantage, disadvantage
+        feat_result = random.randint(1, 12)
 
-
-def print_roll(total, feat_die, quality_of_success):
-    clear_console()
-    print(f"You got {total},")
-    print(f"the Feat Die was {feat_die},")
-    if quality_of_success == 0:
-        print("and you got a ordinary success!\n")
-    elif quality_of_success == 1:
-        print("and you got a great success!\n")
-    elif quality_of_success == 2:
-        print("and you got a extrodanary success!\n")
-
-
-def roll(dice_to_roll, advantage, disadvantage):
-    while True:
-        total = 0
-        quality_of_success = 0
-        feat_die = random.randint(1,12)
-        if advantage:
-            if not disadvantage:
-                new_feat_roll = random.randint(1,12)
-                if new_feat_roll > feat_die:
-                    feat_die = new_feat_roll
-        elif disadvantage:
-            new_feat_roll = random.randint(1,12)
-            if new_feat_roll < feat_die:
-                feat_die = new_feat_roll
-        total += feat_die
-        while dice_to_roll > 0:
-            die = random.randint(1,6)
-            if die == 6:
-                quality_of_success += 1
-            total += die
-            dice_to_roll -= 1
-        if quality_of_success > 2:
-            quality_of_success = 2
-        return total, feat_die, quality_of_success
+    success_results = []
+    for c in range(skill_level):
+        success_results.append(random.randint(1, 6))
     
+    if (feat_result + sum(success_results) >= tn or feat_result == 11) and feat_result != 0:
+        is_success = True
+    else:
+        is_success = False
 
-def rollable_items(active_character: Character):
+    quality_of_success = success_results.count(6)
+
+    return is_success, quality_of_success
+
+        
+def roll_attribute(active_character: Character, commands: list[str]):
     clear_console()
-    rollable_list = []
-    for skill in active_character.skill_levels:
-        rollable_list.append(skill)
-    rollable_list.append("axes_skill")
-    rollable_list.append("bows_skill")
-    rollable_list.append("swords_skill")
-    rollable_list.append("spears_skill")
-    if active_character.armour is not None:
-        rollable_list.append("armour")
-    rollable_list.append("wit_score")
-    rollable_list.append("strength_score")
-    rollable_list.append("heart_score")
-    return rollable_list
+
+    attribute = " ".join(commands[1:])
+    attribute = user_translator[attribute]
+
+    if attribute in STRENGTH_SKILLS:
+        is_success, quality = roll(skill_level = getattr(active_character, attribute), 
+                                        is_favoured = True if attribute in active_character.favoured_skills else False, 
+                                        tn = active_character.strength_tn)
+    elif attribute in HEART_SKILLS:
+        is_success, quality = roll(skill_level = getattr(active_character, attribute), 
+                                        is_favoured = True if attribute in active_character.favoured_skills else False, 
+                                        tn = active_character.heart_tn)
+    elif attribute in WITS_SKILLS:
+        is_success, quality = roll(skill_level = getattr(active_character, attribute), 
+                                        is_favoured = True if attribute in active_character.favoured_skills else False, 
+                                        tn = active_character.wits_tn)
+    elif attribute in weapon_names():
+        is_success, quality = roll(skill_level = getattr(active_character, attribute), 
+                                         is_favoured = True if attribute in active_character.favoured_skills else False,
+                                         tn = active_character.strength_tn)
+    elif attribute == "protection":
+        is_success, quality = roll(skill_level = active_character.armour.protection + active_character.headgear.protection,
+                                         is_favoured = True if "protection" in active_character.favoured_skills else False)
+    elif attribute == "valour" | "wisdom":
+        is_success, quality = roll(skill_level = getattr(active_character, attribute), 
+                                         is_favoured = True if attribute in active_character.favoured_skills else False,
+                                         tn = active_character.heart_tn)
+    
+    if is_success:
+        match quality:
+            case 0:
+                print(f"You got an ordinary success on you {attribute} test.\n\n")
+            case 1:
+                print(f"You got a great success on your {attribute} test.\n\n")
+            case 2:
+                print(f"You got an extraordinary success on your {attribute} test!\n\n")
+            case _:
+                print(f"You got an extorirdinary success with {quality} success icons on your {attribute} test!\n\n")
+    else:
+        print(f"You failed your {attribute} test.\n\n")
 
 
 def autosave(active_character: Character):

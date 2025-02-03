@@ -110,3 +110,4 @@ virtues - list[str], will eventually be a Virtue object
 is_miserable - bool, True if current hope is less than or equal to shadow points + shadow scars
 is_weary - bool, True if current enruance is less than or equal to load + fatigue
 load - int, must be positive
+
