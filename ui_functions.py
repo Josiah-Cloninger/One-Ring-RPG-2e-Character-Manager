@@ -3,6 +3,7 @@ import os, sys, random
 import character_creation
 import pickle
 from gear import Weapons, Armours, Shields, Headgears
+from boons import Virtue, Reward
 
 
 version = "1.0"
@@ -1788,7 +1789,22 @@ def update_character(active_character: Character):
 
     active_character.traveling_gear = None
 
-    active_character.favoured_skills = [active_character.favoured_skills[0][0], active_character.favoured_skills[0][1][0], active_character.favoured_skills[0][1][1]]
+    # active_character.favoured_skills = [active_character.favoured_skills[0][0], active_character.favoured_skills[0][1][0], active_character.favoured_skills[0][1][1]]
 
     autosave(active_character)
     print(f"{active_character.name} successfully updated!\n\n")
+
+    new_virtue = Virtue()
+    old_virtues = active_character.virtues
+    active_character.virtues = []
+    for virtue in old_virtues:
+        new_virtue.name = virtue
+        active_character.virtues.append(new_virtue)
+
+    new_reward = Reward()
+    old_rewards = active_character.rewards
+    active_character.rewards = []
+    for reward in old_rewards:
+        new_reward.name = reward
+        active_character.rewards.append(new_reward)
+        

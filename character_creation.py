@@ -6,6 +6,7 @@ from culture import Cultures, Culture, all_combat_proficiencies
 from character import Character
 from calling import Calling, Callings
 from gear import Weapons, Armours, Shields, Headgears
+from boons import Virtue, Reward
 
 styles_print = {
     "culture": "#0001e0",
@@ -331,21 +332,39 @@ def previous_experience(character: Character):
 
 def select_virtue():
     clear_console()
-    questionary.print("Enter Virtue Name:\n", style=styles_print["yellow"])
-    selected_virtue = questionary.text(
+    selected_virtue = Virtue()
+
+    questionary.print("Enter the name of the virtue you would like to add:\n", style=styles_print["yellow"])
+    selected_virtue.name = questionary.text(
         "",
         style=styles_choice
     ).ask()
+
+    questionary.print("Enter the effect of the virtue you would like to add:\n", style=styles_print["yellow"])
+    selected_virtue.effect = questionary.text(
+        "",
+        style=styles_choice
+    ).ask()
+
     return selected_virtue
 
 
 def select_reward():
     clear_console()
-    questionary.print("Enter Reward Name:\n", style=styles_print["yellow"])
-    selected_reward = questionary.text(
+    selected_reward = Reward()
+
+    questionary.print("Enter the name of the reward you would like to add:\n", style=styles_print["yellow"])
+    selected_reward.name = questionary.text(
         "",
         style=styles_choice
     ).ask()
+
+    questionary.print("Enter the effect of the reward you would like to add:\n", style=styles_print["yellow"])
+    selected_reward.effect = questionary.text(
+        "",
+        style=styles_choice
+    ).ask()
+
     return selected_reward
 
 
