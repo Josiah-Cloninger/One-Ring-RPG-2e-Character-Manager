@@ -98,8 +98,8 @@ class Character:
         self.combat_proficiencies = {
             "axes": weapon_skill_levels.get("axes"),
             "bows": weapon_skill_levels.get("bows"),
-            "swords": weapon_skill_levels.get("swords"),
-            "spears": weapon_skill_levels.get("spears")
+            "spears": weapon_skill_levels.get("spears"),
+            "swords": weapon_skill_levels.get("swords")
         }
 
         # distinctive features
