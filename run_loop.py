@@ -39,7 +39,7 @@ while True:
         case "create":
             active_character = create_character()
         case "load":
-            active_character = select_character_to_load(input_list[1])
+            active_character = select_character_to_load(input_list)
         case "save":
             save_current_character(active_character)
         case "show":
@@ -47,7 +47,7 @@ while True:
         case "set":
             set_attribute(active_character, input_list)
         case "roll":
-            roll_skill(active_character, input_list[1])
+            roll_skill(active_character, input_list)
         case "revert":
             clear_console()
             active_character = load_character(active_character.name)

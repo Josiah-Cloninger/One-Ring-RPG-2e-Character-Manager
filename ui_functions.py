@@ -589,34 +589,35 @@ def create_character():
         return active_character
 
 
-def select_character_to_load(input_command: str = None):
+def select_character_to_load(commands: list[str]):
     """Walks the user through selecting a character to load."""
     clear_console()
+    character_name = "".join(commands).lower()
     while True:
-        if input_command is None:
+        if character_name is None:
             print("Enter the name of the character you would like to load: ")
-            input_command = input("> ").lower()
-        if input_command == "exit":
+            character_name = input("> ").lower()
+        if character_name == "exit":
             exit()
-        elif input_command == "menu":
+        elif character_name == "menu":
             clear_console()
             return
-        elif input_command == "help":
+        elif character_name == "help":
             clear_console()
             print("Valid commands include: \n")
             print("exit: Exits the program.")
             print("menu: Returns to the main menu.")
             print("{character name}: Loads the character with that name.\n\n")
-            input_command = None
+            character_name = None
         else:
-            character_name = input_command
+            character_name = character_name
             try:
                 active_character = load_character(f"{character_name}")
                 break
             except FileNotFoundError:
                 clear_console()
                 print("No character with that name was found.\n\n")
-                input_command = None
+                character_name = None
     clear_console()
     print(f"{active_character.name} successfully loaded!\n\n")
     return active_character
@@ -817,8 +818,7 @@ def show_attribute(active_character: Character, commands: list[str]):
                       f"***{attribute} is in user_translator but match case in show_attribute didn't catch it***\n")
     except KeyError:
         print(f"'{attribute}' is not a valid attribute.\n\n")
-            
-            
+                       
 
 def set_attribute(active_character: Character, commands: list[str]):
     clear_console()
@@ -1792,5 +1792,3 @@ def update_character(active_character: Character):
 
     autosave(active_character)
     print(f"{active_character.name} successfully updated!\n\n")
-
-
