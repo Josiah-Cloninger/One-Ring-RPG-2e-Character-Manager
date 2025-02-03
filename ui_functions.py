@@ -24,7 +24,8 @@ commands = {
     "set": "Sets character's attributes.",
     "show": "Shows attributes of a character.",
     "roll": "Rolls for the chosen skill.", 
-    "revert": "Reverts the character to the last manually saved state."
+    "revert": "Reverts the character to the last manually saved state.",
+    "update": "Updates your character to the current version"
 }
 
 viewable_attributes = {
@@ -1481,3 +1482,16 @@ def autosave(active_character: Character):
     with open(f"{active_character.name}_autosave.pickle", 
     "wb") as file:
         pickle.dump(active_character, file)
+
+
+def update_character(active_character: Character):
+    clear_console()
+
+    active_character.traveling_gear = None
+
+    active_character.favoured_skills = [active_character.favoured_skills[0][0], active_character.favoured_skills[0][1][0], active_character.favoured_skills[0][1][1]]
+
+    autosave(active_character)
+    print(f"{active_character.name} successfully updated!\n\n")
+
+

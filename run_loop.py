@@ -1,6 +1,6 @@
 from ui_functions import (clear_console, start_help, create_character, 
                           select_character_to_load, save_current_character, 
-                          show_attribute, set_attribute, roll_skill, help)
+                          show_attribute, set_attribute, roll_skill, help, update_character)
 from character import load_character
 
 
@@ -52,5 +52,7 @@ while True:
             clear_console()
             active_character = load_character(active_character.name)
             print("Character reverted to the last manually saved state\n")
+        case "update":
+            update_character(active_character)
         case _:
             print("Invalid command\n")

@@ -196,11 +196,13 @@ def select_calling():
 
 def select_favoured_skills(selected_culture: Culture,selected_calling: Calling):
     favoured_skills = []
+    choice_1 = []
+    choice_2 = []
     clear_console()
 
     # selecting favoured skill from culture
     questionary.print("Select one favoured skill from you culture:\n", style=styles_print["yellow"])
-    favoured_skills.append(questionary.select(
+    choice_1.append(questionary.select(
             "",
             choices=[
                 questionary.Choice(
@@ -216,7 +218,7 @@ def select_favoured_skills(selected_culture: Culture,selected_calling: Calling):
     
     # selecting two favoured skills from calling
     questionary.print("Select two favoured skills from your calling:\n", style=styles_print["yellow"])
-    favoured_skills.append(questionary.checkbox(
+    choice_2.append(questionary.checkbox(
             "",
             choices=[
                 questionary.Choice(
@@ -230,6 +232,8 @@ def select_favoured_skills(selected_culture: Culture,selected_calling: Calling):
             validate=lambda answer: "Please select two favoured skills." if len(answer) != 2 else True
         ).ask()
     )
+    for skill in choice_1 + choice_2:
+        favoured_skills.append(skill)
     return favoured_skills
 
 
