@@ -1,6 +1,7 @@
 from ui_functions import (clear_console, start_help, create_character, 
                           select_character_to_load, save_current_character, 
-                          show_attribute, set_attribute, roll_attribute, help, update_character)
+                          show_attribute, set_attribute, roll_attribute, help, 
+                          find_success_rate, update_character)
 from character import load_character
 
 
@@ -48,6 +49,8 @@ while True:
             set_attribute(active_character, input_list)
         case "roll":
             roll_attribute(active_character, input_list)
+        case "success_rate":
+            find_success_rate(active_character, input_list)
         case "revert":
             clear_console()
             active_character = load_character(active_character.name)
