@@ -1789,7 +1789,7 @@ def update_character(active_character: Character):
 
     active_character.traveling_gear = None
 
-    # active_character.favoured_skills = [active_character.favoured_skills[0][0], active_character.favoured_skills[0][1][0], active_character.favoured_skills[0][1][1]]
+    active_character.favoured_skills = [active_character.favoured_skills[0][0], active_character.favoured_skills[0][1][0], active_character.favoured_skills[0][1][1]]
 
     autosave(active_character)
     print(f"{active_character.name} successfully updated!\n\n")
