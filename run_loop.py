@@ -22,7 +22,7 @@ while active_character is None:
             case "create":
                 active_character = create_character()
             case "load":
-                active_character = select_character_to_load(input_list[1])
+                active_character = select_character_to_load(input_list)
             case _:
                 clear_console()
                 print("Invalid command\n\n")

@@ -367,8 +367,12 @@ def save_character(character: Character):
 
 
 def load_character(filename: str):
-    with open(f"{filename}_autosave.pickle", "rb") as file:
-        character = pickle.load(file)
+    try:
+        with open(f"{filename}_autosave.pickle", "rb") as file:
+            character = pickle.load(file)
+    except FileNotFoundError:
+        with open(f"{filename}_hardsave.pickle", "rb") as file:
+            character = pickle.load(file)
     return character
 
 
