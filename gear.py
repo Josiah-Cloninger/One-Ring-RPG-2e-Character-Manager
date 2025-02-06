@@ -16,26 +16,26 @@ class Weapon:
     notes: str = ""
 
     def __repr__(self):
-        return f"name: {self.name} \ndamage: {self.damage} \ninjury: {self.injury} \nload: {self.load} \nnotes: {self.notes}"
+        return f"name: {self.name}, damage: {self.damage}, injury: {self.injury}, load: {self.load}, notes: {self.notes}\n"
 
 
 class Weapons(metaclass=MetaEnum):
     UNARMED = Weapon("Unarmed", damage=1, injury=0, load=0, skill="brawling", notes="Includes throwing stones. Cannot cause a Piercing Blow")
     DAGGER = Weapon("Dagger", damage=2, injury=12, load=0, skill="brawling")
     CUDGEL = Weapon("Cudgel", damage=3, injury=12, load=0, skill="brawling")
-    SHORT_SWORD = Weapon("Short-Sword", damage=3, injury=16, load=1, skill="swords")
+    SHORT_SWORD = Weapon("Short Sword", damage=3, injury=16, load=1, skill="swords")
     SWORD = Weapon("Sword", damage=4, injury=16, load=2, skill="swords")
-    LONG_SWORD = Weapon("Long-Sword", damage=5, injury=16, load=3, skill="swords", is_versatile=True)
-    SHORT_SPEAR = Weapon("Short-Spear", damage=3, injury=14, load=2, skill="spear", is_ranged=True)
+    LONG_SWORD = Weapon("Long Sword", damage=5, injury=16, load=3, skill="swords", is_versatile=True)
+    SHORT_SPEAR = Weapon("Short Spear", damage=3, injury=14, load=2, skill="spear", is_ranged=True)
     SPEAR = Weapon("Spear", damage=4, injury=14, load=3, skill="spear",is_versatile=True, is_ranged=True)
-    GREAT_SPEAR = Weapon("Great-Spear", damage=5, injury=16, load=4, skill="spear")
+    GREAT_SPEAR = Weapon("Great Spear", damage=5, injury=16, load=4, skill="spear")
     AXE = Weapon("Axe", damage=5, injury=18, load=2, skill="axes")
     CLUB = Weapon("Club", damage=4, injury=14, load=1, skill="axes")
     LONG_HAFTED_AXE = Weapon("Long-hafted Axe", damage=6, injury=18, load=3, skill="axes", is_versatile=True)
-    GREAT_AXE = Weapon("Great-Axe", damage=7, injury=20, load=4, skill="axes", is_two_handed=True)
+    GREAT_AXE = Weapon("Great Axe", damage=7, injury=20, load=4, skill="axes", is_two_handed=True)
     MATTOCK = Weapon("Mattock", damage=6, injury=18, load=3, skill="axes", is_two_handed=True)
     BOW = Weapon("Bow", damage=3, injury=14, load=2, skill="bows", is_ranged=True)
-    GREAT_BOW = Weapon("Great-Bow", damage=4, injury=16, load=4, skill="bows", is_ranged=True)
+    GREAT_BOW = Weapon("Great Bow", damage=4, injury=16, load=4, skill="bows", is_ranged=True)
 
     @classmethod
     def by_name(cls, name):

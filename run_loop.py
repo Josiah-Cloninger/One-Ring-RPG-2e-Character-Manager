@@ -1,6 +1,7 @@
 from ui_functions import (clear_console, start_help, create_character, 
                           select_character_to_load, save_current_character, 
-                          show_attribute, set_attribute, roll_skill, help)
+                          show_attribute, set_attribute, roll_attribute, help, 
+                          find_success_rate, update_character)
 from character import load_character
 
 
@@ -21,7 +22,7 @@ while active_character is None:
             case "create":
                 active_character = create_character()
             case "load":
-                active_character = select_character_to_load(input_list[1])
+                active_character = select_character_to_load(input_list)
             case _:
                 clear_console()
                 print("Invalid command\n\n")
@@ -39,7 +40,7 @@ while True:
         case "create":
             active_character = create_character()
         case "load":
-            active_character = select_character_to_load(input_list[1])
+            active_character = select_character_to_load(input_list)
         case "save":
             save_current_character(active_character)
         case "show":
@@ -47,10 +48,14 @@ while True:
         case "set":
             set_attribute(active_character, input_list)
         case "roll":
-            roll_skill(active_character, input_list[1])
+            roll_attribute(active_character, input_list)
+        case "success_rate":
+            find_success_rate(active_character, input_list)
         case "revert":
             clear_console()
             active_character = load_character(active_character.name)
             print("Character reverted to the last manually saved state\n")
+        case "update":
+            update_character(active_character)
         case _:
             print("Invalid command\n")

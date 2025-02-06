@@ -1,11 +1,10 @@
 from character import Character, save_character, load_character
-import os, sys, random
-import character_creation
-import pickle
 from gear import Weapons, Armours, Shields, Headgears
+from boons import Virtue, Reward
+import os, sys, random, character_creation, pickle, statistics
 
 
-version = "1.0"
+version = "1.2"
 
 
 start_commands = {
@@ -24,7 +23,8 @@ commands = {
     "set": "Sets character's attributes.",
     "show": "Shows attributes of a character.",
     "roll": "Rolls for the chosen skill.", 
-    "revert": "Reverts the character to the last manually saved state."
+    "revert": "Reverts the character to the last manually saved state.",
+    "update": "Updates your character to the current version"
 }
 
 viewable_attributes = {
@@ -77,6 +77,10 @@ viewable_attributes = {
     "Explore": "Your character's explore skill level",
     "Riddle": "Your character's riddle skill level",
     "Lore": "Your character's lore skill level",
+
+    "Favoured Skills": "A list of your character's favoured skills",
+
+    "Skills": "A list of your character's skill levels",
 
     # Combat Proficencies
     "Axes": "Your character's axes proficincey level",
@@ -200,6 +204,35 @@ editable_attributes = {
     "Injury": "How many more days you character will be wounded for"
 }
 
+
+STRENGTH_SKILLS = [
+    "awe",
+    "athletics",
+    "awareness",
+    "hunting",
+    "song",
+    "craft"
+]
+
+HEART_SKILLS = [
+    "enhearten",
+    "travel",
+    "insight",
+    "healing",
+    "courtesy",
+    "battle"
+]
+
+WITS_SKILLS = [
+    "persuade",
+    "stealth",
+    "scan",
+    "explore",
+    "riddle",
+    "lore"
+]
+
+
 keys = list(viewable_attributes.keys())
 keys.sort()
 viewable_attributes = {key: viewable_attributes[key] for key in keys}
@@ -224,9 +257,9 @@ user_translator = {
 
     "age": "age",
 
-    "standard of living": "standard of living", 
-    "sol":                "standard of living", 
-    "standard_of_living": "standard of living",
+    "standard of living": "standard_of_living", 
+    "sol":                "standard_of_living", 
+    "standard_of_living": "standard_of_living",
 
     "treasure":        "treasure", 
     "treasure rating": "treasure", 
@@ -236,48 +269,48 @@ user_translator = {
 
     "patron": "patron",
 
-    "shadow path": "shadow path",
+    "shadow path": "shadow_path",
 
-    "distinctive features": "distinctive features", 
-    "features":             "distinctive features", 
-    "feature":              "distinctive features",
+    "distinctive features": "distinctive_features", 
+    "features":             "distinctive_features", 
+    "feature":              "distinctive_features",
 
     "flaws": "flaws",
 
 
     # strength 
-    "strength score":  "strength score", 
-    "strength_score" : "strength score",
-    "strength" :       "strength score", 
-    "str":             "strength score", 
+    "strength score":  "strength_score", 
+    "strength_score" : "strength_score",
+    "strength" :       "strength_score", 
+    "str":             "strength_score", 
 
-    "strength tn":  "strength tn", 
-    "strength_tn" : "strength tn",
-    "str tn":       "strength tn", 
+    "strength tn":  "strength_tn", 
+    "strength_tn" : "strength_tn",
+    "str tn":       "strength_tn", 
     
-    "max endurance": "max endurance", 
+    "max endurance": "max_endurance", 
 
     # heart
-    "heart score": "heart score",
-    "heart_score": "heart score",
-    "heart": "heart score",
-    "hrt": "heart score",
+    "heart score": "heart_score",
+    "heart_score": "heart_score",
+    "heart":       "heart_score",
+    "hrt":         "heart_score",
 
-    "heart tn": "heart tn",
-    "heart_tn": "heart tn",
-    "hrt tn": "heart tn",
+    "heart tn": "heart_tn",
+    "heart_tn": "heart_tn",
+    "hrt tn":   "heart_tn",
 
-    "max hope": "max hope",
+    "max hope": "max_hope",
 
     # wits
-    "wits score": "wits score",
-    "wits_score": "wits score",
-    "wits": "wits score",
-    "wts": "wits score",
+    "wits score": "wits_score",
+    "wits_score": "wits_score",
+    "wits":       "wits_score",
+    "wts":        "wits_score",
 
-    "wits tn": "wits tn",
-    "wits_tn": "wits tn",
-    "wts tn": "wits tn",
+    "wits tn": "wits_tn",
+    "wits_tn": "wits_tn",
+    "wts tn":  "wits_tn",
 
     "parry": "parry",
 
@@ -429,40 +462,42 @@ user_translator = {
     "lore skill level": "lore",
     "lore_skill_level": "lore",
 
-    "favoured skills": "favoured skills",
-    "favoured_skills": "favoured skills",
-    "favored skills": "favoured skills",
-    "favored_skills": "favoured skills",
+    "favoured skills": "favoured_skills",
+    "favoured_skills": "favoured_skills",
+    "favored skills":  "favoured_skills",
+    "favored_skills":  "favoured_skills",
+
+    "skills": "skills",
 
 
     # Combat Proficencies
-    "axes skill": "axes skill",
-    "axes_skill": "axes skill",
-    "axe skill":  "axes skill",
-    "axe_skill":  "axes skill",
-    "axe" : "axes skill",
-    "axes": "axes skill",
+    "axes skill": "axes_skill",
+    "axes_skill": "axes_skill",
+    "axe skill":  "axes_skill",
+    "axe_skill":  "axes_skill",
+    "axe" :       "axes_skill",
+    "axes":       "axes_skill",
 
-    "bows skill": "bows skill",
-    "bows_skill": "bows skill",
-    "bow skill":  "bows skill",
-    "bow_skill":  "bows skill",
-    "bow" : "bows skill",
-    "bows": "bows skill",
+    "bows skill": "bows_skill",
+    "bows_skill": "bows_skill",
+    "bow skill":  "bows_skill",
+    "bow_skill":  "bows_skill",
+    "bow" :       "bows_skill",
+    "bows":       "bows_skill",
 
-    "spears skill": "spears skill",
-    "spears_skill": "spears skill",
-    "spear skill":  "spears skill",
-    "spear_skill":  "spears skill",
-    "spear" : "spears skill",
-    "spears": "spears skill",
+    "spears skill": "spears_skill",
+    "spears_skill": "spears_skill",
+    "spear skill":  "spears_skill",
+    "spear_skill":  "spears_skill",
+    "spear" :       "spears_skill",
+    "spears":       "spears_skill",
 
-    "swords skill": "swords skill",
-    "swords_skill": "swords skill",
-    "sword skill":  "swords skill",
-    "sword_skill":  "swords skill",
-    "sword" : "swords skill",
-    "swords": "swords skill",
+    "swords skill": "swords_skill",
+    "swords_skill": "swords_skill",
+    "sword skill":  "swords_skill",
+    "sword_skill":  "swords_skill",
+    "sword" :       "swords_skill",
+    "swords":       "swords_skill",
 
 
     # Valour/Wisdom
@@ -485,47 +520,47 @@ user_translator = {
 
     "headgear": "headgear",
 
-    "traveling gear": "traveling gear",
-    "travel gear": "traveling gear",
-    "tg": "traveling gear",
-    "items": "traveling gear",
+    "traveling gear": "traveling_gear",
+    "travel gear":    "traveling_gear",
+    "tg":             "traveling_gear",
+    "items":          "traveling_gear",
 
 
     # Other
-    "adventure points": "adventure points",
-    "adventure_points": "adventure points",
-    "ap":               "adventure points",
+    "adventure points": "adventure_points",
+    "adventure_points": "adventure_points",
+    "ap":               "adventure_points",
 
-    "skill points": "skill points",
-    "skill_points": "skill points",
-    "sp":           "skill points",
+    "skill points": "skill_points",
+    "skill_points": "skill_points",
+    "sp":           "skill_points",
 
-    "fellowship score":  "fellowship score",
-    "fellowship_score":  "fellowship score",
-    "fs":                "fellowship score",
-    "fellowship points": "fellowship score",
-    "fellowship_points": "fellowship score",
-    "fp":                "fellowship score",
+    "fellowship score":  "fellowship_score",
+    "fellowship_score":  "fellowship_score",
+    "fs":                "fellowship_score",
+    "fellowship points": "fellowship_score",
+    "fellowship_points": "fellowship_score",
+    "fp":                "fellowship_score",
 
 
     # Endurance/Hope
-    "current endurance": "current endurance",
-    "current_endurance": "current endurance",
+    "current endurance": "current_endurance",
+    "current_endurance": "current_endurance",
 
     "load": "load",
 
     "fatigue": "fatigue",
 
-    "current hope": "current hope",
-    "current_hope": "current hope",
+    "current hope": "current_hope",
+    "current_hope": "current_hope",
 
     "shadow": "shadow",
 
-    "shadow points": "shadow points",
-    "shadow_points": "shadow points",
+    "shadow points": "shadow_points",
+    "shadow_points": "shadow_points",
 
-    "shadow scars": "shadow scars",
-    "shadow_scars": "shadow scars",
+    "shadow scars": "shadow_scars",
+    "shadow_scars": "shadow_scars",
 
 
     # Conditions
@@ -533,11 +568,11 @@ user_translator = {
     "is weary": "weary",
     "is_weary": "weary",
 
-    "miserable": "miserable",
+    "miserable":    "miserable",
     "is miserable": "miserable",
     "is_miserable": "miserable",
 
-    "wounded": "wounded",
+    "wounded":    "wounded",
     "is wounded": "wounded",
     "is_wounded": "wounded",
 
@@ -582,34 +617,35 @@ def create_character():
         return active_character
 
 
-def select_character_to_load(input_command: str):
+def select_character_to_load(commands: list[str]):
     """Walks the user through selecting a character to load."""
     clear_console()
+    character_name = "".join(commands).lower()
     while True:
-        if input_command is None:
+        if character_name is None:
             print("Enter the name of the character you would like to load: ")
-            input_command = input("> ").lower()
-        if input_command == "exit":
+            character_name = input("> ").lower()
+        if character_name == "exit":
             exit()
-        elif input_command == "menu":
+        elif character_name == "menu":
             clear_console()
             return
-        elif input_command == "help":
+        elif character_name == "help":
             clear_console()
             print("Valid commands include: \n")
             print("exit: Exits the program.")
             print("menu: Returns to the main menu.")
             print("{character name}: Loads the character with that name.\n\n")
-            input_command = None
+            character_name = None
         else:
-            character_name = input_command
+            character_name = character_name
             try:
                 active_character = load_character(f"{character_name}")
                 break
             except FileNotFoundError:
                 clear_console()
                 print("No character with that name was found.\n\n")
-                input_command = None
+                character_name = None
     clear_console()
     print(f"{active_character.name} successfully loaded!\n\n")
     return active_character
@@ -627,7 +663,7 @@ def simple_attributes(active_character: Character):
 def weapon_names(active_character: Character):
     weapon_names = []
     for weapon in active_character.weapons:
-        weapon_names.append(weapon.name.lower())
+        weapon_names.append(weapon.name)
     return weapon_names
 
 
@@ -664,7 +700,7 @@ def show_attribute(active_character: Character, commands: list[str]):
                 print(f"{attribute}: {active_character.calling}\n\n")
             case "age":
                 print(f"{attribute}: {active_character.age}\n\n")
-            case "standard of living":
+            case "standard_of_living":
                 print(f"{attribute}: {active_character.standard_of_living}\n\n")
             case "treasure":
                 print(f"{attribute}: {active_character.treasure}\n\n")
@@ -672,28 +708,28 @@ def show_attribute(active_character: Character, commands: list[str]):
                 print(f"{attribute}: {active_character.patron}\n\n")
             case "shadow path":
                 print(f"{attribute}: {active_character.shadow_path}\n\n")
-            case "distinctive features":
+            case "distinctive_features":
                 print(f"{attribute}: {active_character.distinctive_features}\n\n")
             case "flaws":
                 print(f"{attribute}: {active_character.flaws}\n\n")
 
-            case "strength score":
+            case "strength_score":
                 print(f"{attribute}: {active_character.strength_score}\n\n")
-            case "strength tn":
+            case "strength_tn":
                 print(f"{attribute}: {active_character.strength_tn}\n\n")
-            case "max endurance":
+            case "max_endurance":
                 print(f"{attribute}: {active_character.max_endurance}\n\n")
 
-            case "heart score":
+            case "heart_score":
                 print(f"{attribute}: {active_character.heart_score}\n\n")
-            case "heart tn":
+            case "heart_tn":
                 print(f"{attribute}: {active_character.heart_tn}\n\n")
-            case "max hope":
+            case "max_hope":
                 print(f"{attribute}: {active_character.max_hope}\n\n")
 
-            case "wits score":
+            case "wits_score":
                 print(f"{attribute}: {active_character.wits_score}\n\n")
-            case "wits tn":
+            case "wits_tn":
                 print(f"{attribute}: {active_character.wits_tn}\n\n")
             case "parry":
                 print(f"{attribute}: {active_character.parry}\n\n")
@@ -736,14 +772,18 @@ def show_attribute(active_character: Character, commands: list[str]):
                 print(f"{attribute}: {active_character.lore}\n\n")
             case "favoured skills":
                 print(f"{attribute}: {active_character.favoured_skills}\n\n")
+            case "skills":
+                for skill, level in active_character.skill_levels.items():
+                    print(f"{skill}: {level}")
+                print("\n")
 
-            case "axes skill":
+            case "axes_skill":
                 print(f"{attribute}: {active_character.axes_skill}\n\n")
-            case "bows skill":
+            case "bows_skill":
                 print(f"{attribute}: {active_character.bows_skill}\n\n")
-            case "spears skill":
+            case "spears_skill":
                 print(f"{attribute}: {active_character.spears_skill}\n\n")
-            case "swords skill":
+            case "swords_skill":
                 print(f"{attribute}: {active_character.swords_skill}\n\n")
 
             case "valour":
@@ -763,30 +803,30 @@ def show_attribute(active_character: Character, commands: list[str]):
                 print(f"{attribute}: {active_character.shield}\n\n")
             case "headgear":
                 print(f"{attribute}: {active_character.headgear}\n\n")
-            case "traveling gear":
+            case "traveling_gear":
                 print(f"{attribute}: {active_character.traveling_gear}\n\n")
 
-            case "adventure points":
+            case "adventure_points":
                 print(f"{attribute}: {active_character.adventure_points}\n\n")
-            case "skill points":
+            case "skill_points":
                 print(f"{attribute}: {active_character.skill_points}\n\n")
-            case "fellowship score":
+            case "fellowship_score":
                 print(f"{attribute}: {active_character.fellowship_score}\n\n")
 
-            case "current endurance":
+            case "current_endurance":
                 print(f"{attribute}: {active_character.current_endurance}\n\n")
             case "load":
                 print(f"{attribute}: {active_character.load}\n\n")
             case "fatigue":
                 print(f"{attribute}: {active_character.fatigue}\n\n")
 
-            case "current hope":
+            case "current_hope":
                 print(f"{attribute}: {active_character.current_hope}\n\n")
             case "shadow":
                 print(f"{attribute}: {active_character.shadow}\n\n")
-            case "shadow points":
+            case "shadow_points":
                 print(f"{attribute}: {active_character.shadow_points}\n\n")
-            case "shadow scars":
+            case "shadow_scars":
                 print(f"{attribute}: {active_character.shadow_scars}\n\n")
 
             case "weary":
@@ -806,19 +846,16 @@ def show_attribute(active_character: Character, commands: list[str]):
                       f"***{attribute} is in user_translator but match case in show_attribute didn't catch it***\n")
     except KeyError:
         print(f"'{attribute}' is not a valid attribute.\n\n")
-            
-            
+                       
 
 def set_attribute(active_character: Character, commands: list[str]):
     clear_console()
-
-    was_successfull = True
 
     attribute = " ".join(commands[1:])
 
     if attribute == "":
         clear_console()
-        print("Enter the attribute you would like to view: ")
+        print("Enter the attribute you would like to set: ")
         attribute = input("> ").lower()
 
         # checking to see if the attribute given is valid
@@ -829,9 +866,6 @@ def set_attribute(active_character: Character, commands: list[str]):
 
     clear_console()
 
-    print(f"Enter the value you would like to set '{attribute}' to: ")
-    value = input("> ")
-
     match user_translator[attribute]:
         case "help":
             print(f"Valid attributes include:")
@@ -840,347 +874,572 @@ def set_attribute(active_character: Character, commands: list[str]):
             print("\n")
 
         case "name":
+            clear_console()
+            print(f"Enter the new name for your character: ")
+            value = input("> ")
             active_character.name = value
+            clear_console()
+            print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
         case "age":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Age must be an integer.\n\n")
             else:
                 active_character.age = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
         case "treasure":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Treasure must be an integer.\n\n")
             else:
                 active_character.treasure = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
         case "patron":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to: ")
+            value = input("> ")
             active_character.patron = value
+            clear_console()
+            print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
-        case "distinctive features":
+        case "distinctive_features":
             print("Would you like to add or remove a distinctive feature? (add/remove): ")
             answer = input("> ").lower()
             match answer:
                 case "add":
+                    clear_console()
+                    print(f"Enter the name of the distinctive feature you would like to add: ")
+                    value = input("> ")
                     active_character.distinctive_features.append(value)
+                    clear_console()
+                    print(f"{value} successfully added to your list of distinctive features.\n\n")
                 case "remove":
+                    clear_console()
+                    print(f"Enter the name of the distinctive feature you would like to remove: ")
+                    value = input("> ")
                     try:
                         active_character.distinctive_features.remove(value)
+                        clear_console()
+                        print(f"{value} successfully removed from your list of distinctive features.\n\n")
                     except ValueError:
                         print(f"{value} is not in your list of distinctive features.\n\n")
                 case _:
                     print("Invalid input.\n\n")
 
-        case "strength score":
+        case "strength_score":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Strength score must be an integer.\n\n")
             else:
                 active_character.strength_score = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
-        case "strength tn":
+        case "strength_tn":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Strength TN must be an integer.\n\n")
             else:
                 active_character.strength_tn = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
-        case "max endurance":
+        case "max_endurance":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Max endurance must be an integer.\n\n")
             else:
                 active_character.max_endurance = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
 
-        case "heart score":
+        case "heart_score":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Heart score must be an integer.\n\n")
             else:
                 active_character.heart_score = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
-        case "heart tn":
+        case "heart_tn":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Heart TN must be an integer.\n\n")
             else:
                 active_character.heart_tn = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
-        case "max hope":
+        case "max_hope":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ") 
             try:
                 value = int(value)
             except ValueError:
                 print("Max hope must be an integer.\n\n")
             else:
                 active_character.max_hope = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
 
-        case "wits score":
+        case "wits_score":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Wits score must be an integer.\n\n")
             else:
                 active_character.wits_score = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
-        case "wits tn":
+        case "wits_tn":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Wits TN must be an integer.\n\n")
             else:
                 active_character.wits_tn = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
         case "parry":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Parry must be an integer.\n\n")
             else:
                 active_character.parry = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
 
 
         case "awe":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Awe must be an integer.\n\n")
             else:
                 active_character.awe = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "athletics":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Athletics must be an integer.\n\n")
             else:
                 active_character.athletics = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "awareness":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Awareness must be an integer.\n\n")
             else:
                 active_character.awareness = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "hunting":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Hunting must be an integer.\n\n")
             else:
                 active_character.hunting = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "song":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Song must be an integer.\n\n")
             else:
                 active_character.song = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "craft":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Craft must be an integer.\n\n")
             else:
                 active_character.craft = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "enhearten":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Enhearten must be an integer.\n\n")
             else:
                 active_character.enhearten = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "travel":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Travel must be an integer.\n\n")
             else:
                 active_character.travel = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "insight":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Insight must be an integer.\n\n")
             else:
                 active_character.insight = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "healing":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Healing must be an integer.\n\n")
             else:
                 active_character.healing = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "courtesy":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Courtesy must be an integer.\n\n")
             else:
                 active_character.courtesy = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "battle":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Battle must be an integer.\n\n")
             else:
                 active_character.battle = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "persuade":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Persuade must be an integer.\n\n")
             else:
                 active_character.persuade = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "stealth":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Stealth must be an integer.\n\n")
             else:
                 active_character.stealth = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "scan":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Scan must be an integer.\n\n")
             else:
                 active_character.scan = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "explore":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Explore must be an integer.\n\n")
             else:
                 active_character.explore = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "riddle":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Riddle must be an integer.\n\n")
             else:
                 active_character.riddle = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "lore":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Lore must be an integer.\n\n")
             else:
                 active_character.lore = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
-        case "favoured skills":
+        case "favoured_skills":
             print("Would you like to add or remove a favoured skill? (add/remove): ")
             answer = input("> ").lower()
             match answer:
                 case "add":
+                    clear_console()
+                    print(f"Enter the name of the skill you would like to add to you list of favoured skills: ")
+                    value = input("> ")
                     active_character.favoured_skills.append(value)
+                    clear_console()
+                    print(f"'{value}'successfully added to your list of favoured skills.\n\n")
                 case "remove":
+                    clear_console()
+                    print(f"Enter the name of the skill you would like to remove from you list of favoured skills: ")
+                    value = input("> ")
                     try:
                         active_character.distinctive_features.remove(value)
+                        clear_console()
+                        print(f"'{value}'successfully removed from your list of favoured skills.\n\n")
                     except ValueError:
                         print(f"{value} is not in your list of favoured skills.\n\n")
                 case _:
-                    print("Invalid input.\n\n")
-        
+                    print("Invalid input.\n\n")\
+       
 
-        case "axes skill":
+        case "axes_skill":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Axes skill must be an integer.\n\n")
             else:
                 active_character.combat_proficiencies["axes"] = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
-        case "bows skill":
+        case "bows_skill":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Bows skill must be an integer.\n\n")
             else:
                 active_character.combat_proficiencies["bows"] = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
-        case "spears skill":
+        case "spears_skill":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Spears skill must be an integer.\n\n")
             else:
                 active_character.combat_proficiencies["spears"] = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
-        case "swords skill":
+        case "swords_skill":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Swords skill must be an integer.\n\n")
             else:
                 active_character.combat_proficiencies["swords"] = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
 
         case "valour":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Valour must be an integer.\n\n")
             else:
                 active_character.valour = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "rewards":
             print("Would you like to add or remove a reward? (add/remove): ")
             answer = input("> ").lower()
             match answer:
                 case "add":
+                    clear_console()
+                    print(f"Enter the name of the reward you would like to add to your list of rewards: ")
+                    value = input("> ")
                     active_character.rewards.append(value)
+                    clear_console()
+                    print(f"'{value}'successfully added to your list of '{attribute}'.\n\n")
                 case "remove":
+                    clear_console()
+                    print(f"Enter the name of the reward you would like to remove from your list of rewards: ")
+                    value = input("> ")
                     try:
                         active_character.rewards.remove(value)
+                        clear_console()
+                        print(f"'{value}'successfully removed from your list of '{attribute}'.\n\n")
                     except ValueError:
                         print(f"{value} is not in your list of rewards.\n\n")
                 case _:
                     print("Invalid input.\n\n")
         
         case "wisdom":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Wisdom must be an integer.\n\n")
             else:
                 active_character.wisdom = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "virtues":
             print("Would you like to add or remove a virtue? (add/remove): ")
             answer = input("> ").lower()
             match answer:
                 case "add":
+                    clear_console()
+                    print(f"Enter the name of the virtue you would like to add to your list of virtues: ")
+                    value = input("> ")
                     active_character.virtues.append(value)
+                    clear_console()
+                    print(f"'{value}'successfully added to your list of '{attribute}'.\n\n")
                 case "remove":
+                    clear_console()
+                    print(f"Enter the name of the virtue you would like to remove from your list of virtues: ")
+                    value = input("> ")
                     try:
                         active_character.virtues.remove(value)
+                        clear_console()
+                        print(f"'{value}'successfully removed from your list of '{attribute}'.\n\n")
                     except ValueError:
                         print(f"{value} is not in your list of virtues.\n\n")
                 case _:
@@ -1192,14 +1451,28 @@ def set_attribute(active_character: Character, commands: list[str]):
             answer = input("> ").lower()
             match answer:
                 case "add":
-                    active_character.weapons.append(Weapons.by_name(value))
+                    clear_console()
+                    print(f"Enter the name of the weapon you would like to add to your list of weapons: ")
+                    value = input("> ")
+                    if value in Weapons.names():
+                        active_character.weapons.append(Weapons.by_name(value))
+                        clear_console()
+                        print(f"'{value}' successfully added to your list of '{attribute}'.\n\n")
+                    else:
+                        clear_console()
+                        print(f"'{value}' is not a valid weapon.\n\n")
                 case "remove":
-                    if value in weapon_names():
+                    clear_console()
+                    print(f"Enter the name of the weapon you would like to remove from your list of weapons: ")
+                    value = input("> ")
+                    if value in weapon_names(active_character):
                         for weapon in active_character.weapons:
                             if weapon.name == value:
                                 active_character.weapons.remove(weapon)
+                                clear_console()
+                                print(f"'{value}' successfully removed from your list of '{attribute}'.\n\n")
                     else:
-                        print(f"{value} is not in your list of weapons.\n\n")
+                        print(f"{value}' is not in your list of weapons.\n\n")
                 case _:
                     print("Invalid input.\n\n")
         
@@ -1210,7 +1483,12 @@ def set_attribute(active_character: Character, commands: list[str]):
                 case "remove":
                     active_character.armour = None
                 case "replace":
+                    clear_console()
+                    print(f"Enter the name of the armour you would like to replace your current armour with: ")
+                    value = input("> ")
                     active_character.armour = Armours.by_name(value)
+                    clear_console()
+                    print(f"'{attribute}' successfully set to '{value}'.\n\n")
                 case _:
                     print("Invalid Input\n\n")
         
@@ -1221,7 +1499,11 @@ def set_attribute(active_character: Character, commands: list[str]):
                 case "remove":
                     active_character.shield = None
                 case "replace":
+                    clear_console()
+                    print(f"Enter the name of the shield you would like to replace your current shield with: ")
+                    value = input("> ")
                     active_character.shield = Shields.by_name(value)
+                    print(f"'{attribute}' successfully set to '{value}'.\n\n")
                 case _:
                     print("Invalid Input\n\n")
         
@@ -1232,238 +1514,351 @@ def set_attribute(active_character: Character, commands: list[str]):
                 case "remove":
                     active_character.headgear = None
                 case "replace":
+                    clear_console()
+                    print(f"Enter the name of the headgear you would like to replace your current headgear with: ")
+                    value = input("> ")
                     active_character.headgear = Headgears.by_name(value)
+                    print(f"'{attribute}' successfully set to '{value}'.\n\n")
                 case _:
                     print("Invalid Input\n\n")
         
-        case "traveling gear":
+        case "traveling_gear":
             print("Would you like to add or remove a piece of traveling gear? (add/remove): ")
             answer = input("> ").lower()
             match answer:
                 case "add":
+                    clear_console()
+                    print(f"Enter the name of the traveling gear you would like to add to your list of traveling gear")
+                    value = input("> ")
                     active_character.traveling_gear.append(value)
+                    clear_console()
+                    print(f"'{value}'successfully added to your list of '{attribute}'.\n\n")
                 case "remove":
+                    clear_console()
+                    print(f"Enter the name of the traveling gear you would like to remove from your list of traveling gear")
+                    value = input("> ")
                     try:
                         active_character.traveling_gear.remove(value)
+                        clear_console()
+                        print(f"'{value}'successfully removed from your list of '{attribute}'.\n\n")
                     except ValueError:
                         print(f"{value} is not in your list of traveling gear.\n\n")
                 case _:
                     print("Invalid input.\n\n")
         
 
-        case "adventure points":
+        case "adventure_points":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Adventure points must be an integer.\n\n")
             else:
                 active_character.adventure_points = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
-        case "skill points":
+        case "skill_points":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Skill points must be an integer.\n\n")
             else:
                 active_character.skill_points = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
-        case "fellowship score":
+        case "fellowship_score":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Fellowship score must be an integer.\n\n")
             else:
                 active_character.fellowship_score = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
 
-        case "current endurance":
+        case "current_endurance":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Current endurance must be an integer.\n\n")
             else:
                 active_character.current_endurance = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
                 
         case "fatigue":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Fatigue must be an integer.\n\n")
             else:
                 active_character.fatigue = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
 
-        case "current hope":
+        case "current_hope":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Current hope must be an integer.\n\n")
             else:
                 active_character.current_hope = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
                 
-        case "shadow points":
+        case "shadow_points":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Shadow points must be an integer.\n\n")
             else:
                 active_character.shadow_points = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
-        case "shadow scars":
+        case "shadow_scars":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Shadow scars must be an integer.\n\n")
             else:
                 active_character.shadow_scars = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
 
         case "wounded":
+            print(f"If you would like to make your character wounded, enter 'True'. If you would like to make your character not wounded, enter 'False': ")
+            value = input("> ")
             if value in ["True", "true", "TRUE"]:
                 value = True
                 active_character.is_wounded = value
+                clear_console()
+                print(f"{active_character.name} is now wounded.\n\n")
             elif value in ["False", "false", "FALSE"]:
                 value = False
                 active_character.is_wounded = value
+                clear_console()
+                print(f"{active_character.name} is no longer wounded.\n\n")
             else:
                 print("Wounded must be a boolean (either TRUE or FALSE).\n\n")
         
         case "injury":
+            clear_console()
+            print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
                 print("Injury must be an integer.\n\n")
             else:
                 active_character.injury = value
+                clear_console()
+                print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         
         case _:
             clear_console()
             print(f"***THIS IS AN ERROR. PLEASE REPORT TO THE DEVELOPER WITH THE FOLLOWING CODE***\n"
                 f"***{attribute} is in user_translator but match case in show_attribute didn't catch it***\n")
-            was_successfull = False
-            
-    if was_successfull:
-        clear_console()
-        print(f"{attribute} successfully set to {value}.\n\n")
             
     autosave(active_character)
 
-        
-def roll_skill(active_character: Character, attribute: str):
-    clear_console()
-    if attribute is None:
-        print("Enter the attribute you would like to roll:")
-        attribute = input("> ").lower()
-    match attribute:
-        case "help":
-            for i in rollable_items(active_character):
-                print(i)
-            print("\n")
-        case _:
-            rollable_list = rollable_items(active_character)
-            advantage, disadvantage = has_advantage_or_disadvange()
-            if attribute == "armour":
-                total, feat_die, quality_of_success = roll(int(active_character.armour.protection), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            elif attribute == "bows_skill":
-                total, feat_die, quality_of_success = roll(int(active_character.combat_proficiencies["bows"]), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            elif attribute == "swords_skill":
-                total, feat_die, quality_of_success = roll(int(active_character.combat_proficiencies["swords"]), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            elif attribute == "axes_skill":
-                total, feat_die, quality_of_success = roll(int(active_character.combat_proficiencies["axes"]), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            elif attribute == "spears_skill":
-                total, feat_die, quality_of_success = roll(int(active_character.combat_proficiencies["spears"]), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            elif attribute in rollable_list:
-                total, feat_die, quality_of_success = roll(int(active_character.skill_levels[attribute]), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            elif attribute == "wit_score":
-                total, feat_die, quality_of_success = roll(int(active_character.wits_score), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            elif attribute == "strength_score":
-                total, feat_die, quality_of_success = roll(int(active_character.strength_score), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            elif attribute == "heart_score":
-                total, feat_die, quality_of_success = roll(int(active_character.heart_score), advantage, disadvantage)
-                print_roll(total, feat_die, quality_of_success)
-            else:
-                print("Attribute not found\n")
 
-
-def has_advantage_or_disadvange():
-    user_input = input("Do you have advantage (y/n)\n> ").lower()
-    if user_input == "y":
-        advantage = True
+def roll(skill_level: int, is_favoured: bool, tn: int = None):
+    if is_favoured:
+        feat_1 = random.randint(0, 11)
+        feat_2 = random.randint(0, 11)
+        if feat_1 > feat_2:
+            feat_result = feat_1
+        else:
+            feat_result = feat_2
     else:
-        advantage = False
-    user_input = input("Do you have disadvantage (y/n)\n> ").lower()
-    if user_input == "y":
-        disadvantage = True
-    else:
-        disadvantage = False
-    return advantage, disadvantage
+        feat_result = random.randint(1, 12)
 
-
-def print_roll(total, feat_die, quality_of_success):
-    clear_console()
-    print(f"You got {total},")
-    print(f"the Feat Die was {feat_die},")
-    if quality_of_success == 0:
-        print("and you got a ordinary success!\n")
-    elif quality_of_success == 1:
-        print("and you got a great success!\n")
-    elif quality_of_success == 2:
-        print("and you got a extrodanary success!\n")
-
-
-def roll(dice_to_roll, advantage, disadvantage):
-    while True:
-        total = 0
-        quality_of_success = 0
-        feat_die = random.randint(1,12)
-        if advantage:
-            if not disadvantage:
-                new_feat_roll = random.randint(1,12)
-                if new_feat_roll > feat_die:
-                    feat_die = new_feat_roll
-        elif disadvantage:
-            new_feat_roll = random.randint(1,12)
-            if new_feat_roll < feat_die:
-                feat_die = new_feat_roll
-        total += feat_die
-        while dice_to_roll > 0:
-            die = random.randint(1,6)
-            if die == 6:
-                quality_of_success += 1
-            total += die
-            dice_to_roll -= 1
-        if quality_of_success > 2:
-            quality_of_success = 2
-        return total, feat_die, quality_of_success
+    success_results = []
+    for c in range(skill_level):
+        success_results.append(random.randint(1, 6))
     
+    if (feat_result + sum(success_results) >= tn or feat_result == 11) and feat_result != 0:
+        is_success = True
+    else:
+        is_success = False
 
-def rollable_items(active_character: Character):
+    quality_of_success = success_results.count(6)
+
+    return is_success, quality_of_success
+
+        
+def roll_attribute(active_character: Character, commands: list[str]):
     clear_console()
-    rollable_list = []
-    for skill in active_character.skill_levels:
-        rollable_list.append(skill)
-    rollable_list.append("axes_skill")
-    rollable_list.append("bows_skill")
-    rollable_list.append("swords_skill")
-    rollable_list.append("spears_skill")
-    if active_character.armour is not None:
-        rollable_list.append("armour")
-    rollable_list.append("wit_score")
-    rollable_list.append("strength_score")
-    rollable_list.append("heart_score")
-    return rollable_list
+
+    attribute = " ".join(commands[1:])
+
+    if attribute == "":
+        print(f"Enter the attribute you would like to roll")
+        attribute = input("> ")
+
+    attribute = user_translator[attribute]
+
+    if attribute in STRENGTH_SKILLS:
+        is_success, quality = roll(skill_level = getattr(active_character, attribute), 
+                                        is_favoured = True if attribute in active_character.favoured_skills else False, 
+                                        tn = active_character.strength_tn)
+    elif attribute in HEART_SKILLS:
+        is_success, quality = roll(skill_level = getattr(active_character, attribute), 
+                                        is_favoured = True if attribute in active_character.favoured_skills else False, 
+                                        tn = active_character.heart_tn)
+    elif attribute in WITS_SKILLS:
+        is_success, quality = roll(skill_level = getattr(active_character, attribute), 
+                                        is_favoured = True if attribute in active_character.favoured_skills else False, 
+                                        tn = active_character.wits_tn)
+    elif attribute in ["axes_skill", "bows_skill", "spears_skill", "swords_skill"]:
+        is_success, quality = roll(skill_level = getattr(active_character, attribute), 
+                                         is_favoured = True if attribute in active_character.favoured_skills else False,
+                                         tn = active_character.strength_tn)
+    elif attribute == "protection":
+        is_success, quality = roll(skill_level = active_character.armour.protection + active_character.headgear.protection,
+                                         is_favoured = True if "protection" in active_character.favoured_skills else False)
+    elif attribute in ["valour", "wisdom"]:
+        is_success, quality = roll(skill_level = getattr(active_character, attribute), 
+                                         is_favoured = True if attribute in active_character.favoured_skills else False,
+                                         tn = active_character.heart_tn)
+    
+    if is_success:
+        match quality:
+            case 0:
+                print(f"You got an ordinary success on you {attribute} test.\n\n")
+            case 1:
+                print(f"You got a great success on your {attribute} test.\n\n")
+            case 2:
+                print(f"You got an extraordinary success on your {attribute} test!\n\n")
+            case _:
+                print(f"You got an extorirdinary success with {quality} success icons on your {attribute} test!\n\n")
+    else:
+        print(f"You failed your {attribute} test.\n\n")
+
+
+def find_success_rate(active_character: Character, commands: list[str]):
+    clear_console()
+    success_log = []
+
+    attribute = " ".join(commands[1:])
+
+    if attribute == "":
+        clear_console()
+        print(f"Enter the attribute you would like to roll")
+        attribute = input("> ")
+
+    attribute = user_translator[attribute]
+
+    clear_console()
+    print(f"Enter the number of iterations you would like to run: ")
+    iterations = input("> ")
+
+    try:
+        iterations = int(iterations)
+    except AttributeError:
+        clear_console()
+        print(f"{iterations} is not a valid number of iterations. Please input an int next time.\n\n")
+
+    for c in range(iterations): 
+        if attribute in STRENGTH_SKILLS:
+            is_success, quality = roll(skill_level = getattr(active_character, attribute), 
+                                            is_favoured = True if attribute in active_character.favoured_skills else False, 
+                                            tn = active_character.strength_tn)
+        elif attribute in HEART_SKILLS:
+            is_success, quality = roll(skill_level = getattr(active_character, attribute), 
+                                            is_favoured = True if attribute in active_character.favoured_skills else False, 
+                                            tn = active_character.heart_tn)
+        elif attribute in WITS_SKILLS:
+            is_success, quality = roll(skill_level = getattr(active_character, attribute), 
+                                            is_favoured = True if attribute in active_character.favoured_skills else False, 
+                                            tn = active_character.wits_tn)
+        elif attribute in ["axes_skill", "bows_skill", "spears_skill", "swords_skill"]:
+            is_success, quality = roll(skill_level = getattr(active_character, attribute), 
+                                            is_favoured = True if attribute in active_character.favoured_skills else False,
+                                            tn = active_character.strength_tn)
+        elif attribute == "protection":
+            is_success, quality = roll(skill_level = active_character.armour.protection + active_character.headgear.protection,
+                                            is_favoured = True if "protection" in active_character.favoured_skills else False)
+        elif attribute in ["valour", "wisdom"]:
+            is_success, quality = roll(skill_level = getattr(active_character, attribute), 
+                                            is_favoured = True if attribute in active_character.favoured_skills else False,
+                                            tn = active_character.heart_tn)
+        
+        if is_success:
+            success_log.append(quality)
+        else:
+            success_log.append("failure")
+
+    ordinary_success_rate = (iterations - success_log.count("failure")) / iterations
+    great_success_rate = (iterations - (success_log.count("failure") + success_log.count(0))) / iterations
+    extrordinary_success_rate = (iterations - (success_log.count("failure") + success_log.count(0) + success_log.count(1))) / iterations
+    success_quality_list = [0 if x == "failure" else x for x in success_log]
+    average_success_icons = statistics.mean(success_quality_list)
+
+    clear_console()
+    print(f"You got at least an ordinary success {round((ordinary_success_rate * 100), 2)}% of the time.\n")
+    print(f"You got at least an great success {round((great_success_rate * 100), 2)}% of the time.\n")
+    print(f"You got at least an extraordinary success {round((extrordinary_success_rate * 100), 2)}% of the time.\n")
+    print(f"You got an average of {round(average_success_icons, 2)} success icons.\n\n")
 
 
 def autosave(active_character: Character):
     with open(f"{active_character.name}_autosave.pickle", 
     "wb") as file:
         pickle.dump(active_character, file)
+
+
+def update_character(active_character: Character):
+    clear_console()
+
+    active_character.traveling_gear = None
+
+    active_character.favoured_skills = [active_character.favoured_skills[0][0], active_character.favoured_skills[0][1][0], active_character.favoured_skills[0][1][1]]
+
+    autosave(active_character)
+    print(f"{active_character.name} successfully updated!\n\n")
+
+    new_virtue = Virtue()
+    old_virtues = active_character.virtues
+    active_character.virtues = []
+    for virtue in old_virtues:
+        new_virtue.name = virtue
+        active_character.virtues.append(new_virtue)
+
+    new_reward = Reward()
+    old_rewards = active_character.rewards
+    active_character.rewards = []
+    for reward in old_rewards:
+        new_reward.name = reward
+        active_character.rewards.append(new_reward)
+        

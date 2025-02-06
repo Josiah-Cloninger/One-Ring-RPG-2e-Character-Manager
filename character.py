@@ -11,15 +11,15 @@ AdventurePointError = Exception("Not enough adventure points.")
 
 
 class Character:
-    def __init__(self, culture: Culture, 
-                 attribute_choice: int, 
-                 weapon_skill_levels: dict, 
-                 distinctive_features: list, 
-                 name: str, age: int, 
-                 calling: Calling, 
-                 favoured_skill_choices: str, 
-                 starting_virtue: str, 
-                 starting_reward: str):
+    def __init__(self, culture: Culture = None, 
+                 attribute_choice: int = None, 
+                 weapon_skill_levels: dict = None, 
+                 distinctive_features: list = None, 
+                 name: str = None, age: int = None, 
+                 calling: Calling = None, 
+                 favoured_skills: list[str] = None, 
+                 starting_virtue: str = None, 
+                 starting_reward: str = None):
         
         # culture
         self.culture = culture.name
@@ -87,11 +87,7 @@ class Character:
         }
 
         # favoured skills
-        try:
-            self.favoured_skills.append(favoured_skill_choices)
-        except:
-            self.favoured_skills = []
-            self.favoured_skills.append(favoured_skill_choices)
+        self.favoured_skills = favoured_skills
         
         # combat proficiencies
         # self.axes_skill = weapon_skill_levels.get("axes")
@@ -102,8 +98,8 @@ class Character:
         self.combat_proficiencies = {
             "axes": weapon_skill_levels.get("axes"),
             "bows": weapon_skill_levels.get("bows"),
-            "swords": weapon_skill_levels.get("swords"),
-            "spears": weapon_skill_levels.get("spears")
+            "spears": weapon_skill_levels.get("spears"),
+            "swords": weapon_skill_levels.get("swords")
         }
 
         # distinctive features
@@ -371,8 +367,12 @@ def save_character(character: Character):
 
 
 def load_character(filename: str):
-    with open(f"{filename}_autosave.pickle", "rb") as file:
-        character = pickle.load(file)
+    try:
+        with open(f"{filename}_autosave.pickle", "rb") as file:
+            character = pickle.load(file)
+    except FileNotFoundError:
+        with open(f"{filename}_hardsave.pickle", "rb") as file:
+            character = pickle.load(file)
     return character
 
 
