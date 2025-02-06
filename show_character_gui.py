@@ -9,7 +9,7 @@ from ui_functions import show_attribute, load_character
 
 
 #todo list:
-#lock aspect ratio (does not want to work, already looked at it window.size and window.set_size do not work)
+#
 
 
 def draw_assorted_character_info(active_character, window, large_text, med_large_text, small_text):
@@ -53,6 +53,8 @@ def draw_attrabutes(active_character, window, large_text, med_small_text):
     window['-GRAPH-'].draw_text(active_character.wits_score, location=(1175, 785), color='black', font=("Helvetica", med_small_text), text_location=sg.TEXT_LOCATION_CENTER)
     window['-GRAPH-'].draw_text(active_character.wits_tn, location=(1112, 750), color='black', font=("Helvetica", large_text), text_location=sg.TEXT_LOCATION_CENTER)
     window['-GRAPH-'].draw_text(active_character.parry, location=(1175, 710), color='black', font=("Helvetica", med_small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.valour, location=(928, 389), color='black', font=("Helvetica", med_small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.wisdom, location=(1263, 389), color='black', font=("Helvetica", med_small_text), text_location=sg.TEXT_LOCATION_CENTER)
 
 
 def draw_skills(active_character, window):
@@ -235,6 +237,33 @@ def draw_points(active_character, window, med_small_text):
     window['-GRAPH-'].draw_text(active_character.fellowship_score, location=(1570, 655), color='black', font=("Helvetica", med_small_text), text_location=sg.TEXT_LOCATION_CENTER)
 
 
+def draw_virtues_rewards(active_character, window, small_text):
+    str_virtues =  "\n".join([virtue for virtue in active_character.virtues])
+    str_rewards = "\n".join([reward for reward in active_character.rewards])
+    window['-GRAPH-'].draw_text(str_rewards, location=(650, 385), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_TOP_LEFT)
+    window['-GRAPH-'].draw_text(str_virtues, location=(987, 385), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_TOP_LEFT)
+
+
+def draw_favoured_skills(active_character, window):
+    column_1 = ["awe", "athletics", "awareness", "hunting", "song", "craft"]
+    column_2 = ["enhearten", "travel", "insight", "healing", "courtesy", "battle"]
+    column_3 = ["persuade", "stealth", "scan", "explore", "riddle", "lore"]
+    skill_y_location = 629
+    for column in [column_1, column_2, column_3]:
+        if column == column_1:
+            skill_x_location = 324
+        elif column == column_2:
+            skill_x_location = 659
+        elif column == column_3:
+            skill_x_location = 993
+        skill_y_location = 627
+        for skill in column:
+            for favoured_skill in active_character.favoured_skills:
+                if skill == favoured_skill:
+                    window['-GRAPH-'].draw_image(r"square_2.png", location=(skill_x_location, skill_y_location))
+            skill_y_location = skill_y_location - 31.7
+
+
 def draw_all(active_character, window, large_text, med_large_text, med_small_text, small_text):
     draw_assorted_character_info(active_character, window, large_text, med_large_text, small_text)
     draw_attrabutes(active_character, window, large_text, med_small_text)
@@ -243,11 +272,12 @@ def draw_all(active_character, window, large_text, med_large_text, med_small_tex
     draw_gear_info(active_character, window, small_text)
     draw_points(active_character, window, med_small_text)
     draw_conditions(active_character, window)
+    draw_virtues_rewards(active_character, window, small_text)
+    draw_favoured_skills(active_character, window)
 
 
 def start_character_gui(active_character):
-    # str_virtues =  ", ".join([virtue for virtue in active_character.virtues])
-    # str_rewards = ", ".join([reward for reward in active_character.rewards])
+
     size = 1920, 1080
     layout = [
         [sg.Graph(size, (0, 0), size, background_color="black",  expand_x=True, expand_y=True, pad=(0, 0), key='-GRAPH-')]
