@@ -1,62 +1,32 @@
-import os
+import PySimpleGUI as sg
+import PIL
+from PIL import Image
 
-import questionary
-from questionary import print
+from ui_functions import load_character
+from show_character_gui import draw_all
 
-from culture import Cultures, Culture, all_combat_proficiencies
-from character import Character
-from calling import Calling, Callings
-from gear import Weapons, Armours, Shields, Headgears
+def main():
+    size = (1920, 1080)
+    layout = [
+        [sg.Graph(size, (0, 0), size, background_color="black",  expand_x=True, expand_y=True, pad=(0, 0), key='-GRAPH-')]
+    ]
 
-
-styles_print = {
-    "culture": "#0001e0",
-    "yellow": "#deea0b",
-    "specialty": "#4fdb5a",
-    "background": "#f78400",
-    "white": "#ffffff"
-}
-styles_choice = questionary.Style([
-    ('yellow', '#deea0b'),
-    ('culture', '#0001e0'),
-    ('specialty', '#4fdb5a'),
-    ('background', '#f78400'),
-    ('white', '#ffffff')
-])
-
-
-def clear_console():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-
-def title():
-    clear_console()
-    questionary.print("The One Rings RPG Character Sheet\n", style=styles_print["yellow"])
-
-title()
-if input("Would you like to have weapons?(y/n)").lower() == "y":
-    weapons = []
+    window = sg.Window('Window Title', layout, resizable=True, return_keyboard_events=True, finalize=True)
+    active_character = load_character("Arathorn")
     while True:
-        title()
-        print("Select your starting weapons:\n")
-        answer = questionary.select(
-            "",
-            choices=[
-                questionary.Choice(
-                    title=[
-                        ("class:white", a)
-                    ],
-                    value=a
-                ) for a in Weapons.names()
-            ],
-            style=styles_choice
-        ).ask()
-        print(str(Weapons.by_name(answer)))
-        if input("Would you like to add this weapon?(y/n)").lower() == "y":
-            weapons.append(answer)
-            if input("Would you like to add another weapon?(y/n)").lower() == "n":
-                break
-        
-else:
-    weapons = None
+        event, values = window.read()
+        if event == sg.WIN_CLOSED or event == 'OK':
+            break
+        # window.size = (window.size[0] + 10, window.size[1] + 10)'
+        window['-GRAPH-'].erase()
+        img = Image.open(r"TOR_Elf_Character_Sheet_fillable (1).png")
+        img = img.resize(window.size)
+        img.save(r"TOR_Elf_Character_Sheet_fillable (2).png")
+        window['-GRAPH-'].draw_image(r"TOR_Elf_Character_Sheet_fillable (2).png", location=(0, 1080))
+        window['-GRAPH-'].CanvasSize = window.size
+        draw_all(active_character, window)
 
+    window.close()
+
+if __name__ == '__main__':
+    main()

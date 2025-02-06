@@ -1,54 +1,58 @@
 import PySimpleGUI as sg
-import time
+import PIL
+from PIL import Image
+import threading
 
 
+# from run_loop import main
 from ui_functions import show_attribute, load_character
 
-#cap on scroll
-#fix swords and spears in combat proficiencies
+
+#todo list:
+#lock aspect ratio (does not want to work, already looked at it window.size and window.set_size do not work)
 
 
-
-def draw_assorted_character_info(active_character, window):
+def draw_assorted_character_info(active_character, window, large_text, med_large_text, small_text):
     str_flaws = ", ".join([flaw for flaw in active_character.flaws])
     str_distinctive_features = ", ".join([distinctive_feature for distinctive_feature in active_character.distinctive_features])
-    window['-GRAPH-'].draw_text(active_character.name, location=(970, 1000), color='black', font=("Helvetica", 22), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.age, location=(675, 938), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window['-GRAPH-'].draw_text(active_character.culture, location=(410, 938), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window["-GRAPH-"].draw_text(active_character.blessing.name, location=(410, 903), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window['-GRAPH-'].draw_text(active_character.calling, location=(370, 873), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window['-GRAPH-'].draw_text(active_character.shadow_path, location=(725, 873), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window['-GRAPH-'].draw_text(active_character.patron, location=(690, 903), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window['-GRAPH-'].draw_text(active_character.standard_of_living, location=(740, 935), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window['-GRAPH-'].draw_text(active_character.treasure, location=(936, 928), color='black', font=("Helvetica", 20), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(str_distinctive_features, location=(990, 935), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window['-GRAPH-'].draw_text(str_flaws, location=(980, 873), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window['-GRAPH-'].draw_text(active_character.current_endurance, location=(1383, 510), color='black', font=("Helvetica", 22), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.load, location=(1441, 536), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.fatigue, location=(1441, 480), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.current_hope, location=(1530, 510), color='black', font=("Helvetica", 22), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.shadow_points, location=(1589, 536), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.shadow_scars, location=(1589, 480), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.name, location=(970, 1000), color='black', font=("Helvetica", large_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.age, location=(675, 938), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window['-GRAPH-'].draw_text(active_character.culture, location=(410, 938), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window["-GRAPH-"].draw_text(active_character.blessing.name, location=(410, 903), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window['-GRAPH-'].draw_text(active_character.calling, location=(370, 873), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window['-GRAPH-'].draw_text(active_character.shadow_path, location=(725, 873), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window['-GRAPH-'].draw_text(active_character.patron, location=(690, 903), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window['-GRAPH-'].draw_text(active_character.standard_of_living, location=(740, 935), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window['-GRAPH-'].draw_text(active_character.treasure, location=(936, 928), color='black', font=("Helvetica", med_large_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(str_distinctive_features, location=(990, 935), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window['-GRAPH-'].draw_text(str_flaws, location=(980, 873), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window['-GRAPH-'].draw_text(active_character.current_endurance, location=(1383, 510), color='black', font=("Helvetica", large_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.load, location=(1441, 536), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.fatigue, location=(1441, 480), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.current_hope, location=(1530, 510), color='black', font=("Helvetica", large_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.shadow_points, location=(1589, 536), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.shadow_scars, location=(1589, 480), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
 
 
 def draw_conditions(active_character, window):
     if active_character.is_weary:
-        window['-GRAPH-'].draw_image(r"Square.png", location=(1327, 389))
+        window['-GRAPH-'].draw_image(r"Square_2.png", location=(1327, 389))
     if active_character.is_miserable:
-        window['-GRAPH-'].draw_image(r"Square.png", location=(1327, 363))
+        window['-GRAPH-'].draw_image(r"Square_2.png", location=(1327, 363))
     if active_character.is_wounded:
-        window['-GRAPH-'].draw_image(r"Square.png", location=(1327, 337))
+        window['-GRAPH-'].draw_image(r"Square_2.png", location=(1327, 337))
 
-def draw_attrabutes(active_character, window):
-    window['-GRAPH-'].draw_text(active_character.strength_score, location=(508, 787), color='black', font=("Helvetica", 18), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.strength_tn, location=(445, 748), color='black', font=("Helvetica", 22), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.max_endurance, location=(508, 710), color='black', font=("Helvetica", 18), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.heart_score, location=(842, 785), color='black', font=("Helvetica", 18), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.heart_tn, location=(778, 750), color='black', font=("Helvetica", 22), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.max_hope, location=(842, 710), color='black', font=("Helvetica", 18), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.wits_score, location=(1175, 785), color='black', font=("Helvetica", 18), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.wits_tn, location=(1112, 750), color='black', font=("Helvetica", 22), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.parry, location=(1175, 710), color='black', font=("Helvetica", 18), text_location=sg.TEXT_LOCATION_CENTER)
+
+def draw_attrabutes(active_character, window, large_text, med_small_text):
+    window['-GRAPH-'].draw_text(active_character.strength_score, location=(508, 787), color='black', font=("Helvetica", med_small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.strength_tn, location=(445, 748), color='black', font=("Helvetica", large_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.max_endurance, location=(508, 710), color='black', font=("Helvetica", med_small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.heart_score, location=(842, 785), color='black', font=("Helvetica", med_small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.heart_tn, location=(778, 750), color='black', font=("Helvetica", large_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.max_hope, location=(842, 710), color='black', font=("Helvetica", med_small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.wits_score, location=(1175, 785), color='black', font=("Helvetica", med_small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.wits_tn, location=(1112, 750), color='black', font=("Helvetica", large_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.parry, location=(1175, 710), color='black', font=("Helvetica", med_small_text), text_location=sg.TEXT_LOCATION_CENTER)
 
 
 def draw_skills(active_character, window):
@@ -58,47 +62,47 @@ def draw_skills(active_character, window):
     skill_y_location = 629
     for skill in column_1:
         if skill >= 1:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(454, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(454, skill_y_location))
         if skill >= 2:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(482, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(482, skill_y_location))
         if skill >= 3:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(510, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(510, skill_y_location))
         if skill >= 4:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(538, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(538, skill_y_location))
         if skill >= 5:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(565, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(565, skill_y_location))
         if skill >= 6:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(593, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(593, skill_y_location))
         skill_y_location = skill_y_location - 31.7
     skill_y_location = 629
     for skill in column_2:
         if skill >= 1:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(788, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(788, skill_y_location))
         if skill >= 2:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(816, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(816, skill_y_location))
         if skill >= 3:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(844, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(844, skill_y_location))
         if skill >= 4:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(872, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(872, skill_y_location))
         if skill >= 5:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(899, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(899, skill_y_location))
         if skill >= 6:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(927, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(927, skill_y_location))
         skill_y_location = skill_y_location - 31.7
     skill_y_location = 629
     for skill in column_3:
         if skill >= 1:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(1122, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(1122, skill_y_location))
         if skill >= 2:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(1150, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(1150, skill_y_location))
         if skill >= 3:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(1178, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(1178, skill_y_location))
         if skill >= 4:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(1206, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(1206, skill_y_location))
         if skill >= 5:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(1233, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(1233, skill_y_location))
         if skill >= 6:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(1261, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(1261, skill_y_location))
         skill_y_location = skill_y_location - 31.7
 
 
@@ -106,21 +110,21 @@ def draw_combat_proficiencies(active_character, window):
     skill_y_location = 375
     for combat_proficiency in active_character.combat_proficiencies:
         if active_character.combat_proficiencies[combat_proficiency] >= 1:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(454, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(454, skill_y_location))
         if active_character.combat_proficiencies[combat_proficiency] >= 2:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(482, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(482, skill_y_location))
         if active_character.combat_proficiencies[combat_proficiency] >= 3:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(510, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(510, skill_y_location))
         if active_character.combat_proficiencies[combat_proficiency] >= 4:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(538, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(538, skill_y_location))
         if active_character.combat_proficiencies[combat_proficiency] >= 5:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(565, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(565, skill_y_location))
         if active_character.combat_proficiencies[combat_proficiency] >= 6:
-            window["-GRAPH-"].draw_image(r"Rombus.png", location=(593, skill_y_location))
+            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(593, skill_y_location))
         skill_y_location = skill_y_location - 31.7
 
 
-def draw_gear_info(active_character, window):
+def draw_gear_info(active_character, window, small_text):
     try:
         weapon_1_name = active_character.weapons[0].name
         weapon_1_damage = active_character.weapons[0].damage
@@ -194,101 +198,144 @@ def draw_gear_info(active_character, window):
         shield_parry_mod = ""
         shield_load = ""
 
-    window["-GRAPH-"].draw_text(weapon_1_name, location=(330, 175), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window["-GRAPH-"].draw_text(weapon_1_damage, location=(530, 185), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(weapon_1_injury, location=(584, 185), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(weapon_1_load, location=(640, 185), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(weapon_1_notes, location=(675, 175), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window["-GRAPH-"].draw_text(weapon_2_name, location=(330, 143), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window["-GRAPH-"].draw_text(weapon_2_damage, location=(530, 153), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(weapon_2_injury, location=(584, 153), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(weapon_2_load, location=(640, 153), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(weapon_2_notes, location=(675, 143), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window["-GRAPH-"].draw_text(weapon_3_name, location=(330, 110), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window["-GRAPH-"].draw_text(weapon_3_damage, location=(530, 120), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(weapon_3_injury, location=(584, 120), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(weapon_3_load, location=(640, 120), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(weapon_3_notes, location=(675, 110), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window["-GRAPH-"].draw_text(weapon_4_name, location=(330, 77), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window["-GRAPH-"].draw_text(weapon_4_damage, location=(530, 87), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(weapon_4_injury, location=(584, 87), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(weapon_4_load, location=(640, 87), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(weapon_4_notes, location=(675, 77), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window["-GRAPH-"].draw_text(armour_name, location=(995, 175), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window["-GRAPH-"].draw_text(armour_protection, location=(1200, 185), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(armour_load, location=(1257, 185), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(headgear_name, location=(995, 143), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window["-GRAPH-"].draw_text(headgear_protection, location=(1200, 153), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(headgear_load, location=(1257, 153), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(shield_name, location=(995, 77), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
-    window["-GRAPH-"].draw_text(shield_parry_mod, location=(1200, 87), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
-    window["-GRAPH-"].draw_text(shield_load, location=(1257, 87), color='black', font=("Helvetica", 12), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(weapon_1_name, location=(330, 175), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window["-GRAPH-"].draw_text(weapon_1_damage, location=(530, 185), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(weapon_1_injury, location=(584, 185), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(weapon_1_load, location=(640, 185), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(weapon_1_notes, location=(675, 175), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window["-GRAPH-"].draw_text(weapon_2_name, location=(330, 143), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window["-GRAPH-"].draw_text(weapon_2_damage, location=(530, 153), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(weapon_2_injury, location=(584, 153), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(weapon_2_load, location=(640, 153), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(weapon_2_notes, location=(675, 143), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window["-GRAPH-"].draw_text(weapon_3_name, location=(330, 110), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window["-GRAPH-"].draw_text(weapon_3_damage, location=(530, 120), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(weapon_3_injury, location=(584, 120), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(weapon_3_load, location=(640, 120), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(weapon_3_notes, location=(675, 110), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window["-GRAPH-"].draw_text(weapon_4_name, location=(330, 77), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window["-GRAPH-"].draw_text(weapon_4_damage, location=(530, 87), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(weapon_4_injury, location=(584, 87), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(weapon_4_load, location=(640, 87), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(weapon_4_notes, location=(675, 77), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window["-GRAPH-"].draw_text(armour_name, location=(995, 175), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window["-GRAPH-"].draw_text(armour_protection, location=(1200, 185), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(armour_load, location=(1257, 185), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(headgear_name, location=(995, 143), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window["-GRAPH-"].draw_text(headgear_protection, location=(1200, 153), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(headgear_load, location=(1257, 153), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(shield_name, location=(995, 77), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
+    window["-GRAPH-"].draw_text(shield_parry_mod, location=(1200, 87), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window["-GRAPH-"].draw_text(shield_load, location=(1257, 87), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
 
 
-def draw_points(active_character, window):
-    window['-GRAPH-'].draw_text(active_character.adventure_points, location=(1372, 655), color='black', font=("Helvetica", 18), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.skill_points, location=(1471, 655), color='black', font=("Helvetica", 18), text_location=sg.TEXT_LOCATION_CENTER)
-    window['-GRAPH-'].draw_text(active_character.fellowship_score, location=(1570, 655), color='black', font=("Helvetica", 18), text_location=sg.TEXT_LOCATION_CENTER)
+def draw_points(active_character, window, med_small_text):
+    window['-GRAPH-'].draw_text(active_character.adventure_points, location=(1372, 655), color='black', font=("Helvetica", med_small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.skill_points, location=(1471, 655), color='black', font=("Helvetica", med_small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    window['-GRAPH-'].draw_text(active_character.fellowship_score, location=(1570, 655), color='black', font=("Helvetica", med_small_text), text_location=sg.TEXT_LOCATION_CENTER)
+
+
+def draw_all(active_character, window, large_text, med_large_text, med_small_text, small_text):
+    draw_assorted_character_info(active_character, window, large_text, med_large_text, small_text)
+    draw_attrabutes(active_character, window, large_text, med_small_text)
+    draw_skills(active_character, window)
+    draw_combat_proficiencies(active_character, window)
+    draw_gear_info(active_character, window, small_text)
+    draw_points(active_character, window, med_small_text)
+    draw_conditions(active_character, window)
 
 
 def show_character_gui(active_character):
     # str_virtues =  ", ".join([virtue for virtue in active_character.virtues])
     # str_rewards = ", ".join([reward for reward in active_character.rewards])
-    size = (1920, 1080)
+    size = 1920, 1080
     layout = [
         [sg.Graph(size, (0, 0), size, background_color="black",  expand_x=True, expand_y=True, pad=(0, 0), key='-GRAPH-')]
     ]
 
     window = sg.Window("Character Sheet", layout, icon=r"Ring_Icon.ico", return_keyboard_events=True, finalize=True, resizable=True, element_justification='c', margins=(0, 0), element_padding=(0,0))
-    window['-GRAPH-'].draw_image(r"TOR_Elf_Character_Sheet_fillable (1).png", location=(0, 1080))
-    draw_assorted_character_info(active_character, window)
-    draw_attrabutes(active_character, window)
-    draw_skills(active_character, window)
-    draw_combat_proficiencies(active_character, window)
-    draw_gear_info(active_character, window)
-    draw_points(active_character, window)
-    draw_conditions(active_character, window)
-    # graph = window['-GRAPH-']
-    # window.bind('<Configure>', ' Configure')
-
-    # ## Change the pack order of Graph (row frame) to laste one.
-    # graph_row_frame_pack_info = graph.widget.master.pack_info()
-    # graph.widget.master.pack(**graph_row_frame_pack_info)
     window.maximize()
-    index = 0
-    up_down_index = 0
+    window['-GRAPH-'].draw_image(r"TOR_Elf_Character_Sheet_fillable (1).png", location=(0, 1080))
+    large_text = round((window.size[0] / 87))
+    med_large_text = round((window.size[0] / 96))
+    med_small_text = round((window.size[0] / 107))
+    small_text = round((window.size[0] / 160))
+    draw_all(active_character, window, large_text, med_large_text, med_small_text, small_text)
+    return window
+
+
+def refresh_character_gui(window):
+    window['-GRAPH-'].erase()
+    backgound_image = Image.open(r"TOR_Elf_Character_Sheet_fillable (1).png")
+    backgound_image_size_x = round(1920 / 1920 * window.size[0])
+    backgound_image_size_y = round(1080 * window.size[0] / 1920)
+    backgound_image = backgound_image.resize((backgound_image_size_x, backgound_image_size_y))
+    backgound_image.save(r"TOR_Elf_Character_Sheet_fillable (2).png")
+    rombus = Image.open(r"Rombus.png")
+    rombus_x = round(23 / 1920 * window.size[0])
+    rombus_y = round(22 * window.size[0] / 1920)
+    rombus = rombus.resize((rombus_x, rombus_y))
+    rombus.save(r"Rombus_2.png")
+    square = Image.open(r"Square.png")
+    square_x = round(18 / 1920 * window.size[0])
+    square_y = round(17 * window.size[0] / 1920)
+    square = square.resize((square_x, square_y))
+    square.save(r"Square_2.png")
+    window['-GRAPH-'].draw_image(r"TOR_Elf_Character_Sheet_fillable (2).png", location=(0, 1080))
+    cavas_size = (window.size[0], (1080 * window.size[0] / 1920))
+    window['-GRAPH-'].CanvasSize = cavas_size
+    large_text = round((window.size[0] / 87))
+    med_large_text = round((window.size[0] / 96))
+    med_small_text = round((window.size[0] / 107))
+    small_text = round((window.size[0] / 160))
+    draw_all(active_character, window, large_text, med_large_text, med_small_text, small_text)
+    win_w, win_h = window.Size
     while True:
-        event, values = window.read()
+        event, values = window(timeout = 100)
         if event in (sg.WINDOW_CLOSED, 'Exit'):
             break
-        if event == "MouseWheel:Up" and up_down_index <= 45:
-            window['-GRAPH-'].move(0, -25)
-            up_down_index += 1
-        if event == "MouseWheel:Down" and up_down_index >= -45:
+        if event == "MouseWheel:Up":
             window['-GRAPH-'].move(0, 25)
-            up_down_index -= 1
-        if event == "Up:38" and up_down_index <= 45:
+        if event == "MouseWheel:Down":
             window['-GRAPH-'].move(0, -25)
-            up_down_index += 1
-        if event == "Down:40" and up_down_index >= -45:
-            window['-GRAPH-'].move(0, 25)
-            up_down_index -= 1 
-        if event == "Left:37":
-            window['-GRAPH-'].move(25, 0)
-        if event == "Right:39":
-            window['-GRAPH-'].move(-25, 0)
-
-        # e = graph.user_bind_event
-        # w0, h0 = graph.CanvasSize
-        # # Update the canvas size for coordinate conversion
-        # w1, h1 = graph.CanvasSize = e.width, e.height
-        # w_scale, h_scale = w1/w0, h1/h0
-        # graph.widget.scale("all", 0, 0, w_scale, h_scale)
-
-
+        win_w_new, win_h_new = window.Size
+        check_win_size_changed(win_w, win_h, win_w_new, win_h_new)
+        win_w, win_h = win_w_new, win_h_new
     window.close()
+
+
+def check_win_size_changed(win_w, win_h, win_w_new, win_h_new):
+    if win_w != win_w_new or win_h != win_h_new:
+        window['-GRAPH-'].erase()
+        backgound_image = Image.open(r"TOR_Elf_Character_Sheet_fillable (1).png")
+        backgound_image_size_x = round(1920 / 1920 * window.size[0])
+        backgound_image_size_y = round(1080 * window.size[0] / 1920)
+        backgound_image = backgound_image.resize((backgound_image_size_x, backgound_image_size_y))
+        backgound_image.save(r"TOR_Elf_Character_Sheet_fillable (2).png")
+        rombus = Image.open(r"Rombus.png")
+        rombus_x = round(23 / 1920 * window.size[0])
+        rombus_y = round(22 * window.size[0] / 1920)
+        rombus = rombus.resize((rombus_x, rombus_y))
+        rombus.save(r"Rombus_2.png")
+        square = Image.open(r"Square.png")
+        square_x = round(18 / 1920 * window.size[0])
+        square_y = round(17 * window.size[0] / 1920)
+        square = square.resize((square_x, square_y))
+        square.save(r"Square_2.png")
+        window['-GRAPH-'].draw_image(r"TOR_Elf_Character_Sheet_fillable (2).png", location=(0, 1080))
+        cavas_size = (window.size[0], (1080 * window.size[0] / 1920))
+        window['-GRAPH-'].CanvasSize = cavas_size
+        large_text = round((window.size[0] / 87))
+        med_large_text = round((window.size[0] / 96))
+        med_small_text = round((window.size[0] / 107))
+        small_text = round((window.size[0] / 160))
+        draw_all(active_character, window, large_text, med_large_text, med_small_text, small_text)
 
 
 if __name__ == "__main__":
     active_character = load_character("Hithrin")
-    show_character_gui(active_character)
+    window = show_character_gui(active_character)
+    # t1 = threading.Thread(target=main)
+    # t1.start()
+    refresh_character_gui(window)
+    # t1.join()
