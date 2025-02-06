@@ -245,7 +245,7 @@ def draw_all(active_character, window, large_text, med_large_text, med_small_tex
     draw_conditions(active_character, window)
 
 
-def show_character_gui(active_character):
+def start_character_gui(active_character):
     # str_virtues =  ", ".join([virtue for virtue in active_character.virtues])
     # str_rewards = ", ".join([reward for reward in active_character.rewards])
     size = 1920, 1080
@@ -281,23 +281,27 @@ def refresh_character_gui(window):
     square_y = round(17 * window.size[0] / 1920)
     square = square.resize((square_x, square_y))
     square.save(r"Square_2.png")
-    window['-GRAPH-'].draw_image(r"TOR_Elf_Character_Sheet_fillable (2).png", location=(0, 1080))
     cavas_size = (window.size[0], (1080 * window.size[0] / 1920))
     window['-GRAPH-'].CanvasSize = cavas_size
     large_text = round((window.size[0] / 87))
     med_large_text = round((window.size[0] / 96))
     med_small_text = round((window.size[0] / 107))
     small_text = round((window.size[0] / 160))
+    window['-GRAPH-'].draw_image(r"TOR_Elf_Character_Sheet_fillable (2).png", location=(0, 1080))
     draw_all(active_character, window, large_text, med_large_text, med_small_text, small_text)
+
+
+def run_character_gui(window):
+    refresh_character_gui(window)
     win_w, win_h = window.Size
     while True:
         event, values = window(timeout = 100)
         if event in (sg.WINDOW_CLOSED, 'Exit'):
             break
         if event == "MouseWheel:Up":
-            window['-GRAPH-'].move(0, 25)
-        if event == "MouseWheel:Down":
             window['-GRAPH-'].move(0, -25)
+        if event == "MouseWheel:Down":
+            window['-GRAPH-'].move(0, 25)
         win_w_new, win_h_new = window.Size
         check_win_size_changed(win_w, win_h, win_w_new, win_h_new)
         win_w, win_h = win_w_new, win_h_new
@@ -306,36 +310,13 @@ def refresh_character_gui(window):
 
 def check_win_size_changed(win_w, win_h, win_w_new, win_h_new):
     if win_w != win_w_new or win_h != win_h_new:
-        window['-GRAPH-'].erase()
-        backgound_image = Image.open(r"TOR_Elf_Character_Sheet_fillable (1).png")
-        backgound_image_size_x = round(1920 / 1920 * window.size[0])
-        backgound_image_size_y = round(1080 * window.size[0] / 1920)
-        backgound_image = backgound_image.resize((backgound_image_size_x, backgound_image_size_y))
-        backgound_image.save(r"TOR_Elf_Character_Sheet_fillable (2).png")
-        rombus = Image.open(r"Rombus.png")
-        rombus_x = round(23 / 1920 * window.size[0])
-        rombus_y = round(22 * window.size[0] / 1920)
-        rombus = rombus.resize((rombus_x, rombus_y))
-        rombus.save(r"Rombus_2.png")
-        square = Image.open(r"Square.png")
-        square_x = round(18 / 1920 * window.size[0])
-        square_y = round(17 * window.size[0] / 1920)
-        square = square.resize((square_x, square_y))
-        square.save(r"Square_2.png")
-        window['-GRAPH-'].draw_image(r"TOR_Elf_Character_Sheet_fillable (2).png", location=(0, 1080))
-        cavas_size = (window.size[0], (1080 * window.size[0] / 1920))
-        window['-GRAPH-'].CanvasSize = cavas_size
-        large_text = round((window.size[0] / 87))
-        med_large_text = round((window.size[0] / 96))
-        med_small_text = round((window.size[0] / 107))
-        small_text = round((window.size[0] / 160))
-        draw_all(active_character, window, large_text, med_large_text, med_small_text, small_text)
+        refresh_character_gui(window)
 
 
 if __name__ == "__main__":
     active_character = load_character("Hithrin")
-    window = show_character_gui(active_character)
+    window = start_character_gui(active_character)
     # t1 = threading.Thread(target=main)
     # t1.start()
-    refresh_character_gui(window)
+    run_character_gui(window)
     # t1.join()
