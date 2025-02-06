@@ -30,7 +30,6 @@ def get_active_character(active_character):
     active_character_queue.put(active_character)
 
 
-
 def run_loop(active_character):
     # The main menu for the character manager. Should only be here with an "active character"
     while True:
