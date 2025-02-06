@@ -243,6 +243,12 @@ editable_attributes = {key: editable_attributes[key] for key in keys}
 
 user_translator = {
     # name
+    "exit": "exit",
+
+    "menu": "menu",
+
+    "help": "help",
+
     "name": "name",
 
     "culture":        "culture", 
@@ -620,44 +626,35 @@ def create_character():
 def select_character_to_load(commands: list[str]):
     """Walks the user through selecting a character to load."""
     clear_console()
-    character_name = "".join(commands).lower()
-    while True:
-        if character_name is None:
-            print("Enter the name of the character you would like to load: ")
-            character_name = input("> ").lower()
-        if character_name == "exit":
-            exit()
-        elif character_name == "menu":
+    character_name = "".join(commands[1:]).lower()
+
+
+    if character_name == "":
+        print("Enter the name of the character you would like to load: ")
+        character_name = input("> ").lower()
+
+
+    if character_name == "exit":
+        exit()
+    elif character_name == "menu":
+        clear_console()
+        return
+    elif character_name == "help":
+        clear_console()
+        print("Valid commands include: \n")
+        print("exit: Exits the program.")
+        print("menu: Returns to the main menu.")
+        print("{character name}: Loads the character with that name.\n\n")
+    else:
+        try:
+            active_character = load_character(f"{character_name}")
+        except FileNotFoundError:
             clear_console()
-            return
-        elif character_name == "help":
-            clear_console()
-            print("Valid commands include: \n")
-            print("exit: Exits the program.")
-            print("menu: Returns to the main menu.")
-            print("{character name}: Loads the character with that name.\n\n")
-            character_name = None
+            print("No character with that name was found.\n\n")
         else:
-            character_name = character_name
-            try:
-                active_character = load_character(f"{character_name}")
-                break
-            except FileNotFoundError:
-                clear_console()
-                print("No character with that name was found.\n\n")
-                character_name = None
-    clear_console()
-    print(f"{active_character.name} successfully loaded!\n\n")
-    return active_character
-
-
-def simple_attributes(active_character: Character):
-    """returns the list of attributes that are simple data types (int, float, str)"""
-    attributes = []
-    for attribute in dir(active_character):
-        if not attribute.startswith("__") and not callable(getattr(active_character, attribute)):
-            attributes.append(attribute)
-    return attributes
+            clear_console()
+            print(f"{active_character.name} successfully loaded!\n\n")
+            return active_character
 
 
 def weapon_names(active_character: Character):
@@ -862,16 +859,22 @@ def set_attribute(active_character: Character, commands: list[str]):
         try:
             test = user_translator[attribute]
         except KeyError:
+            clear_console()
             print(f"'{attribute}' is not a valid attribute.\n\n")
+            return None
 
     clear_console()
 
     match user_translator[attribute]:
         case "help":
-            print(f"Valid attributes include:")
+            print(f"Valid attributes include:\n")
             for viewee, description in editable_attributes.items():
                 print(f"{viewee}: {description}")
             print("\n")
+
+        case "menu":
+            clear_console()
+            return None
 
         case "name":
             clear_console()
@@ -1845,9 +1848,6 @@ def update_character(active_character: Character):
 
     active_character.favoured_skills = [active_character.favoured_skills[0][0], active_character.favoured_skills[0][1][0], active_character.favoured_skills[0][1][1]]
 
-    autosave(active_character)
-    print(f"{active_character.name} successfully updated!\n\n")
-
     new_virtue = Virtue()
     old_virtues = active_character.virtues
     active_character.virtues = []
@@ -1862,3 +1862,5 @@ def update_character(active_character: Character):
         new_reward.name = reward
         active_character.rewards.append(new_reward)
         
+    autosave(active_character)
+    print(f"{active_character.name} successfully updated!\n\n")
