@@ -36,11 +36,11 @@ def draw_assorted_character_info(active_character, window, large_text, med_large
 
 def draw_conditions(active_character, window):
     if active_character.is_weary:
-        window['-GRAPH-'].draw_image(r"Square_2.png", location=(1327, 389))
+        window['-GRAPH-'].draw_image(r"gui_assets\Square_2.png", location=(1327, 389))
     if active_character.is_miserable:
-        window['-GRAPH-'].draw_image(r"Square_2.png", location=(1327, 363))
+        window['-GRAPH-'].draw_image(r"gui_assets\Square_2.png", location=(1327, 363))
     if active_character.is_wounded:
-        window['-GRAPH-'].draw_image(r"Square_2.png", location=(1327, 337))
+        window['-GRAPH-'].draw_image(r"gui_assets\Square_2.png", location=(1327, 337))
 
 
 def draw_attrabutes(active_character, window, large_text, med_small_text):
@@ -64,47 +64,47 @@ def draw_skills(active_character, window):
     skill_y_location = 629
     for skill in column_1:
         if skill >= 1:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(454, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(454, skill_y_location))
         if skill >= 2:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(482, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(482, skill_y_location))
         if skill >= 3:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(510, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(510, skill_y_location))
         if skill >= 4:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(538, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(538, skill_y_location))
         if skill >= 5:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(565, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(565, skill_y_location))
         if skill >= 6:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(593, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(593, skill_y_location))
         skill_y_location = skill_y_location - 31.7
     skill_y_location = 629
     for skill in column_2:
         if skill >= 1:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(788, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(788, skill_y_location))
         if skill >= 2:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(816, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(816, skill_y_location))
         if skill >= 3:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(844, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(844, skill_y_location))
         if skill >= 4:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(872, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(872, skill_y_location))
         if skill >= 5:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(899, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(899, skill_y_location))
         if skill >= 6:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(927, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(927, skill_y_location))
         skill_y_location = skill_y_location - 31.7
     skill_y_location = 629
     for skill in column_3:
         if skill >= 1:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(1122, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(1122, skill_y_location))
         if skill >= 2:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(1150, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(1150, skill_y_location))
         if skill >= 3:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(1178, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(1178, skill_y_location))
         if skill >= 4:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(1206, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(1206, skill_y_location))
         if skill >= 5:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(1233, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(1233, skill_y_location))
         if skill >= 6:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(1261, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(1261, skill_y_location))
         skill_y_location = skill_y_location - 31.7
 
 
@@ -112,17 +112,17 @@ def draw_combat_proficiencies(active_character, window):
     skill_y_location = 375
     for combat_proficiency in active_character.combat_proficiencies:
         if active_character.combat_proficiencies[combat_proficiency] >= 1:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(454, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(454, skill_y_location))
         if active_character.combat_proficiencies[combat_proficiency] >= 2:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(482, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(482, skill_y_location))
         if active_character.combat_proficiencies[combat_proficiency] >= 3:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(510, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(510, skill_y_location))
         if active_character.combat_proficiencies[combat_proficiency] >= 4:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(538, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(538, skill_y_location))
         if active_character.combat_proficiencies[combat_proficiency] >= 5:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(565, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(565, skill_y_location))
         if active_character.combat_proficiencies[combat_proficiency] >= 6:
-            window["-GRAPH-"].draw_image(r"Rombus_2.png", location=(593, skill_y_location))
+            window["-GRAPH-"].draw_image(r"gui_assets\Rombus_2.png", location=(593, skill_y_location))
         skill_y_location = skill_y_location - 31.7
 
 
@@ -260,7 +260,7 @@ def draw_favoured_skills(active_character, window):
         for skill in column:
             for favoured_skill in active_character.favoured_skills:
                 if skill == favoured_skill:
-                    window['-GRAPH-'].draw_image(r"square_2.png", location=(skill_x_location, skill_y_location))
+                    window['-GRAPH-'].draw_image(r"gui_assets\Square_2.png", location=(skill_x_location, skill_y_location))
             skill_y_location = skill_y_location - 31.7
 
 
@@ -277,15 +277,13 @@ def draw_all(active_character, window, large_text, med_large_text, med_small_tex
 
 
 def start_character_gui(active_character):
-
     size = 1920, 1080
     layout = [
         [sg.Graph(size, (0, 0), size, background_color="black",  expand_x=True, expand_y=True, pad=(0, 0), key='-GRAPH-')]
     ]
-
-    window = sg.Window("Character Sheet", layout, icon=r"Ring_Icon.ico", return_keyboard_events=True, finalize=True, resizable=True, element_justification='c', margins=(0, 0), element_padding=(0,0))
+    window = sg.Window("Character Sheet", layout, icon=r"gui_assets\Ring_Icon.ico", return_keyboard_events=True, finalize=True, resizable=True, element_justification='c', margins=(0, 0), element_padding=(0,0))
     window.maximize()
-    window['-GRAPH-'].draw_image(r"TOR_Elf_Character_Sheet_fillable (1).png", location=(0, 1080))
+    window['-GRAPH-'].draw_image(r"gui_assets\TOR_Elf_Character_Sheet_fillable (1).png", location=(0, 1080))
     large_text = round((window.size[0] / 87))
     med_large_text = round((window.size[0] / 96))
     med_small_text = round((window.size[0] / 107))
@@ -296,28 +294,28 @@ def start_character_gui(active_character):
 
 def refresh_character_gui(window):
     window['-GRAPH-'].erase()
-    backgound_image = Image.open(r"TOR_Elf_Character_Sheet_fillable (1).png")
+    backgound_image = Image.open(r"gui_assets\TOR_Elf_Character_Sheet_fillable (1).png")
     backgound_image_size_x = round(1920 / 1920 * window.size[0])
     backgound_image_size_y = round(1080 * window.size[0] / 1920)
     backgound_image = backgound_image.resize((backgound_image_size_x, backgound_image_size_y))
-    backgound_image.save(r"TOR_Elf_Character_Sheet_fillable (2).png")
-    rombus = Image.open(r"Rombus.png")
+    backgound_image.save(r"gui_assets\TOR_Elf_Character_Sheet_fillable (2).png")
+    rombus = Image.open(r"gui_assets\Rombus.png")
     rombus_x = round(23 / 1920 * window.size[0])
     rombus_y = round(22 * window.size[0] / 1920)
     rombus = rombus.resize((rombus_x, rombus_y))
-    rombus.save(r"Rombus_2.png")
-    square = Image.open(r"Square.png")
+    rombus.save(r"gui_assets\Rombus_2.png")
+    square = Image.open(r"gui_assets\Square.png")
     square_x = round(18 / 1920 * window.size[0])
     square_y = round(17 * window.size[0] / 1920)
     square = square.resize((square_x, square_y))
-    square.save(r"Square_2.png")
+    square.save(r"gui_assets\Square_2.png")
     cavas_size = (window.size[0], (1080 * window.size[0] / 1920))
     window['-GRAPH-'].CanvasSize = cavas_size
     large_text = round((window.size[0] / 87))
     med_large_text = round((window.size[0] / 96))
     med_small_text = round((window.size[0] / 107))
     small_text = round((window.size[0] / 160))
-    window['-GRAPH-'].draw_image(r"TOR_Elf_Character_Sheet_fillable (2).png", location=(0, 1080))
+    window['-GRAPH-'].draw_image(r"gui_assets\TOR_Elf_Character_Sheet_fillable (2).png", location=(0, 1080))
     draw_all(active_character, window, large_text, med_large_text, med_small_text, small_text)
 
 
