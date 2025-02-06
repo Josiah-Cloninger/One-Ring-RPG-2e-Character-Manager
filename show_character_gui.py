@@ -1,11 +1,13 @@
 import PySimpleGUI as sg
 import PIL
 from PIL import Image
-import threading
+from threading import Thread
 
 
 # from run_loop import main
 from ui_functions import show_attribute, load_character
+from run_loop import run_loop, get_active_character
+from active_character import active_character_queue
 
 
 #todo list:
@@ -342,9 +344,14 @@ def check_win_size_changed(win_w, win_h, win_w_new, win_h_new):
 
 
 if __name__ == "__main__":
-    active_character = load_character("Hithrin")
+    
+    active_character_queue.put(None)
+    active_character = active_character_queue.get()
+    t1 = Thread(target=get_active_character, args=(active_character,))
+    t1.start()
+    t1.join()
+    active_character = active_character_queue.get()
+    t1 = Thread(target=run_loop, args=(active_character,))
+    t1.start()
     window = start_character_gui(active_character)
-    # t1 = threading.Thread(target=main)
-    # t1.start()
     run_character_gui(window)
-    # t1.join()
