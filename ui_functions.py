@@ -243,6 +243,12 @@ editable_attributes = {key: editable_attributes[key] for key in keys}
 
 user_translator = {
     # name
+    "exit": "exit",
+
+    "menu": "menu",
+
+    "help": "help",
+
     "name": "name",
 
     "culture":        "culture", 
@@ -853,16 +859,22 @@ def set_attribute(active_character: Character, commands: list[str]):
         try:
             test = user_translator[attribute]
         except KeyError:
+            clear_console()
             print(f"'{attribute}' is not a valid attribute.\n\n")
+            return None
 
     clear_console()
 
     match user_translator[attribute]:
         case "help":
-            print(f"Valid attributes include:")
+            print(f"Valid attributes include:\n")
             for viewee, description in editable_attributes.items():
                 print(f"{viewee}: {description}")
             print("\n")
+
+        case "menu":
+            clear_console()
+            return None
 
         case "name":
             clear_console()
