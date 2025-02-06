@@ -1695,7 +1695,7 @@ def set_attribute(active_character: Character, commands: list[str]):
     autosave(active_character)
 
 
-def roll(skill_level: int, is_favoured: bool, tn: int = None):
+def roll(skill_level: int, is_favoured: bool):
     if is_favoured:
         feat_1 = random.randint(0, 11)
         feat_2 = random.randint(0, 11)
@@ -1709,130 +1709,60 @@ def roll(skill_level: int, is_favoured: bool, tn: int = None):
     success_results = []
     for c in range(skill_level):
         success_results.append(random.randint(1, 6))
+
+    return feat_result, success_results
+
     
-    if (feat_result + sum(success_results) >= tn or feat_result == 11) and feat_result != 0:
-        is_success = True
-    else:
-        is_success = False
-
-    quality_of_success = success_results.count(6)
-
-    return is_success, quality_of_success
-
-        
 def roll_attribute(active_character: Character, commands: list[str]):
-    clear_console()
-
-    attribute = " ".join(commands[1:])
-
-    if attribute == "":
-        print(f"Enter the attribute you would like to roll")
-        attribute = input("> ")
-
-    attribute = user_translator[attribute]
-
-    if attribute in STRENGTH_SKILLS:
-        is_success, quality = roll(skill_level = getattr(active_character, attribute), 
-                                        is_favoured = True if attribute in active_character.favoured_skills else False, 
-                                        tn = active_character.strength_tn)
-    elif attribute in HEART_SKILLS:
-        is_success, quality = roll(skill_level = getattr(active_character, attribute), 
-                                        is_favoured = True if attribute in active_character.favoured_skills else False, 
-                                        tn = active_character.heart_tn)
-    elif attribute in WITS_SKILLS:
-        is_success, quality = roll(skill_level = getattr(active_character, attribute), 
-                                        is_favoured = True if attribute in active_character.favoured_skills else False, 
-                                        tn = active_character.wits_tn)
-    elif attribute in ["axes_skill", "bows_skill", "spears_skill", "swords_skill"]:
-        is_success, quality = roll(skill_level = getattr(active_character, attribute), 
-                                         is_favoured = True if attribute in active_character.favoured_skills else False,
-                                         tn = active_character.strength_tn)
-    elif attribute == "protection":
-        is_success, quality = roll(skill_level = active_character.armour.protection + active_character.headgear.protection,
-                                         is_favoured = True if "protection" in active_character.favoured_skills else False)
-    elif attribute in ["valour", "wisdom"]:
-        is_success, quality = roll(skill_level = getattr(active_character, attribute), 
-                                         is_favoured = True if attribute in active_character.favoured_skills else False,
-                                         tn = active_character.heart_tn)
     
-    if is_success:
-        match quality:
-            case 0:
-                print(f"You got an ordinary success on you {attribute} test.\n\n")
-            case 1:
-                print(f"You got a great success on your {attribute} test.\n\n")
-            case 2:
-                print(f"You got an extraordinary success on your {attribute} test!\n\n")
-            case _:
-                print(f"You got an extorirdinary success with {quality} success icons on your {attribute} test!\n\n")
-    else:
-        print(f"You failed your {attribute} test.\n\n")
-
-
-def find_success_rate(active_character: Character, commands: list[str]):
-    clear_console()
-    success_log = []
-
-    attribute = " ".join(commands[1:])
-
-    if attribute == "":
+    try:
+        skill_level = commands[1]
+    except IndexError:
         clear_console()
-        print(f"Enter the attribute you would like to roll")
-        attribute = input("> ")
-
-    attribute = user_translator[attribute]
-
-    clear_console()
-    print(f"Enter the number of iterations you would like to run: ")
-    iterations = input("> ")
+        print("Enter the number of success dice you would like to roll: ")
+        skill_level = input("> ")
 
     try:
-        iterations = int(iterations)
-    except AttributeError:
+        skill_level = int(skill_level)
+    except ValueError:
         clear_console()
-        print(f"{iterations} is not a valid number of iterations. Please input an int next time.\n\n")
+        print("Skill level must be an integer.\n\n")
+        return
+    
+    try:
+        is_favoured = commands[2]
+    except IndexError:
+        clear_console()
+        print("Enter whether the roll is favoured (True or False): ")
+        is_favoured = input("> ")
+    
+    
+    if is_favoured not in ["True", "true", "TRUE", "False", "false", "FALSE"]:
+        clear_console()
+        print("Is favoured must be a boolean (either TRUE or FALSE).\n\n")
+        return
+    
+    is_favoured = bool(is_favoured)
 
-    for c in range(iterations): 
-        if attribute in STRENGTH_SKILLS:
-            is_success, quality = roll(skill_level = getattr(active_character, attribute), 
-                                            is_favoured = True if attribute in active_character.favoured_skills else False, 
-                                            tn = active_character.strength_tn)
-        elif attribute in HEART_SKILLS:
-            is_success, quality = roll(skill_level = getattr(active_character, attribute), 
-                                            is_favoured = True if attribute in active_character.favoured_skills else False, 
-                                            tn = active_character.heart_tn)
-        elif attribute in WITS_SKILLS:
-            is_success, quality = roll(skill_level = getattr(active_character, attribute), 
-                                            is_favoured = True if attribute in active_character.favoured_skills else False, 
-                                            tn = active_character.wits_tn)
-        elif attribute in ["axes_skill", "bows_skill", "spears_skill", "swords_skill"]:
-            is_success, quality = roll(skill_level = getattr(active_character, attribute), 
-                                            is_favoured = True if attribute in active_character.favoured_skills else False,
-                                            tn = active_character.strength_tn)
-        elif attribute == "protection":
-            is_success, quality = roll(skill_level = active_character.armour.protection + active_character.headgear.protection,
-                                            is_favoured = True if "protection" in active_character.favoured_skills else False)
-        elif attribute in ["valour", "wisdom"]:
-            is_success, quality = roll(skill_level = getattr(active_character, attribute), 
-                                            is_favoured = True if attribute in active_character.favoured_skills else False,
-                                            tn = active_character.heart_tn)
-        
-        if is_success:
-            success_log.append(quality)
-        else:
-            success_log.append("failure")
-
-    ordinary_success_rate = (iterations - success_log.count("failure")) / iterations
-    great_success_rate = (iterations - (success_log.count("failure") + success_log.count(0))) / iterations
-    extrordinary_success_rate = (iterations - (success_log.count("failure") + success_log.count(0) + success_log.count(1))) / iterations
-    success_quality_list = [0 if x == "failure" else x for x in success_log]
-    average_success_icons = statistics.mean(success_quality_list)
+    feat_result, success_results = roll(int(skill_level), bool(int(is_favoured)))
 
     clear_console()
-    print(f"You got at least an ordinary success {round((ordinary_success_rate * 100), 2)}% of the time.\n")
-    print(f"You got at least an great success {round((great_success_rate * 100), 2)}% of the time.\n")
-    print(f"You got at least an extraordinary success {round((extrordinary_success_rate * 100), 2)}% of the time.\n")
-    print(f"You got an average of {round(average_success_icons, 2)} success icons.\n\n")
+    if feat_result == 0:
+        feat_result = "Eye of Sauron"
+        print(f"Feat Result: {feat_result}")
+        print(f"Success Results: {success_results}")
+        print(f"Total: {sum(success_results)}\n\n")
+
+    elif feat_result == 12:
+        feat_result = "G-Rune"
+        print(f"Feat Result: {feat_result}")
+        print(f"Success Results: {success_results}")
+        print(f"Total: atuomatic success\n\n")
+        
+    else:
+        print(f"Feat Result: {feat_result}")
+        print(f"Success Results: {success_results}")
+        print(f"Total: {sum(success_results) + feat_result}\n\n")
 
 
 def autosave(active_character: Character):
