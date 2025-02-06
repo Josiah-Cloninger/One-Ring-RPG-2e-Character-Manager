@@ -3,8 +3,7 @@ from ui_functions import (clear_console, start_help, create_character,
                           show_attribute, set_attribute, roll_attribute, help, 
                           find_success_rate, update_character)
 from character import load_character
-from active_character import active_character_queue
-
+from queues import active_character_queue, refreash_character_gui
 
 
 def get_active_character(active_character):
@@ -47,10 +46,12 @@ def run_loop(active_character):
                 active_character = create_character()
                 active_character_queue.empty()
                 active_character_queue.put(active_character)
+                refreash_character_gui.put(True)
             case "load":
                 active_character = select_character_to_load(input_list)
                 active_character_queue.empty()
                 active_character_queue.put(active_character)
+                refreash_character_gui.put(True)
             case "save":
                 save_current_character(active_character)
             case "show":
@@ -59,6 +60,7 @@ def run_loop(active_character):
                 set_attribute(active_character, input_list)
                 active_character_queue.empty()
                 active_character_queue.put(active_character)
+                refreash_character_gui.put(True)
             case "roll":
                 roll_attribute(active_character, input_list)
             case "success_rate":

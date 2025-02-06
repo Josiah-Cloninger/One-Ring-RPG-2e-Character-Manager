@@ -1,13 +1,11 @@
 import PySimpleGUI as sg
-import PIL
 from PIL import Image
 from threading import Thread
 
 
-# from run_loop import main
 from ui_functions import show_attribute, load_character
 from run_loop import run_loop, get_active_character
-from active_character import active_character_queue
+from queues import active_character_queue, refreash_character_gui
 
 
 #todo list:
@@ -326,15 +324,20 @@ def run_character_gui(window):
     win_w, win_h = window.Size
     while True:
         event, values = window(timeout = 100)
+        refreash_window = refreash_character_gui.get()
         if event in (sg.WINDOW_CLOSED, 'Exit'):
             break
         if event == "MouseWheel:Up":
             window['-GRAPH-'].move(0, -25)
         if event == "MouseWheel:Down":
             window['-GRAPH-'].move(0, 25)
+        if refreash_window == True:
+            refresh_character_gui(window)
+            refreash_character_gui.put(False)
         win_w_new, win_h_new = window.Size
         check_win_size_changed(win_w, win_h, win_w_new, win_h_new)
         win_w, win_h = win_w_new, win_h_new
+        refreash_character_gui.put(False)
     window.close()
 
 
@@ -344,7 +347,8 @@ def check_win_size_changed(win_w, win_h, win_w_new, win_h_new):
 
 
 if __name__ == "__main__":
-    
+    refreash_character_gui.empty()
+    refreash_character_gui.put(False)
     active_character_queue.put(None)
     active_character = active_character_queue.get()
     t1 = Thread(target=get_active_character, args=(active_character,))
