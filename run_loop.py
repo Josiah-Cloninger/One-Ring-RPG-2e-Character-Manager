@@ -1,7 +1,7 @@
 from ui_functions import (clear_console, start_help, create_character, 
                           select_character_to_load, save_current_character, 
                           show_attribute, set_attribute, roll_attribute, help, 
-                          find_success_rate, update_character)
+                          update_character)
 from character import load_character
 from queues import active_character_queue, refreash_character_gui
 
