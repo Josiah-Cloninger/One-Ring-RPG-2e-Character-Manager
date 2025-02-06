@@ -1845,9 +1845,6 @@ def update_character(active_character: Character):
 
     active_character.favoured_skills = [active_character.favoured_skills[0][0], active_character.favoured_skills[0][1][0], active_character.favoured_skills[0][1][1]]
 
-    autosave(active_character)
-    print(f"{active_character.name} successfully updated!\n\n")
-
     new_virtue = Virtue()
     old_virtues = active_character.virtues
     active_character.virtues = []
@@ -1862,3 +1859,5 @@ def update_character(active_character: Character):
         new_reward.name = reward
         active_character.rewards.append(new_reward)
         
+    autosave(active_character)
+    print(f"{active_character.name} successfully updated!\n\n")

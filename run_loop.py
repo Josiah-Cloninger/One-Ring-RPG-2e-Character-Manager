@@ -11,7 +11,7 @@ clear_console()
 
 # Either load an existing character, or create a new one
 while active_character is None:
-        print("Please start by either loading an exhisting character with 'load' or creating a new character with 'create'")
+        print("Please start by either loading an existing character with 'load' or creating a new character with 'create'")
         string_input = input("> ").lower()
         input_list = string_input.split()
         match input_list[0]:
