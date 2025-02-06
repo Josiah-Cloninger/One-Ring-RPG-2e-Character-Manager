@@ -495,7 +495,7 @@ def main():
                                   name = selected_name,
                                   age = selected_age,
                                   calling = selected_calling,
-                                  favoured_skill_choices = selected_favoured_skills,
+                                  favoured_skills = selected_favoured_skills,
                                   starting_virtue = selected_virtue,
                                   starting_reward = selected_reward
                                   )
