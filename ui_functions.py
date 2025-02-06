@@ -620,44 +620,35 @@ def create_character():
 def select_character_to_load(commands: list[str]):
     """Walks the user through selecting a character to load."""
     clear_console()
-    character_name = "".join(commands).lower()
-    while True:
-        if character_name is None:
-            print("Enter the name of the character you would like to load: ")
-            character_name = input("> ").lower()
-        if character_name == "exit":
-            exit()
-        elif character_name == "menu":
+    character_name = "".join(commands[1:]).lower()
+
+
+    if character_name == "":
+        print("Enter the name of the character you would like to load: ")
+        character_name = input("> ").lower()
+
+
+    if character_name == "exit":
+        exit()
+    elif character_name == "menu":
+        clear_console()
+        return
+    elif character_name == "help":
+        clear_console()
+        print("Valid commands include: \n")
+        print("exit: Exits the program.")
+        print("menu: Returns to the main menu.")
+        print("{character name}: Loads the character with that name.\n\n")
+    else:
+        try:
+            active_character = load_character(f"{character_name}")
+        except FileNotFoundError:
             clear_console()
-            return
-        elif character_name == "help":
-            clear_console()
-            print("Valid commands include: \n")
-            print("exit: Exits the program.")
-            print("menu: Returns to the main menu.")
-            print("{character name}: Loads the character with that name.\n\n")
-            character_name = None
+            print("No character with that name was found.\n\n")
         else:
-            character_name = character_name
-            try:
-                active_character = load_character(f"{character_name}")
-                break
-            except FileNotFoundError:
-                clear_console()
-                print("No character with that name was found.\n\n")
-                character_name = None
-    clear_console()
-    print(f"{active_character.name} successfully loaded!\n\n")
-    return active_character
-
-
-def simple_attributes(active_character: Character):
-    """returns the list of attributes that are simple data types (int, float, str)"""
-    attributes = []
-    for attribute in dir(active_character):
-        if not attribute.startswith("__") and not callable(getattr(active_character, attribute)):
-            attributes.append(attribute)
-    return attributes
+            clear_console()
+            print(f"{active_character.name} successfully loaded!\n\n")
+            return active_character
 
 
 def weapon_names(active_character: Character):
