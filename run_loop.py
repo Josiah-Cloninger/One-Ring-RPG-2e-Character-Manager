@@ -62,11 +62,14 @@ def run_loop(active_character):
                 refreash_character_gui.put(True)
             case "roll":
                 roll_attribute(active_character, input_list)
-            case "success_rate":
-                find_success_rate(active_character, input_list)
+            # case "success_rate":
+            #     find_success_rate(active_character, input_list)
             case "revert":
                 clear_console()
                 active_character = load_character(active_character.name)
+                active_character_queue.empty()
+                active_character_queue.put(active_character)
+                refreash_character_gui.put(True)
                 print("Character reverted to the last manually saved state\n")
             case "update":
                 update_character(active_character)

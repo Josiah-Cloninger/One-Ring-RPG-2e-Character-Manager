@@ -334,10 +334,13 @@ def run_character_gui(window):
         if refreash_window == True:
             refresh_character_gui(window)
             refreash_character_gui.put(False)
+        else:
+            refreash_character_gui.put(False)
         win_w_new, win_h_new = window.Size
         check_win_size_changed(win_w, win_h, win_w_new, win_h_new)
         win_w, win_h = win_w_new, win_h_new
-        refreash_character_gui.put(False)
+
+        # refreash_character_gui.put(False)
     window.close()
 
 
