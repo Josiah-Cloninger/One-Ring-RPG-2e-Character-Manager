@@ -1788,23 +1788,29 @@ def autosave(active_character: Character):
 def update_character(active_character: Character):
     clear_console()
 
-    active_character.traveling_gear = None
+    active_character.traveling_gear = [str]
 
-    active_character.favoured_skills = [active_character.favoured_skills[0][0], active_character.favoured_skills[0][1][0], active_character.favoured_skills[0][1][1]]
+    try:
+        active_character.favoured_skills = [active_character.favoured_skills[0][0], active_character.favoured_skills[0][1][0], active_character.favoured_skills[0][1][1]]
+    except IndexError:
+        pass
+    
+    try:
+        new_virtue = Virtue()
+        old_virtues = active_character.virtues
+        active_character.virtues = []
+        for virtue in old_virtues:
+            new_virtue.name = virtue
+            active_character.virtues.append(new_virtue)
 
-    new_virtue = Virtue()
-    old_virtues = active_character.virtues
-    active_character.virtues = []
-    for virtue in old_virtues:
-        new_virtue.name = virtue
-        active_character.virtues.append(new_virtue)
-
-    new_reward = Reward()
-    old_rewards = active_character.rewards
-    active_character.rewards = []
-    for reward in old_rewards:
-        new_reward.name = reward
-        active_character.rewards.append(new_reward)
+        new_reward = Reward()
+        old_rewards = active_character.rewards
+        active_character.rewards = []
+        for reward in old_rewards:
+            new_reward.name = reward
+            active_character.rewards.append(new_reward)
+    except:
+        pass
         
     autosave(active_character)
     print(f"{active_character.name} successfully updated!\n\n")
