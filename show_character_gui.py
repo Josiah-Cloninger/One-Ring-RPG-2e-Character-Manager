@@ -3,9 +3,9 @@ from PIL import Image
 from threading import Thread
 
 
-from ui_functions import show_attribute, load_character
-from run_loop import run_loop, get_active_character
+from ui_functions import reward_names, virtue_names
 from queues import active_character_queue, refreash_character_gui
+from run_loop import get_active_character, run_loop
 
 
 #todo list:
@@ -238,8 +238,8 @@ def draw_points(active_character, window, med_small_text):
 
 
 def draw_virtues_rewards(active_character, window, small_text):
-    str_virtues =  "\n".join([virtue for virtue in active_character.virtues])
-    str_rewards = "\n".join([reward for reward in active_character.rewards])
+    str_virtues = "\n".join([virtue for virtue in virtue_names(active_character)])
+    str_rewards = "\n".join([reward for reward in reward_names(active_character)])
     window['-GRAPH-'].draw_text(str_rewards, location=(650, 385), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_TOP_LEFT)
     window['-GRAPH-'].draw_text(str_virtues, location=(987, 385), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_TOP_LEFT)
 
