@@ -1788,7 +1788,10 @@ def autosave(active_character: Character):
 def update_character(active_character: Character):
     clear_console()
 
-    active_character.traveling_gear = [str]
+    try:
+        active_character.traveling_gear
+    except:
+        active_character.traveling_gear = []
 
     try:
         active_character.favoured_skills = [active_character.favoured_skills[0][0], active_character.favoured_skills[0][1][0], active_character.favoured_skills[0][1][1]]
