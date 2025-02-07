@@ -664,6 +664,20 @@ def weapon_names(active_character: Character):
     return weapon_names
 
 
+def reward_names(active_character: Character):
+    reward_names = []
+    for reward in active_character.rewards:
+        reward_names.append(reward.name)
+    return reward_names
+
+
+def virtue_names(active_character: Character):
+    virtue_names = []
+    for virtue in active_character.virtues:
+        virtue_names.append(virtue.name)
+    return virtue_names
+
+
 def save_current_character(active_character: Character):
     save_character(active_character)
     clear_console()

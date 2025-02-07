@@ -1,11 +1,11 @@
 import PySimpleGUI as sg
-import PIL
 from PIL import Image
-import threading
+from threading import Thread
 
 
-# from run_loop import main
-from ui_functions import show_attribute, load_character
+from ui_functions import reward_names, virtue_names
+from queues import active_character_queue, refreash_character_gui
+from run_loop import get_active_character, run_loop
 
 
 #todo list:
@@ -238,8 +238,8 @@ def draw_points(active_character, window, med_small_text):
 
 
 def draw_virtues_rewards(active_character, window, small_text):
-    str_virtues =  "\n".join([virtue for virtue in active_character.virtues])
-    str_rewards = "\n".join([reward for reward in active_character.rewards])
+    str_virtues = "\n".join([virtue for virtue in virtue_names(active_character)])
+    str_rewards = "\n".join([reward for reward in reward_names(active_character)])
     window['-GRAPH-'].draw_text(str_rewards, location=(650, 385), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_TOP_LEFT)
     window['-GRAPH-'].draw_text(str_virtues, location=(987, 385), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_TOP_LEFT)
 
@@ -324,15 +324,23 @@ def run_character_gui(window):
     win_w, win_h = window.Size
     while True:
         event, values = window(timeout = 100)
+        refreash_window = refreash_character_gui.get()
         if event in (sg.WINDOW_CLOSED, 'Exit'):
             break
         if event == "MouseWheel:Up":
             window['-GRAPH-'].move(0, -25)
         if event == "MouseWheel:Down":
             window['-GRAPH-'].move(0, 25)
+        if refreash_window == True:
+            refresh_character_gui(window)
+            refreash_character_gui.put(False)
+        else:
+            refreash_character_gui.put(False)
         win_w_new, win_h_new = window.Size
         check_win_size_changed(win_w, win_h, win_w_new, win_h_new)
         win_w, win_h = win_w_new, win_h_new
+
+        # refreash_character_gui.put(False)
     window.close()
 
 
@@ -342,9 +350,13 @@ def check_win_size_changed(win_w, win_h, win_w_new, win_h_new):
 
 
 if __name__ == "__main__":
-    active_character = load_character("Hithrin")
+    refreash_character_gui.empty()
+    refreash_character_gui.put(False)
+    active_character_queue.put(None)
+    active_character = active_character_queue.get()
+    get_active_character(active_character)
+    active_character = active_character_queue.get()
+    t1 = Thread(target=run_loop, args=(active_character,))
+    t1.start()
     window = start_character_gui(active_character)
-    # t1 = threading.Thread(target=main)
-    # t1.start()
     run_character_gui(window)
-    # t1.join()
