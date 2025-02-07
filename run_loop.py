@@ -10,7 +10,7 @@ def get_active_character(active_character):
     clear_console()
     # Either load an existing character, or create a new one
     while active_character is None:
-            print("Please start by either loading an exhisting character with 'load' or creating a new character with 'create'")
+            print("Please start by either loading an existing character with 'load' or creating a new character with 'create'")
             string_input = input("> ").lower()
             input_list = string_input.split()
             match input_list[0]:
@@ -62,8 +62,6 @@ def run_loop(active_character):
                 refreash_character_gui.put(True)
             case "roll":
                 roll_attribute(active_character, input_list)
-            # case "success_rate":
-            #     find_success_rate(active_character, input_list)
             case "revert":
                 clear_console()
                 active_character = load_character(active_character.name)
