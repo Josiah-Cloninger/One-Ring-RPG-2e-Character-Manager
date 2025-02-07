@@ -1402,27 +1402,65 @@ def set_attribute(active_character: Character, commands: list[str]):
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "rewards":
-            print("Would you like to add or remove a reward? (add/remove): ")
+            print("Would you like to add, remove, or modify a reward? (add/remove/modify): ")
             answer = input("> ").lower()
             match answer:
                 case "add":
+                    new_reward = Reward()
+
                     clear_console()
                     print(f"Enter the name of the reward you would like to add to your list of rewards: ")
-                    value = input("> ")
-                    active_character.rewards.append(value)
+                    new_reward.name = input("> ")
+
                     clear_console()
-                    print(f"'{value}'successfully added to your list of '{attribute}'.\n\n")
+                    print(f"Enter the effect of the reward you would like to add to your list of rewards: ")
+                    new_reward.effect = input("> ")
+
+                    active_character.rewards.append(new_reward)
+                    clear_console()
+                    print(f"'{new_reward.name}' successfully added to your list of '{attribute}'.\n\n")
                 case "remove":
                     clear_console()
                     print(f"Enter the name of the reward you would like to remove from your list of rewards: ")
                     value = input("> ")
-                    try:
-                        active_character.rewards.remove(value)
+                    if value in reward_names(active_character):
+                        for reward in active_character.rewards:
+                            if reward.name == value:
+                                active_character.rewards.remove(reward)
+                                clear_console()
+                                print(f"'{value}' successfully removed from your list of '{attribute}'.\n\n")
+                    else:
+                        print(f"'{value}' is not in your list of rewards.\n\n")
+                case "modify":
+                    clear_console()
+                    print(f"Enter the name of the reward you would like to modify from your list of rewards: ")
+                    name = input("> ")
+                    if name in reward_names(active_character):
                         clear_console()
-                        print(f"'{value}'successfully removed from your list of '{attribute}'.\n\n")
-                    except ValueError:
-                        print(f"{value} is not in your list of rewards.\n\n")
+                        print(f"Enter the attribute of {name} you would like to modify: ")
+                        match input("> ").lower():
+                            case "name":
+                                clear_console()
+                                print(f"Enter what you would like to change {name}'s name to: ")
+                                active_character.rewards_by_name(name).name = input("> ")
+                                clear_console()
+                                print(f"{name}'s name successfully changed to '{active_character.rewards_by_name(name).name}'.\n\n")
+                            case "effect":
+                                clear_console()
+                                print(f"Enter what you would like to change {name}'s effect to: ")
+                                active_character.rewards_by_name(name).effect = input("> ")
+                                clear_console()
+                                print(f"{name}'s effect successfully changed to '{active_character.rewards_by_name(name).effect}'.\n\n")
+                            case _:
+                                clear_console()
+                                print(f"'{name}' is not a valid attribute of a reward.\n\n")
+                                return                            
+                    else:
+                        clear_console()
+                        print(f"{name}' is not in your list of rewards.\n\n")
+                        return
                 case _:
+                    clear_console()
                     print("Invalid input.\n\n")
         
         case "wisdom":
@@ -1439,32 +1477,70 @@ def set_attribute(active_character: Character, commands: list[str]):
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
         
         case "virtues":
-            print("Would you like to add or remove a virtue? (add/remove): ")
+            print("Would you like to add, remove, or modify a virtue? (add/remove/modify): ")
             answer = input("> ").lower()
             match answer:
                 case "add":
+                    new_virtue = Virtue()
+
                     clear_console()
                     print(f"Enter the name of the virtue you would like to add to your list of virtues: ")
-                    value = input("> ")
-                    active_character.virtues.append(value)
+                    new_virtue.name = input("> ")
+
                     clear_console()
-                    print(f"'{value}'successfully added to your list of '{attribute}'.\n\n")
+                    print(f"Enter the effect of the virtue you would like to add to your list of virtues: ")
+                    new_virtue.effect = input("> ")
+
+                    active_character.virtues.append(new_virtue)
+                    clear_console()
+                    print(f"'{new_virtue.name}' successfully added to your list of '{attribute}'.\n\n")
                 case "remove":
                     clear_console()
                     print(f"Enter the name of the virtue you would like to remove from your list of virtues: ")
                     value = input("> ")
-                    try:
-                        active_character.virtues.remove(value)
+                    if value in virtue_names(active_character):
+                        for virtue in active_character.virtues:
+                            if virtue.name == value:
+                                active_character.virtues.remove(virtue)
+                                clear_console()
+                                print(f"'{value}' successfully removed from your list of '{attribute}'.\n\n")
+                    else:
+                        print(f"'{value}' is not in your list of virtues.\n\n")
+                case "modify":
+                    clear_console()
+                    print(f"Enter the name of the virtue you would like to modify from your list of virtues: ")
+                    name = input("> ")
+                    if name in virtue_names(active_character):
                         clear_console()
-                        print(f"'{value}'successfully removed from your list of '{attribute}'.\n\n")
-                    except ValueError:
-                        print(f"{value} is not in your list of virtues.\n\n")
+                        print(f"Enter the attribute of {name} you would like to modify: ")
+                        match input("> ").lower():
+                            case "name":
+                                clear_console()
+                                print(f"Enter what you would like to change {name}'s name to: ")
+                                active_character.virtues_by_name(name).name = input("> ")
+                                clear_console()
+                                print(f"{name}'s name successfully changed to '{active_character.virtues_by_name(name).name}'.\n\n")
+                            case "effect":
+                                clear_console()
+                                print(f"Enter what you would like to change {name}'s effect to: ")
+                                active_character.virtues_by_name(name).effect = input("> ")
+                                clear_console()
+                                print(f"{name}'s effect successfully changed to '{active_character.virtues_by_name(name).effect}'.\n\n")
+                            case _:
+                                clear_console()
+                                print(f"'{name}' is not a valid attribute of a virtue.\n\n")
+                                return
+                    else:
+                        clear_console()
+                        print(f"{name}' is not in your list of virtues.\n\n")
+                        return
                 case _:
+                    clear_console()
                     print("Invalid input.\n\n")
         
 
         case "weapons":
-            print("Would you like to add or remove a weapon? (add/remove): ")
+            print("Would you like to add, remove, or modify a weapon? (add/remove/modify): ")
             answer = input("> ").lower()
             match answer:
                 case "add":
@@ -1489,7 +1565,49 @@ def set_attribute(active_character: Character, commands: list[str]):
                                 clear_console()
                                 print(f"'{value}' successfully removed from your list of '{attribute}'.\n\n")
                     else:
-                        print(f"{value}' is not in your list of weapons.\n\n")
+                        print(f"'{value}' is not in your list of weapons.\n\n")
+                case "modify":
+                    clear_console()
+                    print(f"Enter the name of the weapon you would like to modify: ")
+                    name = input("> ")
+                    if name in weapon_names(active_character):
+                        clear_console()
+                        print(f"Enter the attribute of {name} you would like to modify: ")
+                        match input("> ").lower():
+                            case "name":
+                                clear_console()
+                                print(f"Enter what you would like to change {name}'s name to: ")
+                                active_character.weapons_by_name(name).name = input("> ")
+                                clear_console()
+                                print(f"{name}'s name successfully changed to '{active_character.weapons_by_name(name).name}'.\n\n")
+                            case "damage":
+                                clear_console()
+                                print(f"Enter what you would like to change {name}'s damage to: ")
+                                active_character.weapons_by_name(name).damage = input("> ")
+                                print(f"{name}'s damage successfully changed to '{active_character.weapons_by_name(name).damage}'.\n\n")
+                            case "injury":
+                                clear_console()
+                                print(f"Enter what you would like to change {name}'s range to: ")
+                                active_character.weapons_by_name(name).range = input("> ")
+                                print(f"{name}'s range successfully changed to '{active_character.weapons_by_name(name).range}'.\n\n")
+                            case "load":
+                                clear_console()
+                                print(f"Enter what you would like to change {name}'s load to: ")
+                                active_character.weapons_by_name(name).load = input("> ")
+                                print(f"{name}'s load successfully changed to '{active_character.weapons_by_name(name).load}'.\n\n")
+                            case "notes":
+                                clear_console()
+                                print(f"Enter what you would like to change {name}'s notes to: ")
+                                active_character.weapons_by_name(name).notes = input("> ")
+                                print(f"{name}'s notes successfully changed to '{active_character.weapons_by_name(name).notes}'.\n\n")
+                            case _:
+                                clear_console()
+                                print(f"'{name}' is not a valid attribute of a weapon.\n\n")
+                                return
+                    else:
+                        clear_console()
+                        print(f"{name}' is not in your list of weapons.\n\n")
+                        return
                 case _:
                     print("Invalid input.\n\n")
         
@@ -1799,21 +1917,32 @@ def update_character(active_character: Character):
         pass
     
     try:
-        new_virtue = Virtue()
-        old_virtues = active_character.virtues
-        active_character.virtues = []
-        for virtue in old_virtues:
-            new_virtue.name = virtue
-            active_character.virtues.append(new_virtue)
+        if type(active_character.virtues[0]) == str:
+            try:
+                new_virtue = Virtue()
+                old_virtues = active_character.virtues
+                active_character.virtues = []
+                for virtue in old_virtues:
+                    new_virtue.name = virtue
+                    active_character.virtues.append(new_virtue)
 
-        new_reward = Reward()
-        old_rewards = active_character.rewards
-        active_character.rewards = []
-        for reward in old_rewards:
-            new_reward.name = reward
-            active_character.rewards.append(new_reward)
+                new_reward = Reward()
+                old_rewards = active_character.rewards
+                active_character.rewards = []
+                for reward in old_rewards:
+                    new_reward.name = reward
+                    active_character.rewards.append(new_reward)
+            except:
+                pass
     except:
         pass
+
+    old_combat_proficencies = active_character.combat_proficiencies
+    active_character.combat_proficiencies = {}
+    active_character.combat_proficiencies.update({'axes': old_combat_proficencies.get('axes'),
+                                                   'bows': old_combat_proficencies.get('bows'),
+                                                   'spears': old_combat_proficencies.get('spears'),
+                                                   'swords': old_combat_proficencies.get('swords')})
         
     autosave(active_character)
     print(f"{active_character.name} successfully updated!\n\n")

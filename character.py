@@ -290,13 +290,23 @@ class Character:
     def remove_shield(self):
         self.shield = None
 
-
-    def add_virtue(self, virtue: str):
-        self.virtues.append(virtue)
-
     
-    def add_reward(self, reward: str):
-        self.rewards.append(reward)
+    def virtues_by_name(self, virtue_name: str):
+        for virtue in self.virtues:
+            if virtue.name == virtue_name:
+                return virtue
+            
+    
+    def rewards_by_name(self, reward_name: str):
+        for reward in self.rewards:
+            if reward.name == reward_name:
+                return reward
+            
+
+    def weapons_by_name(self, weapon_name: str):
+        for weapon in self.weapons:
+            if weapon.name == weapon_name:
+                return weapon
 
 
     def __repr__(self):
