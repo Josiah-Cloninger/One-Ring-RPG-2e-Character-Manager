@@ -150,6 +150,8 @@ class Character:
         # virtues
         self.wisdom = 1
         self.virtues = [starting_virtue]
+
+        self.traveling_gear = [str]
     
 
     # conditions
