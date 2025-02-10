@@ -4,7 +4,7 @@ from threading import Thread
 
 
 from ui_functions import reward_names, virtue_names
-from queues import active_character_queue, refreash_character_gui
+from queues import active_character_queue, refresh_character_gui_queue
 from run_loop import get_active_character, run_loop
 
 
@@ -324,7 +324,7 @@ def run_character_gui(window):
     win_w, win_h = window.Size
     while True:
         event, values = window(timeout = 100)
-        refreash_window = refreash_character_gui.get()
+        refreash_window = refresh_character_gui_queue.get()
         if event in (sg.WINDOW_CLOSED, 'Exit'):
             break
         if event == "MouseWheel:Up":
@@ -333,14 +333,14 @@ def run_character_gui(window):
             window['-GRAPH-'].move(0, 25)
         if refreash_window == True:
             refresh_character_gui(window)
-            refreash_character_gui.put(False)
+            refresh_character_gui_queue.put(False)
         else:
-            refreash_character_gui.put(False)
+            refresh_character_gui_queue.put(False)
         win_w_new, win_h_new = window.Size
         check_win_size_changed(win_w, win_h, win_w_new, win_h_new)
         win_w, win_h = win_w_new, win_h_new
 
-        # refreash_character_gui.put(False)
+        # refresh_character_gui_queue.put(False)
     window.close()
 
 
@@ -350,8 +350,8 @@ def check_win_size_changed(win_w, win_h, win_w_new, win_h_new):
 
 
 if __name__ == "__main__":
-    refreash_character_gui.empty()
-    refreash_character_gui.put(False)
+    refresh_character_gui_queue.empty()
+    refresh_character_gui_queue.put(False)
     active_character_queue.put(None)
     active_character = active_character_queue.get()
     get_active_character(active_character)

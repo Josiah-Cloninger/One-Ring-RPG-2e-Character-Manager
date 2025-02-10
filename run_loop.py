@@ -3,7 +3,7 @@ from ui_functions import (clear_console, start_help, create_character,
                           show_attribute, set_attribute, roll_attribute, help, 
                           update_character)
 from character import load_character
-from queues import active_character_queue, refreash_character_gui
+from queues import active_character_queue, refresh_character_gui_queue
 
 
 def get_active_character(active_character):
@@ -45,12 +45,12 @@ def run_loop(active_character):
                 active_character = create_character()
                 active_character_queue.empty()
                 active_character_queue.put(active_character)
-                refreash_character_gui.put(True)
+                refresh_character_gui_queue.put(True)
             case "load":
                 active_character = select_character_to_load(input_list)
                 active_character_queue.empty()
                 active_character_queue.put(active_character)
-                refreash_character_gui.put(True)
+                refresh_character_gui_queue.put(True)
             case "save":
                 save_current_character(active_character)
             case "show":
@@ -59,7 +59,7 @@ def run_loop(active_character):
                 set_attribute(active_character, input_list)
                 active_character_queue.empty()
                 active_character_queue.put(active_character)
-                refreash_character_gui.put(True)
+                refresh_character_gui_queue.put(True)
             case "roll":
                 roll_attribute(active_character, input_list)
             case "revert":
@@ -67,7 +67,7 @@ def run_loop(active_character):
                 active_character = load_character(active_character.name)
                 active_character_queue.empty()
                 active_character_queue.put(active_character)
-                refreash_character_gui.put(True)
+                refresh_character_gui_queue.put(True)
                 print("Character reverted to the last manually saved state\n")
             case "update":
                 update_character(active_character)

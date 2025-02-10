@@ -8,6 +8,7 @@ from calling import Calling, Callings
 from gear import Weapons, Armours, Shields, Headgears
 from boons import Virtue, Reward
 
+
 styles_print = {
     "culture": "#0001e0",
     "yellow": "#deea0b",
@@ -22,13 +23,14 @@ styles_choice = questionary.Style([
     ('background', '#f78400'),
     ('white', '#ffffff')
 ])
+version = "2.0"
 
 
 def clear_console():
     """Clears the console and prints the title. If a character object is passed, it will autosave that character."""
     os.system('cls' if os.name == 'nt' else 'clear')
     print(f"One Ring RPG Character Manager\n"
-          f"Version: 1.0\n"
+          f"Version: {version}\n"
           f"Enter 'help' at any time for a list of commands or 'exit' to quit\n\n")
     
 
