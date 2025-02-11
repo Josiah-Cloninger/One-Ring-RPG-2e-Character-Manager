@@ -13,6 +13,8 @@ def get_active_character(active_character):
             print("Please start by either loading an existing character with 'load' or creating a new character with 'create'")
             string_input = input("> ").lower()
             input_list = string_input.split()
+            if input_list == []:
+                input_list.append("help")
             match input_list[0]:
                 case "help":
                     start_help()
@@ -36,6 +38,8 @@ def run_loop(active_character):
         print("Enter a command:")
         string_input = input("> ").lower()
         input_list = string_input.split()
+        if input_list == []:
+                input_list.append("help")
         match input_list[0]:
             case "help":
                 help()
