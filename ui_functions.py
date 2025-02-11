@@ -718,7 +718,7 @@ def show_attribute(active_character: Character, commands: list[str]):
                 print(f"{attribute}: {active_character.treasure}\n\n")
             case "patron":
                 print(f"{attribute}: {active_character.patron}\n\n")
-            case "shadow path":
+            case "shadow_path":
                 print(f"{attribute}: {active_character.shadow_path}\n\n")
             case "distinctive_features":
                 print(f"{attribute}: {active_character.distinctive_features}\n\n")
@@ -782,7 +782,7 @@ def show_attribute(active_character: Character, commands: list[str]):
                 print(f"{attribute}: {active_character.riddle}\n\n")
             case "lore":
                 print(f"{attribute}: {active_character.lore}\n\n")
-            case "favoured skills":
+            case "favoured_skills":
                 print(f"{attribute}: {active_character.favoured_skills}\n\n")
             case "skills":
                 for skill, level in active_character.skill_levels.items():
@@ -1321,18 +1321,20 @@ def set_attribute(active_character: Character, commands: list[str]):
                     value = input("> ")
                     active_character.favoured_skills.append(value)
                     clear_console()
-                    print(f"'{value}'successfully added to your list of favoured skills.\n\n")
+                    print(f"'{value}' successfully added to your list of favoured skills.\n\n")
                 case "remove":
                     clear_console()
                     print(f"Enter the name of the skill you would like to remove from you list of favoured skills: ")
                     value = input("> ")
                     try:
-                        active_character.distinctive_features.remove(value)
+                        active_character.favoured_skills.remove(value)
                         clear_console()
-                        print(f"'{value}'successfully removed from your list of favoured skills.\n\n")
+                        print(f"'{value}' successfully removed from your list of favoured skills.\n\n")
                     except ValueError:
+                        clear_console()
                         print(f"{value} is not in your list of favoured skills.\n\n")
                 case _:
+                    clear_console()
                     print("Invalid input.\n\n")\
        
 
