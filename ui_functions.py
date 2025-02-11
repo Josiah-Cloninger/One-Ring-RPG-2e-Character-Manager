@@ -518,6 +518,7 @@ user_translator = {
 
     # Gear
     "weapons": "weapons",
+    "weapon": "weapons",
 
     "armour": "armour",
     "armor": "armour",
@@ -869,13 +870,13 @@ def set_attribute(active_character: Character, commands: list[str]):
         print("Enter the attribute you would like to set: ")
         attribute = input("> ").lower()
 
-        # checking to see if the attribute given is valid
-        try:
-            test = user_translator[attribute]
-        except KeyError:
-            clear_console()
-            print(f"'{attribute}' is not a valid attribute.\n\n")
-            return None
+    # checking to see if the attribute given is valid
+    try:
+        test = user_translator[attribute]
+    except KeyError:
+        clear_console()
+        print(f"'{attribute}' is not a valid attribute.\n\n")
+        return None
 
     clear_console()
 
@@ -1577,9 +1578,10 @@ def set_attribute(active_character: Character, commands: list[str]):
                             case "name":
                                 clear_console()
                                 print(f"Enter what you would like to change {name}'s name to: ")
-                                active_character.weapons_by_name(name).name = input("> ")
+                                new_name = input("> ")
+                                active_character.weapons_by_name(name).name = new_name
                                 clear_console()
-                                print(f"{name}'s name successfully changed to '{active_character.weapons_by_name(name).name}'.\n\n")
+                                print(f"{name}'s name successfully changed to '{active_character.weapons_by_name(new_name).name}'.\n\n")
                             case "damage":
                                 clear_console()
                                 print(f"Enter what you would like to change {name}'s damage to: ")
@@ -1587,9 +1589,9 @@ def set_attribute(active_character: Character, commands: list[str]):
                                 print(f"{name}'s damage successfully changed to '{active_character.weapons_by_name(name).damage}'.\n\n")
                             case "injury":
                                 clear_console()
-                                print(f"Enter what you would like to change {name}'s range to: ")
-                                active_character.weapons_by_name(name).range = input("> ")
-                                print(f"{name}'s range successfully changed to '{active_character.weapons_by_name(name).range}'.\n\n")
+                                print(f"Enter what you would like to change {name}'s injury to: ")
+                                active_character.weapons_by_name(name).injury = input("> ")
+                                print(f"{name}'s injury successfully changed to '{active_character.weapons_by_name(name).injury}'.\n\n")
                             case "load":
                                 clear_console()
                                 print(f"Enter what you would like to change {name}'s load to: ")
@@ -1606,7 +1608,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                                 return
                     else:
                         clear_console()
-                        print(f"{name}' is not in your list of weapons.\n\n")
+                        print(f"'{name}' is not in your list of weapons.\n\n")
                         return
                 case _:
                     print("Invalid input.\n\n")
