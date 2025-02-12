@@ -626,11 +626,10 @@ def create_character():
 
 def select_character_to_load(commands: list[str]):
     """Walks the user through selecting a character to load."""
-    clear_console()
-    character_name = "".join(commands[1:]).lower()
-
-
-    if character_name == "":
+    try:
+        character_name = commands[1]
+    except IndexError:
+        clear_console()
         print("Enter the name of the character you would like to load: ")
         character_name = input("> ").lower()
 
@@ -687,12 +686,13 @@ def save_current_character(active_character: Character):
 
 
 def show_attribute(active_character: Character, commands: list[str]):
-    attribute = " ".join(commands[1:])
-
-    if attribute == "":
+    try:
+        attribute = commands[1]
+    except IndexError:
         clear_console()
         print("Enter the attribute you would like to view: ")
         attribute = input("> ").lower()
+
 
     clear_console()
     try:
@@ -702,7 +702,6 @@ def show_attribute(active_character: Character, commands: list[str]):
                 for viewee, description in viewable_attributes.items():
                     print(f"{viewee}: {description}")
                 print("\n")
-
             case "name":
                 print(f"{attribute}: {active_character.name}\n\n")
             case "culture":
@@ -862,18 +861,18 @@ def show_attribute(active_character: Character, commands: list[str]):
                        
 
 def set_attribute(active_character: Character, commands: list[str]):
-    clear_console()
 
-    attribute = " ".join(commands[1:])
-
-    if attribute == "":
+    # getting the attribute
+    try:
+        attribute = commands[1]
+    except IndexError:
         clear_console()
         print("Enter the attribute you would like to set: ")
         attribute = input("> ").lower()
 
     # checking to see if the attribute given is valid
     try:
-        test = user_translator[attribute]
+        user_translator[attribute]
     except KeyError:
         clear_console()
         print(f"'{attribute}' is not a valid attribute.\n\n")
@@ -1832,7 +1831,7 @@ def set_attribute(active_character: Character, commands: list[str]):
     autosave(active_character)
 
 
-def roll(skill_level: int, is_favoured: bool):
+def roll(skill_level: int, is_favoured: bool = False):
     if is_favoured:
         feat_1 = random.randint(0, 11)
         feat_2 = random.randint(0, 11)
@@ -1841,7 +1840,7 @@ def roll(skill_level: int, is_favoured: bool):
         else:
             feat_result = feat_2
     else:
-        feat_result = random.randint(1, 12)
+        feat_result = random.randint(0, 11)
 
     success_results = []
     for c in range(skill_level):
@@ -1852,6 +1851,7 @@ def roll(skill_level: int, is_favoured: bool):
     
 def roll_attribute(active_character: Character, commands: list[str]):
     
+    # getting the number of dice to roll
     try:
         skill_level = commands[1]
     except IndexError:
@@ -1859,6 +1859,7 @@ def roll_attribute(active_character: Character, commands: list[str]):
         print("Enter the number of success dice you would like to roll: ")
         skill_level = input("> ")
 
+    # making sure it's an int
     try:
         skill_level = int(skill_level)
     except ValueError:
@@ -1866,6 +1867,7 @@ def roll_attribute(active_character: Character, commands: list[str]):
         print("Skill level must be an integer.\n\n")
         return
     
+    # getting weather or not it's favoured
     try:
         is_favoured = commands[2]
     except IndexError:
@@ -1879,7 +1881,19 @@ def roll_attribute(active_character: Character, commands: list[str]):
         print("Is favoured must be a boolean (either TRUE or FALSE).\n\n")
         return
     
-    is_favoured = bool(is_favoured)
+    match is_favoured:
+        case "True":
+            is_favoured = True
+        case "true":
+            is_favoured = True
+        case "TRUE":
+            is_favoured = True
+        case "False":
+            is_favoured = False
+        case "false":
+            is_favoured = False
+        case "FALSE":
+            is_favoured = False
 
     feat_result, success_results = roll(int(skill_level), bool(int(is_favoured)))
 
@@ -1890,11 +1904,11 @@ def roll_attribute(active_character: Character, commands: list[str]):
         print(f"Success Results: {success_results}")
         print(f"Total: {sum(success_results)}\n\n")
 
-    elif feat_result == 12:
+    elif feat_result == 11:
         feat_result = "G-Rune"
         print(f"Feat Result: {feat_result}")
         print(f"Success Results: {success_results}")
-        print(f"Total: atuomatic success\n\n")
+        print(f"Total: Atuomatic Success\n\n")
         
     else:
         print(f"Feat Result: {feat_result}")
