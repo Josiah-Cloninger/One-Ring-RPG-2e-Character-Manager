@@ -27,7 +27,6 @@ def get_active_character(active_character):
                 case _:
                     clear_console()
                     print("Invalid command\n\n")
-    update_character(active_character)
     active_character_queue.empty()
     active_character_queue.put(active_character)
 

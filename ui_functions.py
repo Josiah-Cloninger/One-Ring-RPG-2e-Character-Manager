@@ -653,6 +653,7 @@ def select_character_to_load(commands: list[str]):
             clear_console()
             print("No character with that name was found.\n\n")
         else:
+            update_character(active_character)
             clear_console()
             print(f"{active_character.name} successfully loaded!\n\n")
             return active_character
