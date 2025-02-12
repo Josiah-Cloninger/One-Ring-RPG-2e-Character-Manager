@@ -4,7 +4,7 @@ from boons import Virtue, Reward
 import os, sys, random, character_creation, pickle, statistics
 
 
-version = "1.2"
+version = "2.0"
 
 
 start_commands = {
@@ -1914,6 +1914,13 @@ def update_character(active_character: Character):
         active_character.traveling_gear
     except:
         active_character.traveling_gear = []
+
+    for skill in active_character.favoured_skills:
+        if type(skill) == str:
+                pass
+        else:
+            active_character.favoured_skills = [active_character.favoured_skills[0], active_character.favoured_skills[1][0], active_character.favoured_skills[1][1]]
+
 
     try:
         active_character.favoured_skills = [active_character.favoured_skills[0][0], active_character.favoured_skills[0][1][0], active_character.favoured_skills[0][1][1]]
