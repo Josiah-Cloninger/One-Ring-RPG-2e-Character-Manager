@@ -252,32 +252,27 @@ user_translator = {
     "name": "name",
 
     "culture":        "culture", 
-    "heroic culture": "culture", 
     "heroic_culture": "culture",
 
     "blessing":          "blessing", 
-    "cultural blessing": "blessing", 
     "cultural_blessing": "blessing",
 
     "calling": "calling",
 
     "age": "age",
 
-    "standard of living": "standard_of_living", 
     "sol":                "standard_of_living", 
     "standard_of_living": "standard_of_living",
 
     "treasure":        "treasure", 
-    "treasure rating": "treasure", 
-    "treasrue points": "treasure", 
     "treasure_rating": "treasure", 
     "treasure_points": "treasure",
 
     "patron": "patron",
 
-    "shadow path": "shadow_path",
+    "shadow_path": "shadow_path",
 
-    "distinctive features": "distinctive_features", 
+    "distinctive_features": "distinctive_features", 
     "features":             "distinctive_features", 
     "feature":              "distinctive_features",
 
@@ -285,222 +280,152 @@ user_translator = {
 
 
     # strength 
-    "strength score":  "strength_score", 
     "strength_score" : "strength_score",
     "strength" :       "strength_score", 
     "str":             "strength_score", 
 
-    "strength tn":  "strength_tn", 
     "strength_tn" : "strength_tn",
     "str tn":       "strength_tn", 
     
-    "max endurance": "max_endurance", 
+    "max_endurance": "max_endurance", 
 
     # heart
-    "heart score": "heart_score",
     "heart_score": "heart_score",
     "heart":       "heart_score",
     "hrt":         "heart_score",
 
-    "heart tn": "heart_tn",
     "heart_tn": "heart_tn",
     "hrt tn":   "heart_tn",
 
-    "max hope": "max_hope",
+    "max_hope": "max_hope",
 
     # wits
-    "wits score": "wits_score",
     "wits_score": "wits_score",
     "wits":       "wits_score",
     "wts":        "wits_score",
 
-    "wits tn": "wits_tn",
     "wits_tn": "wits_tn",
-    "wts tn":  "wits_tn",
+    "wts_tn":  "wits_tn",
 
     "parry": "parry",
 
 
     # Skills
     "awe":             "awe",
-    "awe level":       "awe",
     "awe_level":       "awe",
-    "awe skill":       "awe",
     "awe_skill":       "awe",
-    "awe skill level": "awe",
     "awe_skill_level": "awe",
 
     "athletics":             "athletics",
-    "athletics level":       "athletics",
     "athletics_level":       "athletics",
-    "athletics skill":       "athletics",
     "athletics_skill":       "athletics",
-    "athletics skill level": "athletics",
     "athletics_skill_level": "athletics",
 
     "awareness":             "awareness",
-    "awareness level":       "awareness",
     "awareness_level":       "awareness",
-    "awareness skill":       "awareness",
     "awareness_skill":       "awareness",
-    "awareness skill level": "awareness",
     "awareness_skill_level": "awareness",
 
     "hunting":             "hunting",
-    "hunting level":       "hunting",
     "hunting_level":       "hunting",
-    "hunting skill":       "hunting",
     "hunting_skill":       "hunting",
-    "hunting skill level": "hunting",
     "hunting_skill_level": "hunting",
 
     "song":             "song",
-    "song level":       "song",
     "song_level":       "song",
-    "song skill":       "song",
     "song_skill":       "song",
-    "song skill level": "song",
     "song_skill_level": "song",
 
     "craft":             "craft",
-    "craft level":       "craft",
     "craft_level":       "craft",
-    "craft skill":       "craft",
     "craft_skill":       "craft",
-    "craft skill level": "craft",
     "craft_skill_level": "craft",
 
 
     "enhearten":             "enhearten",
-    "enhearten level":       "enhearten",
     "enhearten_level":       "enhearten",
-    "enhearten skill":       "enhearten",
     "enhearten_skill":       "enhearten",
-    "enhearten skill level": "enhearten",
     "enhearten_skill_level": "enhearten",
 
     "travel":             "travel",
-    "travel level":       "travel",
     "travel_level":       "travel",
-    "travel skill":       "travel",
     "travel_skill":       "travel",
-    "travel skill level": "travel",
     "travel_skill_level": "travel",
 
     "insight":             "insight",
-    "insight level":       "insight",
     "insight_level":       "insight",
-    "insight skill":       "insight",
     "insight_skill":       "insight",
-    "insight skill level": "insight",
     "insight_skill_level": "insight",
 
     "healing":             "healing",
-    "healing level":       "healing",
     "healing_level":       "healing",
-    "healing skill":       "healing",
     "healing_skill":       "healing",
-    "healing skill level": "healing",
     "healing_skill_level": "healing",
 
     "courtesy":             "courtesy",
-    "courtesy level":       "courtesy",
     "courtesy_level":       "courtesy",
-    "courtesy skill":       "courtesy",
     "courtesy_skill":       "courtesy",
-    "courtesy skill level": "courtesy",
     "courtesy_skill_level": "courtesy",
 
     "battle":             "battle",
-    "battle level":       "battle",
     "battle_level":       "battle",
-    "battle skill":       "battle",
     "battle_skill":       "battle",
-    "battle skill level": "battle",
     "battle_skill_level": "battle",
 
 
     "persuade":             "persuade",
-    "persuade level":       "persuade",
     "persuade_level":       "persuade",
-    "persuade skill":       "persuade",
     "persuade_skill":       "persuade",
-    "persuade skill level": "persuade",
     "persuade_skill_level": "persuade",
 
     "stealth":             "stealth",
-    "stealth level":       "stealth",
     "stealth_level":       "stealth",
-    "stealth skill":       "stealth",
     "stealth_skill":       "stealth",
-    "stealth skill level": "stealth",
     "stealth_skill_level": "stealth",
 
     "scan":             "scan",
-    "scan level":       "scan",
     "scan_level":       "scan",
-    "scan skill":       "scan",
     "scan_skill":       "scan",
-    "scan skill level": "scan",
     "scan_skill_level": "scan",
 
     "explore":             "explore",
-    "explore level":       "explore",
     "explore_level":       "explore",
-    "explore skill":       "explore",
     "explore_skill":       "explore",
-    "explore skill level": "explore",
     "explore_skill_level": "explore",
 
     "riddle":             "riddle",
-    "riddle level":       "riddle",
     "riddle_level":       "riddle",
-    "riddle skill":       "riddle",
     "riddle_skill":       "riddle",
-    "riddle skill level": "riddle",
     "riddle_skill_level": "riddle",
 
     "lore":             "lore",
-    "lore level":       "lore",
     "lore_level":       "lore",
-    "lore skill":       "lore",
     "lore_skill":       "lore",
-    "lore skill level": "lore",
     "lore_skill_level": "lore",
 
-    "favoured skills": "favoured_skills",
     "favoured_skills": "favoured_skills",
-    "favored skills":  "favoured_skills",
     "favored_skills":  "favoured_skills",
 
     "skills": "skills",
 
 
     # Combat Proficencies
-    "axes skill": "axes_skill",
     "axes_skill": "axes_skill",
-    "axe skill":  "axes_skill",
     "axe_skill":  "axes_skill",
     "axe" :       "axes_skill",
     "axes":       "axes_skill",
 
-    "bows skill": "bows_skill",
     "bows_skill": "bows_skill",
-    "bow skill":  "bows_skill",
     "bow_skill":  "bows_skill",
     "bow" :       "bows_skill",
     "bows":       "bows_skill",
 
-    "spears skill": "spears_skill",
     "spears_skill": "spears_skill",
-    "spear skill":  "spears_skill",
     "spear_skill":  "spears_skill",
     "spear" :       "spears_skill",
     "spears":       "spears_skill",
 
-    "swords skill": "swords_skill",
     "swords_skill": "swords_skill",
-    "sword skill":  "swords_skill",
     "sword_skill":  "swords_skill",
     "sword" :       "swords_skill",
     "swords":       "swords_skill",
@@ -527,60 +452,49 @@ user_translator = {
 
     "headgear": "headgear",
 
-    "traveling gear": "traveling_gear",
-    "travel gear":    "traveling_gear",
+    "traveling_gear": "traveling_gear",
+    "travel_gear":    "traveling_gear",
     "tg":             "traveling_gear",
     "items":          "traveling_gear",
 
 
     # Other
-    "adventure points": "adventure_points",
     "adventure_points": "adventure_points",
     "ap":               "adventure_points",
 
-    "skill points": "skill_points",
     "skill_points": "skill_points",
     "sp":           "skill_points",
 
-    "fellowship score":  "fellowship_score",
     "fellowship_score":  "fellowship_score",
     "fs":                "fellowship_score",
-    "fellowship points": "fellowship_score",
     "fellowship_points": "fellowship_score",
     "fp":                "fellowship_score",
 
 
     # Endurance/Hope
-    "current endurance": "current_endurance",
     "current_endurance": "current_endurance",
 
     "load": "load",
 
     "fatigue": "fatigue",
 
-    "current hope": "current_hope",
     "current_hope": "current_hope",
 
     "shadow": "shadow",
 
-    "shadow points": "shadow_points",
     "shadow_points": "shadow_points",
 
-    "shadow scars": "shadow_scars",
     "shadow_scars": "shadow_scars",
 
 
     # Conditions
     "weary":    "weary",
-    "is weary": "weary",
     "is_weary": "weary",
 
     "miserable":    "miserable",
-    "is miserable": "miserable",
     "is_miserable": "miserable",
 
     "wounded":    "wounded",
-    "is wounded": "wounded",
     "is_wounded": "wounded",
 
     "injury": "injury",
@@ -1669,6 +1583,8 @@ def set_attribute(active_character: Character, commands: list[str]):
                     clear_console()
                     print(f"Enter the name of the traveling gear you would like to add to your list of traveling gear")
                     value = input("> ")
+                    if active_character.traveling_gear == None:
+                        active_character.traveling_gear = []
                     active_character.traveling_gear.append(value)
                     clear_console()
                     print(f"'{value}'successfully added to your list of '{attribute}'.\n\n")
