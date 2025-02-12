@@ -229,6 +229,11 @@ def draw_gear_info(active_character, window, small_text):
     window["-GRAPH-"].draw_text(shield_name, location=(995, 77), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
     window["-GRAPH-"].draw_text(shield_parry_mod, location=(1200, 87), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
     window["-GRAPH-"].draw_text(shield_load, location=(1257, 87), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_CENTER)
+    if active_character.traveling_gear != None and len(active_character.traveling_gear) > 1:
+        str_traveling_gear = "\n".join([item for item in active_character.traveling_gear])
+    else:
+        str_traveling_gear = ""
+    window["-GRAPH-"].draw_text(str_traveling_gear, location=(1320, 165), color='black', font=("Helvetica", small_text), text_location=sg.TEXT_LOCATION_BOTTOM_LEFT)
 
 
 def draw_points(active_character, window, med_small_text):
@@ -257,11 +262,12 @@ def draw_favoured_skills(active_character, window):
         elif column == column_3:
             skill_x_location = 993
         skill_y_location = 627
-        for skill in column:
-            for favoured_skill in active_character.favoured_skills:
+        for favoured_skill in active_character.favoured_skills:
+            for skill in column:
                 if skill == favoured_skill:
                     window['-GRAPH-'].draw_image(r"gui_assets\Square_2.png", location=(skill_x_location, skill_y_location))
-            skill_y_location = skill_y_location - 31.7
+                skill_y_location = skill_y_location - 31.7
+            skill_y_location = 627
 
 
 def draw_all(active_character, window, large_text, med_large_text, med_small_text, small_text):
@@ -316,7 +322,9 @@ def refresh_character_gui(window):
     med_small_text = round((window.size[0] / 107))
     small_text = round((window.size[0] / 160))
     window['-GRAPH-'].draw_image(r"gui_assets\TOR_Elf_Character_Sheet_fillable (2).png", location=(0, 1080))
+    active_character = active_character_queue.get()
     draw_all(active_character, window, large_text, med_large_text, med_small_text, small_text)
+    active_character_queue.put(active_character)
 
 
 def run_character_gui(window):
@@ -356,6 +364,7 @@ if __name__ == "__main__":
     active_character = active_character_queue.get()
     get_active_character(active_character)
     active_character = active_character_queue.get()
+    active_character_queue.put(active_character)
     t1 = Thread(target=run_loop, args=(active_character,))
     t1.start()
     window = start_character_gui(active_character)
