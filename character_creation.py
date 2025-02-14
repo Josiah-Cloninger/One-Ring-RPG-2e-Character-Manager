@@ -23,7 +23,7 @@ styles_choice = questionary.Style([
     ('background', '#f78400'),
     ('white', '#ffffff')
 ])
-version = "2.01"
+version = "2.02"
 
 
 def clear_console():
