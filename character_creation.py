@@ -23,7 +23,7 @@ styles_choice = questionary.Style([
     ('background', '#f78400'),
     ('white', '#ffffff')
 ])
-version = "2.0"
+version = "2.01"
 
 
 def clear_console():
@@ -229,7 +229,7 @@ def select_favoured_skills(selected_culture: Culture,selected_calling: Calling):
                         ("class:white", a)
                     ],
                     value=a
-                ) for a in selected_calling.favoured_skills if a not in favoured_skills
+                ) for a in selected_calling.favoured_skills if a not in choice_1
             ],
             style=styles_choice,
             validate=lambda answer: "Please select two favoured skills." if len(answer) != 2 else True

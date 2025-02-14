@@ -45,8 +45,9 @@ def run_loop(active_character):
             case "exit":
                 exit()
             case "create":
-                active_character = create_character()
                 active_character_queue.empty()
+                active_character_queue.put(create_character())
+                active_character = active_character_queue.get()
                 active_character_queue.put(active_character)
                 refresh_character_gui_queue.put(True)
             case "load":

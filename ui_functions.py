@@ -4,7 +4,7 @@ from boons import Virtue, Reward
 import os, sys, random, character_creation, pickle, statistics
 
 
-version = "2.0"
+version = "2.01"
 
 
 start_commands = {
