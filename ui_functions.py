@@ -28,180 +28,180 @@ commands = {
 }
 
 viewable_attributes = {
-    "Name": "Your character's name",
+    "name": "Your character's name",
 
-    "Culture": "Your character's heroic culture",
-    "Blessing": "Your character's cultural blessing",
-    "Calling": "Your character's calling",
+    "culture": "Your character's heroic culture",
+    "blessing": "Your character's cultural blessing",
+    "calling": "Your character's calling",
 
-    "Age": "Your character's age",
-    "Standard of Living": "Your character's standard of living",
-    "Treasure": "Your character's treasure rating",
-    "Patron": "Your character's patron",
-    "Shadow Path": "Your character's shadow path",
+    "age": "Your character's age",
+    "standard_of_living": "Your character's standard of living",
+    "treasure": "Your character's treasure rating",
+    "patron": "Your character's patron",
+    "shadow path": "Your character's shadow path",
 
-    "Distinctive Features": "Your character's distinctive features",
-    "Flaws": "Your character's flaws",
+    "distinctive_features": "Your character's distinctive features",
+    "flaws": "Your character's flaws",
 
     # Attributes and Derived Stats
-    "Strength": "Your character's strength rating",
-    "Strength TN": "The TN for your character's Strength Skills",
-    "Max Endurance": "Your character's maximum endurance",
+    "strength": "Your character's strength rating",
+    "strength_tn": "The TN for your character's Strength Skills",
+    "max_endurance": "Your character's maximum endurance",
 
-    "Heart": "Your character's heart rating",
-    "Heart TN": "The TN for your character's Heart Skills",
-    "Max Hope": "Your character's maximum hope",
+    "heart": "Your character's heart rating",
+    "heart_tn": "The TN for your character's Heart Skills",
+    "max hope": "Your character's maximum hope",
 
-    "Wits": "Your character's wits rating",
-    "Wits TN": "The TN for your character's Wits Skills",
-    "Parry": "Your character's parry rating",
+    "wits": "Your character's wits rating",
+    "wits_tn": "The TN for your character's Wits Skills",
+    "parry": "Your character's parry rating",
 
     # Skills
-    "Awe": "Your character's awe skill level",
-    "Athletics": "Your character's athletics skill level",
-    "Awareness": "Your character's awareness skill level",
-    "Hunting": "Your character's hunting skill level",
-    "Song": "Your character's song skill level",
-    "Craft": "Your character's craft skill level",
+    "awe": "Your character's awe skill level",
+    "athletics": "Your character's athletics skill level",
+    "awareness": "Your character's awareness skill level",
+    "hunting": "Your character's hunting skill level",
+    "song": "Your character's song skill level",
+    "craft": "Your character's craft skill level",
 
-    "Enhearten": "Your character's enhearten skill level",
-    "Travel": "Your character's travel skill level",
-    "Insight": "Your character's insight skill level",
-    "Healing": "Your character's healing skill level",
-    "Courtesy": "Your character's courtesy skill level",
-    "Battle": "Your character's battle skill level",
+    "enhearten": "Your character's enhearten skill level",
+    "travel": "Your character's travel skill level",
+    "insight": "Your character's insight skill level",
+    "healing": "Your character's healing skill level",
+    "courtesy": "Your character's courtesy skill level",
+    "battle": "Your character's battle skill level",
 
-    "Persuade": "Your character's persuade skill level",
-    "Stealth": "Your character's stealth skill level",
-    "Scan": "Your character's scan skill level",
-    "Explore": "Your character's explore skill level",
-    "Riddle": "Your character's riddle skill level",
-    "Lore": "Your character's lore skill level",
+    "persuade": "Your character's persuade skill level",
+    "stealth": "Your character's stealth skill level",
+    "scan": "Your character's scan skill level",
+    "explore": "Your character's explore skill level",
+    "riddle": "Your character's riddle skill level",
+    "lore": "Your character's lore skill level",
 
-    "Favoured Skills": "A list of your character's favoured skills",
+    "favoured_skills": "A list of your character's favoured skills",
 
-    "Skills": "A list of your character's skill levels",
+    "skills": "A list of your character's skill levels",
 
     # Combat Proficencies
-    "Axes": "Your character's axes proficincey level",
-    "Bows": "Your character's bows proficincey level",
-    "Spears": "Your character's spears proficincey level",
-    "Swords": "Your character's swords proficincey level",
+    "axes": "Your character's axes proficincey level",
+    "bows": "Your character's bows proficincey level",
+    "spears": "Your character's spears proficincey level",
+    "swords": "Your character's swords proficincey level",
 
     # Valour/Wisdom
-    "Valour": "Your character's valour rating",
-    "Rewards": "A list of your character's rewards",
-    "Wisdom": "Your character's wisdom rating",
-    "Virtues": "A list of your character's virtues",
+    "valour": "Your character's valour rating",
+    "rewards": "A list of your character's rewards",
+    "wisdom": "Your character's wisdom rating",
+    "virtues": "A list of your character's virtues",
 
     # Gear
-    "Weapons": "A list of your character's weapons",
-    "Armour": "Your character's armour",
-    "Shield": "Your character's shield",
-    "Headgear": "Your character's headgear",
-    "Traveling Gear": "Your character's travelling gear",
+    "weapons": "A list of your character's weapons",
+    "armour": "Your character's armour",
+    "shield": "Your character's shield",
+    "headgear": "Your character's headgear",
+    "traveling_gear": "Your character's travelling gear",
 
     # Other
-    "Adventure Points": "Your character's adventure points",
-    "Skill Points": "Your character's skill points",
-    "Fellowship Score": "Your character's fellowship score",
+    "adventure_points": "Your character's adventure points",
+    "skill_points": "Your character's skill points",
+    "fellowship_score": "Your character's fellowship score",
 
     # Endurance/Hope
-    "Current Endurance": "Your character's current endurance",
-    "Load": "The combined load of all your character's war gear and fatigue",
-    "Fatigue": "Your character's fatigue level",
-    "Current Hope": "Your character's current hope",
-    "Shadow": "Your character's shadow points and shadow scars combined",
-    "Shadow Points": "Your character's shadow points",
-    "Shadow Scars": "Your character's shadow scars",
+    "current_endurance": "Your character's current endurance",
+    "load": "The combined load of all your character's war gear and fatigue",
+    "fatigue": "Your character's fatigue level",
+    "current_hope": "Your character's current hope",
+    "shadow": "Your character's shadow points and shadow scars combined",
+    "shadow_points": "Your character's shadow points",
+    "shadow_scars": "Your character's shadow scars",
 
     # Conditions
-    "Weary": "Weather or not your character is weary",
-    "Miserable": "Weather or not your character is miserable",
-    "Wounded": "Weather or not your character is wounded",
-    "Injury": "How many more days you character will be wounded for"
+    "weary": "Weather or not your character is weary",
+    "miserable": "Weather or not your character is miserable",
+    "wounded": "Weather or not your character is wounded",
+    "injury": "How many more days you character will be wounded for"
 }
 
 editable_attributes = {
-    "Name": "Your character's name",
+    "name": "Your character's name",
 
-    "Age": "Your character's age",
-    "Treasure": "Your character's current treasure points",
-    "Patron": "Your character's patron",
+    "age": "Your character's age",
+    "treasure": "Your character's current treasure points",
+    "patron": "Your character's patron",
 
-    "Distinctive Features": "Your character's distinctive features",
+    "distinctive features": "Your character's distinctive features",
 
     # Attributes and Derived Stats
-    "Strength": "Your character's strength rating",
-    "Strength TN": "The TN for your character's Strength Skills",
-    "Max Endurance": "Your character's maximum endurance",
+    "strength": "Your character's strength rating",
+    "strength_tn": "The TN for your character's Strength Skills",
+    "max_endurance": "Your character's maximum endurance",
 
-    "Heart": "Your character's heart rating",
-    "Heart TN": "The TN for your character's Heart Skills",
-    "Max Hope": "Your character's maximum hope",
+    "heart": "Your character's heart rating",
+    "heart_tn": "The TN for your character's Heart Skills",
+    "max_hope": "Your character's maximum hope",
 
-    "Wits": "Your character's wits rating",
-    "Wits TN": "The TN for your character's Wits Skills",
-    "Parry": "Your character's parry rating",
+    "wits": "Your character's wits rating",
+    "wits_tn": "The TN for your character's Wits Skills",
+    "parry": "Your character's parry rating",
 
     # Skills
-    "Awe": "Your character's awe skill level",
-    "Athletics": "Your character's athletics skill level",
-    "Awareness": "Your character's awareness skill level",
-    "Hunting": "Your character's hunting skill level",
-    "Song": "Your character's song skill level",
-    "Craft": "Your character's craft skill level",
+    "awe": "Your character's awe skill level",
+    "athletics": "Your character's athletics skill level",
+    "awareness": "Your character's awareness skill level",
+    "hunting": "Your character's hunting skill level",
+    "song": "Your character's song skill level",
+    "craft": "Your character's craft skill level",
 
-    "Enhearten": "Your character's enhearten skill level",
-    "Travel": "Your character's travel skill level",
-    "Insight": "Your character's insight skill level",
-    "Healing": "Your character's healing skill level",
-    "Courtesy": "Your character's courtesy skill level",
-    "Battle": "Your character's battle skill level",
+    "enhearten": "Your character's enhearten skill level",
+    "travel": "Your character's travel skill level",
+    "insight": "Your character's insight skill level",
+    "healing": "Your character's healing skill level",
+    "courtesy": "Your character's courtesy skill level",
+    "battle": "Your character's battle skill level",
 
-    "Persuade": "Your character's persuade skill level",
-    "Stealth": "Your character's stealth skill level",
-    "Scan": "Your character's scan skill level",
-    "Explore": "Your character's explore skill level",
-    "Riddle": "Your character's riddle skill level",
-    "Lore": "Your character's lore skill level",
+    "persuade": "Your character's persuade skill level",
+    "stealth": "Your character's stealth skill level",
+    "scan": "Your character's scan skill level",
+    "explore": "Your character's explore skill level",
+    "riddle": "Your character's riddle skill level",
+    "lore": "Your character's lore skill level",
 
-    "Favoured Skills": "A list of your character's favoured skills",
+    "favoured_skills": "A list of your character's favoured skills",
 
     # Combat Proficencies
-    "Axes": "Your character's axes proficincey level",
-    "Bows": "Your character's bows proficincey level",
-    "Spears": "Your character's spears proficincey level",
-    "Swords": "Your character's swords proficincey level",
+    "axes": "Your character's axes proficincey level",
+    "bows": "Your character's bows proficincey level",
+    "spears": "Your character's spears proficincey level",
+    "swords": "Your character's swords proficincey level",
 
     # Valour/Wisdom
-    "Valour": "Your character's valour rating",
-    "Rewards": "A list of your character's rewards",
-    "Wisdom": "Your character's wisdom rating",
-    "Virtues": "A list of your character's virtues",
+    "valour": "Your character's valour rating",
+    "rewards": "A list of your character's rewards",
+    "wisdom": "Your character's wisdom rating",
+    "virtues": "A list of your character's virtues",
 
     # Gear
-    "Weapons": "A list of your character's weapons",
-    "Armour": "Your character's armour",
-    "Shield": "Your character's shield",
-    "Headgear": "Your character's headgear",
-    "Traveling Gear": "Your character's travelling gear",
+    "weapons": "A list of your character's weapons",
+    "armour": "Your character's armour",
+    "shield": "Your character's shield",
+    "headgear": "Your character's headgear",
+    "traveling_gear": "Your character's travelling gear",
 
     # Other
-    "Adventure Points": "Your character's adventure points",
-    "Skill Points": "Your character's skill points",
-    "Fellowship Score": "Your character's fellowship score",
+    "adventure_points": "Your character's adventure points",
+    "skill_points": "Your character's skill points",
+    "fellowship_score": "Your character's fellowship score",
 
     # Endurance/Hope
-    "Current Endurance": "Your character's current endurance",
-    "Fatigue": "Your character's fatigue level",
-    "Current Hope": "Your character's current hope",
-    "Shadow Points": "Your character's shadow points",
-    "Shadow Scars": "Your character's shadow scars",
+    "current_endurance": "Your character's current endurance",
+    "fatigue": "Your character's fatigue level",
+    "current_hope": "Your character's current hope",
+    "shadow_points": "Your character's shadow points",
+    "shadow_scars": "Your character's shadow scars",
 
     # Conditions
-    "Wounded": "Weather or not your character is wounded",
-    "Injury": "How many more days you character will be wounded for"
+    "wounded": "Weather or not your character is wounded",
+    "injury": "How many more days you character will be wounded for"
 }
 
 
