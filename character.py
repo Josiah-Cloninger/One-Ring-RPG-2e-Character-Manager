@@ -11,15 +11,15 @@ AdventurePointError = Exception("Not enough adventure points.")
 
 
 class Character:
-    def __init__(self, culture: Culture, 
-                 attribute_choice: int, 
-                 weapon_skill_levels: dict, 
-                 distinctive_features: list, 
-                 name: str, age: int, 
-                 calling: Calling, 
-                 favoured_skill_choices: str, 
-                 starting_virtue: str, 
-                 starting_reward: str):
+    def __init__(self, culture: Culture = None, 
+                 attribute_choice: int = None, 
+                 weapon_skill_levels: dict = None, 
+                 distinctive_features: list = None, 
+                 name: str = None, age: int = None, 
+                 calling: Calling = None, 
+                 favoured_skills: list[str] = None, 
+                 starting_virtue: str = None, 
+                 starting_reward: str = None):
         
         # culture
         self.culture = culture.name
@@ -87,11 +87,7 @@ class Character:
         }
 
         # favoured skills
-        try:
-            self.favoured_skills.append(favoured_skill_choices)
-        except:
-            self.favoured_skills = []
-            self.favoured_skills.append(favoured_skill_choices)
+        self.favoured_skills = favoured_skills
         
         # combat proficiencies
         # self.axes_skill = weapon_skill_levels.get("axes")
@@ -102,8 +98,8 @@ class Character:
         self.combat_proficiencies = {
             "axes": weapon_skill_levels.get("axes"),
             "bows": weapon_skill_levels.get("bows"),
-            "swords": weapon_skill_levels.get("swords"),
-            "spears": weapon_skill_levels.get("spears")
+            "spears": weapon_skill_levels.get("spears"),
+            "swords": weapon_skill_levels.get("swords")
         }
 
         # distinctive features
@@ -154,6 +150,8 @@ class Character:
         # virtues
         self.wisdom = 1
         self.virtues = [starting_virtue]
+
+        self.traveling_gear = [str]
     
 
     # conditions
@@ -226,6 +224,11 @@ class Character:
         return self.combat_proficiencies["spears"]
 
 
+    @property
+    def shadow(self):
+        return self.shadow_points + self.shadow_scars
+
+
     def add_treasure(self, value: int):
         if self.treasure > -value:
             self.treasure += value
@@ -287,13 +290,23 @@ class Character:
     def remove_shield(self):
         self.shield = None
 
-
-    def add_virtue(self, virtue: str):
-        self.virtues.append(virtue)
-
     
-    def add_reward(self, reward: str):
-        self.rewards.append(reward)
+    def virtues_by_name(self, virtue_name: str):
+        for virtue in self.virtues:
+            if virtue.name == virtue_name:
+                return virtue
+            
+    
+    def rewards_by_name(self, reward_name: str):
+        for reward in self.rewards:
+            if reward.name == reward_name:
+                return reward
+            
+
+    def weapons_by_name(self, weapon_name: str):
+        for weapon in self.weapons:
+            if weapon.name == weapon_name:
+                return weapon
 
 
     def __repr__(self):
@@ -366,8 +379,12 @@ def save_character(character: Character):
 
 
 def load_character(filename: str):
-    with open(f"{filename}_autosave.pickle", "rb") as file:
-        character = pickle.load(file)
+    try:
+        with open(f"{filename}_autosave.pickle", "rb") as file:
+            character = pickle.load(file)
+    except FileNotFoundError:
+        with open(f"{filename}_hardsave.pickle", "rb") as file:
+            character = pickle.load(file)
     return character
 
 
