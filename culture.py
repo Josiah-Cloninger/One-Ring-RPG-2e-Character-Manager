@@ -1,18 +1,48 @@
-from utils import MetaEnum
+"""A module containing Cultures
+
+Classes:
+    Culture: A class representing a culture.
+    Cultures: An enumeration of cultures.
+"""
+
 from dataclasses import dataclass
 
-
+from utils import MetaEnum
 from blessing import Blessing, Blessings
-from standard_of_living import Standards_Of_Living, Standard_Of_Living
+from standard_of_living import StandardsOfLiving, StandardOfLiving
 
 
 @dataclass
 class Culture:
+    """A class representing a culture.
+    
+    Attributes:
+        name (str): The name of the culture.
+        description (str): A description of the culture.
+        characteristics (str): Characteristics of the culture.
+        blessing (Blessing): The blessing associated with the culture.
+        sol (Standard_Of_Living): The standard of living associated with the culture.
+        sol_description (str): A description of the standard of living.
+        attributes (list): A list of starting attribute levels.
+        endurance (int): The endurance of the culture.
+        hope (int): The hope of the culture.
+        parry (int): The parry of the culture.
+        skill_levels (dict): A dictionary of the starting skill levels.
+        favoured_skills (list): A list of favoured skills.
+        combat_proficiencies (list): A list of combat proficiencies.
+        distinctive_features (list[str]): A list of distinctive features.
+        langs_and_names (str): A string containing information about languages and names for characters of this culture.
+        male_names (str): A string containing male names for characters of this culture.
+        female_names (str): A string containing female names for characters of this culture.
+        other_feature (dict): A dictionary containing other features (such as "Naugrim" for the dwarves) for characters of this culture.
+        family_names (str): A string containing family names (surnames) for characters of this culture.
+    """
+
     name: str
     description: str
     characteristics: str
     blessing: Blessing
-    sol: Standard_Of_Living # standard of living
+    sol: StandardOfLiving # standard of living
     sol_description: str
     attributes: list
 
@@ -34,6 +64,13 @@ class Culture:
 
 
 class Cultures(metaclass=MetaEnum):
+    """An enumeration of cultures.
+    
+    Methods:
+        by_name(name): Return the culture with the given name.
+        names(): Return the names (as strings) of all cultures.
+    """
+
     BARDING = Culture(
         name="Bardings",
         description=("\tThe Bardings are Northmen of noble origins hailing from Wilderland, far off to the east. They rebuilt their city of Dale from its "
@@ -48,14 +85,14 @@ class Cultures(metaclass=MetaEnum):
                          "When abroad they may be recognised by their gear, as they often carry equipment of superior make. Unlike most denizens of Wilderland, "
                          "Bardings prefer to use swords over axes, and naturally favour the bow, after the example of their King."),
         blessing=Blessings.STOUT_HEARTED,
-        sol=Standards_Of_Living.PROSPEROUS,
+        sol=StandardsOfLiving.PROSPEROUS,
         sol_description=("Thanks to its successful trading connections the city of Dale prospers. Those among the Bardings who choose a life of adventure "
                          "are usually members of less affluent families — yet, their wealth is still superior to that of most of the denizens of Eriador."),
-        attributes=[{"strength": 5, "heart": 7, "wits": 2}, 
-                    {"strength": 4, "heart": 7, "wits": 3}, 
-                    {"strength": 5, "heart": 6, "wits": 3}, 
-                    {"strength": 4, "heart": 6, "wits": 4}, 
-                    {"strength": 5, "heart": 5, "wits": 4}, 
+        attributes=[{"strength": 5, "heart": 7, "wits": 2},
+                    {"strength": 4, "heart": 7, "wits": 3},
+                    {"strength": 5, "heart": 6, "wits": 3},
+                    {"strength": 4, "heart": 6, "wits": 4},
+                    {"strength": 5, "heart": 5, "wits": 4},
                     {"strength": 6, "heart": 6, "wits": 2}],
         endurance=20,
         hope=8,
@@ -99,13 +136,13 @@ class Cultures(metaclass=MetaEnum):
                         "Yet,they still favour shorter weapons over longer ones."),
             "effect": "Dwarven adventurers cannot use the following pieces of war gear: great bow, great spear, long sword, and great shield."
         },
-        sol=Standards_Of_Living.PROSPEROUS,
+        sol=StandardsOfLiving.PROSPEROUS,
         sol_description="With the fabulous Dragon-hoard of Erebor reclaimed and their kingdom restored, the Dwarves are much richer today than in the past.",
-        attributes=[{"strength": 7, "heart": 2, "wits": 5}, 
-                    {"strength": 7, "heart": 3, "wits": 4}, 
-                    {"strength": 6, "heart": 3, "wits": 5}, 
-                    {"strength": 6, "heart": 4, "wits": 4}, 
-                    {"strength": 5, "heart": 4, "wits": 5}, 
+        attributes=[{"strength": 7, "heart": 2, "wits": 5},
+                    {"strength": 7, "heart": 3, "wits": 4},
+                    {"strength": 6, "heart": 3, "wits": 5},
+                    {"strength": 6, "heart": 4, "wits": 4},
+                    {"strength": 5, "heart": 4, "wits": 5},
                     {"strength": 6, "heart": 2, "wits": 6}],
         endurance=22,
         hope=8,
@@ -149,14 +186,14 @@ class Cultures(metaclass=MetaEnum):
             "flavour": "The Elves find it hard to forget the taint of the Shadow once it has left its mark on their spirit.",
             "effect": "When it is time to remove accumulated Shadow during the Fellowship Phase, you can only remove a maximum of 1 point (see Spiritual Recovery, page 119)."
         },
-        sol=Standards_Of_Living.FRUGAL,
+        sol=StandardsOfLiving.FRUGAL,
         sol_description=("The Fair Folk live in harmony with Middle-earth and have little or no use for those things that others consider precious. They lack "
                          "nothing, and craft beautiful things using the richest materials, but they don’t profit from their wealth the way other folks do."),
-        attributes=[{"strength": 5, "heart": 2, "wits": 7}, 
-                    {"strength": 4, "heart": 3, "wits": 7}, 
-                    {"strength": 5, "heart": 3, "wits": 6}, 
-                    {"strength": 4, "heart": 4, "wits": 6}, 
-                    {"strength": 5, "heart": 4, "wits": 5}, 
+        attributes=[{"strength": 5, "heart": 2, "wits": 7},
+                    {"strength": 4, "heart": 3, "wits": 7},
+                    {"strength": 5, "heart": 3, "wits": 6},
+                    {"strength": 4, "heart": 4, "wits": 6},
+                    {"strength": 5, "heart": 4, "wits": 5},
                     {"strength": 6, "heart": 2, "wits": 6}],
         endurance=20,
         hope=8,
@@ -199,14 +236,14 @@ class Cultures(metaclass=MetaEnum):
             "flavour": "Due to their reduced size, Hobbits cannot use larger weapons effectively. The weapons available to Hobbits are:",
             "effect": "Axe, bow, club, cudgel, dagger, short sword, short spear, spear. Additionally, Hobbits cannot use a great shield."
         },
-        sol=Standards_Of_Living.COMMON,
+        sol=StandardsOfLiving.COMMON,
         sol_description=("Hobbits live in peace, their land is well-tilled and their borders protected, but theirs is an isolated "
                         "island in the middle of a desolate region, and trading is an uncommon occurrence."),
-        attributes=[{"strength": 3, "heart": 6, "wits": 5}, 
-                    {"strength": 3, "heart": 7, "wits": 4}, 
-                    {"strength": 2, "heart": 7, "wits": 5}, 
-                    {"strength": 4, "heart": 6, "wits": 4}, 
-                    {"strength": 4, "heart": 5, "wits": 5}, 
+        attributes=[{"strength": 3, "heart": 6, "wits": 5},
+                    {"strength": 3, "heart": 7, "wits": 4},
+                    {"strength": 2, "heart": 7, "wits": 5},
+                    {"strength": 4, "heart": 6, "wits": 4},
+                    {"strength": 4, "heart": 5, "wits": 5},
                     {"strength": 2, "heart": 6, "wits": 6}],
         endurance=18,
         hope=10,
@@ -244,14 +281,14 @@ class Cultures(metaclass=MetaEnum):
                          "in their limbs, and usually return home to settle down before their fortieth year. Not being of a warlike disposition, the Bree-folk "
                          "favour simple weapons, derived from everyday tools and hunting implements."),
         blessing=Blessings.BREE_BLOOD,
-        sol=Standards_Of_Living.COMMON,
+        sol=StandardsOfLiving.COMMON,
         sol_description=("Bree-land is not as wealthy as it once was, but these days the inhabitants of the four villages are no "
                          "more rustic than their neighbours in the Shire, and no less well-off."),
-        attributes=[{"strength": 2, "heart": 5, "wits": 7}, 
-                    {"strength": 3, "heart": 4, "wits": 7}, 
-                    {"strength": 3, "heart": 5, "wits": 6}, 
-                    {"strength": 4, "heart": 4, "wits": 6}, 
-                    {"strength": 4, "heart": 5, "wits": 5}, 
+        attributes=[{"strength": 2, "heart": 5, "wits": 7},
+                    {"strength": 3, "heart": 4, "wits": 7},
+                    {"strength": 3, "heart": 5, "wits": 6},
+                    {"strength": 4, "heart": 4, "wits": 6},
+                    {"strength": 4, "heart": 5, "wits": 5},
                     {"strength": 2, "heart": 6, "wits": 6}],
         endurance=20,
         hope=10,
@@ -296,14 +333,14 @@ class Cultures(metaclass=MetaEnum):
                         "This obligation makes it harder for them to put their spirit at ease even when enjoying a respite from adventuring."),
             "effect": "During the Fellowship phase (not Yule) you recover a maximum number of Hope points equal to half your HEART score (rounding fractions up)."
         },
-        sol=Standards_Of_Living.FRUGAL,
+        sol=StandardsOfLiving.FRUGAL,
         sol_description=("Rangers rarely wear or carry anything whose worth cannot be measured in a practical way. Their gear or garments are never considered "
                          "precious for the gleam of stone or gold, but for their capability to endure long journeys and strenuous fights."),
-        attributes=[{"strength": 7, "heart": 5, "wits": 2}, 
-                    {"strength": 7, "heart": 4, "wits": 3}, 
-                    {"strength": 6, "heart": 5, "wits": 3}, 
-                    {"strength": 6, "heart": 4, "wits": 4}, 
-                    {"strength": 5, "heart": 5, "wits": 4}, 
+        attributes=[{"strength": 7, "heart": 5, "wits": 2},
+                    {"strength": 7, "heart": 4, "wits": 3},
+                    {"strength": 6, "heart": 5, "wits": 3},
+                    {"strength": 6, "heart": 4, "wits": 4},
+                    {"strength": 5, "heart": 5, "wits": 4},
                     {"strength": 6, "heart": 6, "wits": 2}],
         endurance=20,
         hope=6,
@@ -329,17 +366,28 @@ class Cultures(metaclass=MetaEnum):
 
     @classmethod
     def by_name(cls, name):
+        """Return the culture with the given name.
+        
+        Args: 
+            name (str): The name of the culture to return
+
+        Returns:
+            Culture: The culture with the given name
+        """
         for culture in Cultures:
-            if type(culture) is Culture:
+            if isinstance(culture, Culture):
                 if culture.name == name:
                     return culture
-    
+
     @classmethod
     def names(cls):
+        """Return a list of the names of all cultures.
+        
+        Returns:
+            list[str]: A list of the names of all cultures
+        """
         names = []
         for culture in Cultures:
-            if type(culture) is Culture:
+            if isinstance(culture, Culture):
                 names.append(culture.name)
         return names
-
-all_combat_proficiencies = ["axes", "bows", "spears", "swords"]

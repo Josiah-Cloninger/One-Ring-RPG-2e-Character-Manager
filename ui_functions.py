@@ -1,20 +1,26 @@
-from character import Character, save_character, load_character
+"""This module contains a collection of functions for the user interface."""
+
+import os
+import random
+import pickle
+
+import character_creation
+from character import Character, load_character
 from gear import Weapons, Armours, Shields, Headgears
 from boons import Virtue, Reward
-import os, sys, random, character_creation, pickle, statistics
 
 
-version = "2.02"
+VERSION = "2.1"
 
 
-start_commands = {
+START_COMMANDS = {
     "help": "Prints a list of commands",
     "exit": "Exits the program",
     "create": "Creates a new character",
     "load": "Loads a character",
 }
 
-commands = {
+COMMANDS = {
     "help": "Prints a list of commands.",
     "exit": "Exits the program.",
     "create character": "Creates a new character.",
@@ -27,7 +33,7 @@ commands = {
     "update": "Updates your character to the current version"
 }
 
-viewable_attributes = {
+VIEWABLE_ATTRIBUTES = {
     "name": "Your character's name",
 
     "culture": "Your character's heroic culture",
@@ -122,7 +128,7 @@ viewable_attributes = {
     "injury": "How many more days you character will be wounded for"
 }
 
-editable_attributes = {
+EDITABLE_ATTRIBUTES = {
     "name": "Your character's name",
 
     "age": "Your character's age",
@@ -204,7 +210,6 @@ editable_attributes = {
     "injury": "How many more days you character will be wounded for"
 }
 
-
 STRENGTH_SKILLS = [
     "awe",
     "athletics",
@@ -232,16 +237,15 @@ WITS_SKILLS = [
     "lore"
 ]
 
-
-keys = list(viewable_attributes.keys())
+keys = list(VIEWABLE_ATTRIBUTES.keys())
 keys.sort()
-viewable_attributes = {key: viewable_attributes[key] for key in keys}
+VIEWABLE_ATTRIBUTES = {key: VIEWABLE_ATTRIBUTES[key] for key in keys}
 
-keys = list(editable_attributes.keys())
+keys = list(EDITABLE_ATTRIBUTES.keys())
 keys.sort()
-editable_attributes = {key: editable_attributes[key] for key in keys}
+EDITABLE_ATTRIBUTES = {key: EDITABLE_ATTRIBUTES[key] for key in keys}
 
-user_translator = {
+USER_TRANSLATOR = {
     # name
     "exit": "exit",
 
@@ -279,14 +283,14 @@ user_translator = {
     "flaws": "flaws",
 
 
-    # strength 
+    # strength
     "strength_score" : "strength_score",
     "strength" :       "strength_score", 
     "str":             "strength_score", 
 
     "strength_tn" : "strength_tn",
     "str tn":       "strength_tn", 
-    
+
     "max_endurance": "max_endurance", 
 
     # heart
@@ -507,36 +511,33 @@ def clear_console():
     """Clears the console and prints the title. If a character object is passed, it will autosave that character."""
     os.system('cls' if os.name == 'nt' else 'clear')
     print(f"One Ring RPG Character Manager\n"
-          f"Version: {version}\n"
+          f"Version: {VERSION}\n"
           f"Enter 'help' at any time for a list of commands or 'exit' to quit\n\n")
-    
 
 def start_help():
     """Prints the commands available to someone who just started the program."""
     clear_console()
     print("Valid commands include: \n")
-    for command, description in start_commands.items(): 
+    for command, description in START_COMMANDS.items():
         print(f"{command}: {description}")
     print("\n")
 
-
-def help():
+def main_menu_help():
     """Prints the commands available to someone who has an active character."""
     clear_console()
     print("Valid commands include:\n")
-    for command, description in commands.items():
+    for command, description in COMMANDS.items():
         print(f"{command}: {description}")
     print()
 
-
 def create_character():
+    """Walk the user through creating a character."""
     active_character = character_creation.main()
     if input("Would you like to save and continue with this character? (y/n)").lower() == "y":
-        save_character(active_character)
+        active_character.save_character()
         clear_console()
         print(f"{active_character.name} successfully created and saved!")
         return active_character
-
 
 def select_character_to_load(commands: list[str]):
     """Walks the user through selecting a character to load."""
@@ -571,35 +572,14 @@ def select_character_to_load(commands: list[str]):
             print(f"{active_character.name} successfully loaded!\n\n")
             return active_character
 
-
-def weapon_names(active_character: Character):
-    weapon_names = []
-    for weapon in active_character.weapons:
-        weapon_names.append(weapon.name)
-    return weapon_names
-
-
-def reward_names(active_character: Character):
-    reward_names = []
-    for reward in active_character.rewards:
-        reward_names.append(reward.name)
-    return reward_names
-
-
-def virtue_names(active_character: Character):
-    virtue_names = []
-    for virtue in active_character.virtues:
-        virtue_names.append(virtue.name)
-    return virtue_names
-
-
 def save_current_character(active_character: Character):
-    save_character(active_character)
+    """Save the current character."""
+    active_character.save_character()
     clear_console()
     print(f"{active_character.name} successfully saved!\n\n")
 
-
 def show_attribute(active_character: Character, commands: list[str]):
+    """Show an attribute the user selects."""
     try:
         attribute = commands[1]
     except IndexError:
@@ -610,10 +590,10 @@ def show_attribute(active_character: Character, commands: list[str]):
 
     clear_console()
     try:
-        match user_translator[attribute]:
+        match USER_TRANSLATOR[attribute]:
             case "help":
-                print(f"Valid attributes include:")
-                for viewee, description in viewable_attributes.items():
+                print("Valid attributes include:")
+                for viewee, description in VIEWABLE_ATTRIBUTES.items():
                     print(f"{viewee}: {description}")
                 print("\n")
             case "name":
@@ -766,15 +746,15 @@ def show_attribute(active_character: Character, commands: list[str]):
 
             case "all":
                 print(active_character)
-            
+
             case _:
                 print(f"***THIS IS AN ERROR. PLEASE REPORT TO THE DEVELOPER WITH THE FOLLOWING CODE***\n"
                       f"***{attribute} is in user_translator but match case in show_attribute didn't catch it***\n")
     except KeyError:
         print(f"'{attribute}' is not a valid attribute.\n\n")
-                       
 
 def set_attribute(active_character: Character, commands: list[str]):
+    """Sets the value of a character attribute."""
 
     # getting the attribute
     try:
@@ -786,7 +766,7 @@ def set_attribute(active_character: Character, commands: list[str]):
 
     # checking to see if the attribute given is valid
     try:
-        user_translator[attribute]
+        USER_TRANSLATOR[attribute]
     except KeyError:
         clear_console()
         print(f"'{attribute}' is not a valid attribute.\n\n")
@@ -794,10 +774,10 @@ def set_attribute(active_character: Character, commands: list[str]):
 
     clear_console()
 
-    match user_translator[attribute]:
+    match USER_TRANSLATOR[attribute]:
         case "help":
-            print(f"Valid attributes include:\n")
-            for viewee, description in editable_attributes.items():
+            print("Valid attributes include:\n")
+            for viewee, description in EDITABLE_ATTRIBUTES.items():
                 print(f"{viewee}: {description}")
             print("\n")
 
@@ -807,7 +787,7 @@ def set_attribute(active_character: Character, commands: list[str]):
 
         case "name":
             clear_console()
-            print(f"Enter the new name for your character: ")
+            print("Enter the new name for your character: ")
             value = input("> ")
             active_character.name = value
             clear_console()
@@ -853,14 +833,14 @@ def set_attribute(active_character: Character, commands: list[str]):
             match answer:
                 case "add":
                     clear_console()
-                    print(f"Enter the name of the distinctive feature you would like to add: ")
+                    print("Enter the name of the distinctive feature you would like to add: ")
                     value = input("> ")
                     active_character.distinctive_features.append(value)
                     clear_console()
                     print(f"{value} successfully added to your list of distinctive features.\n\n")
                 case "remove":
                     clear_console()
-                    print(f"Enter the name of the distinctive feature you would like to remove: ")
+                    print("Enter the name of the distinctive feature you would like to remove: ")
                     value = input("> ")
                     try:
                         active_character.distinctive_features.remove(value)
@@ -940,7 +920,7 @@ def set_attribute(active_character: Character, commands: list[str]):
         case "max_hope":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
-            value = input("> ") 
+            value = input("> ")
             try:
                 value = int(value)
             except ValueError:
@@ -1003,7 +983,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.awe = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "athletics":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1016,7 +996,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.athletics = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "awareness":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1029,7 +1009,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.awareness = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "hunting":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1042,7 +1022,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.hunting = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "song":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1055,7 +1035,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.song = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "craft":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1068,7 +1048,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.craft = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "enhearten":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1081,7 +1061,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.enhearten = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "travel":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1094,7 +1074,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.travel = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "insight":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1107,7 +1087,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.insight = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "healing":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1120,7 +1100,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.healing = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "courtesy":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1133,7 +1113,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.courtesy = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "battle":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1146,7 +1126,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.battle = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "persuade":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1159,7 +1139,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.persuade = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "stealth":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1172,7 +1152,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.stealth = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "scan":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1185,7 +1165,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.scan = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "explore":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1198,7 +1178,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.explore = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "riddle":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1211,7 +1191,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.riddle = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "lore":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1224,21 +1204,21 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.lore = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "favoured_skills":
             print("Would you like to add or remove a favoured skill? (add/remove): ")
             answer = input("> ").lower()
             match answer:
                 case "add":
                     clear_console()
-                    print(f"Enter the name of the skill you would like to add to you list of favoured skills: ")
+                    print("Enter the name of the skill you would like to add to you list of favoured skills: ")
                     value = input("> ")
                     active_character.favoured_skills.append(value)
                     clear_console()
                     print(f"'{value}' successfully added to your list of favoured skills.\n\n")
                 case "remove":
                     clear_console()
-                    print(f"Enter the name of the skill you would like to remove from you list of favoured skills: ")
+                    print("Enter the name of the skill you would like to remove from you list of favoured skills: ")
                     value = input("> ")
                     try:
                         active_character.favoured_skills.remove(value)
@@ -1250,7 +1230,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 case _:
                     clear_console()
                     print("Invalid input.\n\n")\
-       
+
 
         case "axes_skill":
             clear_console()
@@ -1264,7 +1244,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.combat_proficiencies["axes"] = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "bows_skill":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1277,7 +1257,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.combat_proficiencies["bows"] = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "spears_skill":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1290,7 +1270,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.combat_proficiencies["spears"] = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "swords_skill":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1303,7 +1283,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.combat_proficiencies["swords"] = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
 
         case "valour":
             clear_console()
@@ -1317,7 +1297,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.valour = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "rewards":
             print("Would you like to add, remove, or modify a reward? (add/remove/modify): ")
             answer = input("> ").lower()
@@ -1326,11 +1306,11 @@ def set_attribute(active_character: Character, commands: list[str]):
                     new_reward = Reward()
 
                     clear_console()
-                    print(f"Enter the name of the reward you would like to add to your list of rewards: ")
+                    print("Enter the name of the reward you would like to add to your list of rewards: ")
                     new_reward.name = input("> ")
 
                     clear_console()
-                    print(f"Enter the effect of the reward you would like to add to your list of rewards: ")
+                    print("Enter the effect of the reward you would like to add to your list of rewards: ")
                     new_reward.effect = input("> ")
 
                     active_character.rewards.append(new_reward)
@@ -1338,9 +1318,9 @@ def set_attribute(active_character: Character, commands: list[str]):
                     print(f"'{new_reward.name}' successfully added to your list of '{attribute}'.\n\n")
                 case "remove":
                     clear_console()
-                    print(f"Enter the name of the reward you would like to remove from your list of rewards: ")
+                    print("Enter the name of the reward you would like to remove from your list of rewards: ")
                     value = input("> ")
-                    if value in reward_names(active_character):
+                    if value in [reward.name for reward in active_character.rewards]:
                         for reward in active_character.rewards:
                             if reward.name == value:
                                 active_character.rewards.remove(reward)
@@ -1350,9 +1330,9 @@ def set_attribute(active_character: Character, commands: list[str]):
                         print(f"'{value}' is not in your list of rewards.\n\n")
                 case "modify":
                     clear_console()
-                    print(f"Enter the name of the reward you would like to modify from your list of rewards: ")
+                    print("Enter the name of the reward you would like to modify from your list of rewards: ")
                     name = input("> ")
-                    if name in reward_names(active_character):
+                    if name in [reward.name for reward in active_character.rewards]:
                         clear_console()
                         print(f"Enter the attribute of {name} you would like to modify: ")
                         match input("> ").lower():
@@ -1371,7 +1351,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                             case _:
                                 clear_console()
                                 print(f"'{name}' is not a valid attribute of a reward.\n\n")
-                                return                            
+                                return
                     else:
                         clear_console()
                         print(f"{name}' is not in your list of rewards.\n\n")
@@ -1379,7 +1359,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 case _:
                     clear_console()
                     print("Invalid input.\n\n")
-        
+
         case "wisdom":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1392,7 +1372,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.wisdom = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "virtues":
             print("Would you like to add, remove, or modify a virtue? (add/remove/modify): ")
             answer = input("> ").lower()
@@ -1401,11 +1381,11 @@ def set_attribute(active_character: Character, commands: list[str]):
                     new_virtue = Virtue()
 
                     clear_console()
-                    print(f"Enter the name of the virtue you would like to add to your list of virtues: ")
+                    print("Enter the name of the virtue you would like to add to your list of virtues: ")
                     new_virtue.name = input("> ")
 
                     clear_console()
-                    print(f"Enter the effect of the virtue you would like to add to your list of virtues: ")
+                    print("Enter the effect of the virtue you would like to add to your list of virtues: ")
                     new_virtue.effect = input("> ")
 
                     active_character.virtues.append(new_virtue)
@@ -1413,9 +1393,9 @@ def set_attribute(active_character: Character, commands: list[str]):
                     print(f"'{new_virtue.name}' successfully added to your list of '{attribute}'.\n\n")
                 case "remove":
                     clear_console()
-                    print(f"Enter the name of the virtue you would like to remove from your list of virtues: ")
+                    print("Enter the name of the virtue you would like to remove from your list of virtues: ")
                     value = input("> ")
-                    if value in virtue_names(active_character):
+                    if value in [virtue.name for virtue in active_character.virtues]:
                         for virtue in active_character.virtues:
                             if virtue.name == value:
                                 active_character.virtues.remove(virtue)
@@ -1425,9 +1405,9 @@ def set_attribute(active_character: Character, commands: list[str]):
                         print(f"'{value}' is not in your list of virtues.\n\n")
                 case "modify":
                     clear_console()
-                    print(f"Enter the name of the virtue you would like to modify from your list of virtues: ")
+                    print("Enter the name of the virtue you would like to modify from your list of virtues: ")
                     name = input("> ")
-                    if name in virtue_names(active_character):
+                    if name in [virtue.name for virtue in active_character.virtues]:
                         clear_console()
                         print(f"Enter the attribute of {name} you would like to modify: ")
                         match input("> ").lower():
@@ -1454,7 +1434,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 case _:
                     clear_console()
                     print("Invalid input.\n\n")
-        
+
 
         case "weapons":
             print("Would you like to add, remove, or modify a weapon? (add/remove/modify): ")
@@ -1462,7 +1442,7 @@ def set_attribute(active_character: Character, commands: list[str]):
             match answer:
                 case "add":
                     clear_console()
-                    print(f"Enter the name of the weapon you would like to add to your list of weapons: ")
+                    print("Enter the name of the weapon you would like to add to your list of weapons: ")
                     value = input("> ")
                     if value in Weapons.names():
                         active_character.weapons.append(Weapons.by_name(value))
@@ -1473,9 +1453,9 @@ def set_attribute(active_character: Character, commands: list[str]):
                         print(f"'{value}' is not a valid weapon.\n\n")
                 case "remove":
                     clear_console()
-                    print(f"Enter the name of the weapon you would like to remove from your list of weapons: ")
+                    print("Enter the name of the weapon you would like to remove from your list of weapons: ")
                     value = input("> ")
-                    if value in weapon_names(active_character):
+                    if value in [weapon.name for weapon in active_character.weapons]:
                         for weapon in active_character.weapons:
                             if weapon.name == value:
                                 active_character.weapons.remove(weapon)
@@ -1485,9 +1465,9 @@ def set_attribute(active_character: Character, commands: list[str]):
                         print(f"'{value}' is not in your list of weapons.\n\n")
                 case "modify":
                     clear_console()
-                    print(f"Enter the name of the weapon you would like to modify: ")
+                    print("Enter the name of the weapon you would like to modify: ")
                     name = input("> ")
-                    if name in weapon_names(active_character):
+                    if name in [weapon.name for weapon in active_character.weapons]:
                         clear_console()
                         print(f"Enter the attribute of {name} you would like to modify: ")
                         match input("> ").lower():
@@ -1528,7 +1508,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                         return
                 case _:
                     print("Invalid input.\n\n")
-        
+
         case "armour":
             print("Would you like to remove or replace armour? (remove/replace): ")
             answer = input("> ").lower()
@@ -1537,14 +1517,14 @@ def set_attribute(active_character: Character, commands: list[str]):
                     active_character.armour = None
                 case "replace":
                     clear_console()
-                    print(f"Enter the name of the armour you would like to replace your current armour with: ")
+                    print("Enter the name of the armour you would like to replace your current armour with: ")
                     value = input("> ")
                     active_character.armour = Armours.by_name(value)
                     clear_console()
                     print(f"'{attribute}' successfully set to '{value}'.\n\n")
                 case _:
                     print("Invalid Input\n\n")
-        
+
         case "shield":
             print("Would you like to remove or replace a shield? (remove/replace): ")
             answer = input("> ").lower()
@@ -1553,13 +1533,13 @@ def set_attribute(active_character: Character, commands: list[str]):
                     active_character.shield = None
                 case "replace":
                     clear_console()
-                    print(f"Enter the name of the shield you would like to replace your current shield with: ")
+                    print("Enter the name of the shield you would like to replace your current shield with: ")
                     value = input("> ")
                     active_character.shield = Shields.by_name(value)
                     print(f"'{attribute}' successfully set to '{value}'.\n\n")
                 case _:
                     print("Invalid Input\n\n")
-        
+
         case "headgear":
             print("Would you like to remove or replace headgear? (remove/replace): ")
             answer = input("> ").lower()
@@ -1568,29 +1548,29 @@ def set_attribute(active_character: Character, commands: list[str]):
                     active_character.headgear = None
                 case "replace":
                     clear_console()
-                    print(f"Enter the name of the headgear you would like to replace your current headgear with: ")
+                    print("Enter the name of the headgear you would like to replace your current headgear with: ")
                     value = input("> ")
                     active_character.headgear = Headgears.by_name(value)
                     print(f"'{attribute}' successfully set to '{value}'.\n\n")
                 case _:
                     print("Invalid Input\n\n")
-        
+
         case "traveling_gear":
             print("Would you like to add or remove a piece of traveling gear? (add/remove): ")
             answer = input("> ").lower()
             match answer:
                 case "add":
                     clear_console()
-                    print(f"Enter the name of the traveling gear you would like to add to your list of traveling gear")
+                    print("Enter the name of the traveling gear you would like to add to your list of traveling gear")
                     value = input("> ")
-                    if active_character.traveling_gear == None:
+                    if active_character.traveling_gear is None:
                         active_character.traveling_gear = []
                     active_character.traveling_gear.append(value)
                     clear_console()
                     print(f"'{value}'successfully added to your list of '{attribute}'.\n\n")
                 case "remove":
                     clear_console()
-                    print(f"Enter the name of the traveling gear you would like to remove from your list of traveling gear")
+                    print("Enter the name of the traveling gear you would like to remove from your list of traveling gear")
                     value = input("> ")
                     try:
                         active_character.traveling_gear.remove(value)
@@ -1600,7 +1580,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                         print(f"{value} is not in your list of traveling gear.\n\n")
                 case _:
                     print("Invalid input.\n\n")
-        
+
 
         case "adventure_points":
             clear_console()
@@ -1614,7 +1594,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.adventure_points = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "skill_points":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1627,7 +1607,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.skill_points = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "fellowship_score":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1640,7 +1620,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.fellowship_score = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
 
         case "current_endurance":
             clear_console()
@@ -1654,7 +1634,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.current_endurance = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-                
+
         case "fatigue":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1667,7 +1647,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.fatigue = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
 
         case "current_hope":
             clear_console()
@@ -1681,7 +1661,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.current_hope = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-                
+
         case "shadow_points":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1694,7 +1674,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.shadow_points = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
         case "shadow_scars":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1707,10 +1687,10 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.shadow_scars = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
+
 
         case "wounded":
-            print(f"If you would like to make your character wounded, enter 'True'. If you would like to make your character not wounded, enter 'False': ")
+            print("If you would like to make your character wounded, enter 'True'. If you would like to make your character not wounded, enter 'False': ")
             value = input("> ")
             if value in ["True", "true", "TRUE"]:
                 value = True
@@ -1724,7 +1704,7 @@ def set_attribute(active_character: Character, commands: list[str]):
                 print(f"{active_character.name} is no longer wounded.\n\n")
             else:
                 print("Wounded must be a boolean (either TRUE or FALSE).\n\n")
-        
+
         case "injury":
             clear_console()
             print(f"Enter the value you would like to set '{attribute}' to. It must be an integer: ")
@@ -1737,17 +1717,17 @@ def set_attribute(active_character: Character, commands: list[str]):
                 active_character.injury = value
                 clear_console()
                 print(f"'{attribute}' successfully set to '{value}'.\n\n")
-        
-        
+
+
         case _:
             clear_console()
             print(f"***THIS IS AN ERROR. PLEASE REPORT TO THE DEVELOPER WITH THE FOLLOWING CODE***\n"
                 f"***{attribute} is in user_translator but match case in show_attribute didn't catch it***\n")
-            
+
     autosave(active_character)
 
-
 def roll(skill_level: int, is_favoured: bool = False):
+    """Roll a skill test/task and return the result."""
     if is_favoured:
         feat_1 = random.randint(0, 11)
         feat_2 = random.randint(0, 11)
@@ -1759,14 +1739,14 @@ def roll(skill_level: int, is_favoured: bool = False):
         feat_result = random.randint(0, 11)
 
     success_results = []
-    for c in range(skill_level):
+    for _ in range(skill_level):
         success_results.append(random.randint(1, 6))
 
     return feat_result, success_results
 
-    
-def roll_attribute(active_character: Character, commands: list[str]):
-    
+def roll_attribute(commands: list[str]):
+    """Roll a number of success dice and print the result"""
+
     # getting the number of dice to roll
     try:
         skill_level = commands[1]
@@ -1782,7 +1762,7 @@ def roll_attribute(active_character: Character, commands: list[str]):
         clear_console()
         print("Skill level must be an integer.\n\n")
         return
-    
+
     # getting weather or not it's favoured
     try:
         is_favoured = commands[2]
@@ -1790,13 +1770,13 @@ def roll_attribute(active_character: Character, commands: list[str]):
         clear_console()
         print("Enter whether the roll is favoured (True or False): ")
         is_favoured = input("> ")
-    
-    
+
+
     if is_favoured not in ["True", "true", "TRUE", "False", "false", "FALSE"]:
         clear_console()
         print("Is favoured must be a boolean (either TRUE or FALSE).\n\n")
         return
-    
+
     match is_favoured:
         case "True":
             is_favoured = True
@@ -1824,31 +1804,31 @@ def roll_attribute(active_character: Character, commands: list[str]):
         feat_result = "G-Rune"
         print(f"Feat Result: {feat_result}")
         print(f"Success Results: {success_results}")
-        print(f"Total: Atuomatic Success\n\n")
-        
+        print("Total: Atuomatic Success\n\n")
+
     else:
         print(f"Feat Result: {feat_result}")
         print(f"Success Results: {success_results}")
         print(f"Total: {sum(success_results) + feat_result}\n\n")
 
-
 def autosave(active_character: Character):
-    with open(f"{active_character.name}_autosave.pickle", 
+    """Save the character to a pickle file for autosave."""
+    with open(f"{active_character.name}_autosave.pickle",
     "wb") as file:
         pickle.dump(active_character, file)
 
-
 def update_character(active_character: Character):
+    """Update the character from an old version of the character manager."""
     clear_console()
 
     try:
         active_character.traveling_gear
-    except:
+    except AttributeError:
         active_character.traveling_gear = []
 
     for skill in active_character.favoured_skills:
-        if type(skill) == str:
-                pass
+        if isinstance(skill, str):
+            pass
         else:
             active_character.favoured_skills = [active_character.favoured_skills[0], active_character.favoured_skills[1][0], active_character.favoured_skills[1][1]]
 
@@ -1857,26 +1837,23 @@ def update_character(active_character: Character):
         active_character.favoured_skills = [active_character.favoured_skills[0][0], active_character.favoured_skills[0][1][0], active_character.favoured_skills[0][1][1]]
     except IndexError:
         pass
-    
-    try:
-        if type(active_character.virtues[0]) == str:
-            try:
-                new_virtue = Virtue()
-                old_virtues = active_character.virtues
-                active_character.virtues = []
-                for virtue in old_virtues:
-                    new_virtue.name = virtue
-                    active_character.virtues.append(new_virtue)
 
-                new_reward = Reward()
-                old_rewards = active_character.rewards
-                active_character.rewards = []
-                for reward in old_rewards:
-                    new_reward.name = reward
-                    active_character.rewards.append(new_reward)
-            except:
-                pass
-    except:
+    try:
+        if isinstance(active_character.virtues[0], str):
+            new_virtue = Virtue()
+            old_virtues = active_character.virtues
+            active_character.virtues = []
+            for virtue in old_virtues:
+                new_virtue.name = virtue
+                active_character.virtues.append(new_virtue)
+
+            new_reward = Reward()
+            old_rewards = active_character.rewards
+            active_character.rewards = []
+            for reward in old_rewards:
+                new_reward.name = reward
+                active_character.rewards.append(new_reward)
+    except IndexError:
         pass
 
     old_combat_proficencies = active_character.combat_proficiencies
@@ -1885,6 +1862,6 @@ def update_character(active_character: Character):
                                                    'bows': old_combat_proficencies.get('bows'),
                                                    'spears': old_combat_proficencies.get('spears'),
                                                    'swords': old_combat_proficencies.get('swords')})
-        
+
     autosave(active_character)
     print(f"{active_character.name} successfully updated!\n\n")

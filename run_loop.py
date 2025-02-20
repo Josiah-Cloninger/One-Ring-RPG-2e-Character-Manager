@@ -1,47 +1,53 @@
-from ui_functions import (clear_console, start_help, create_character, 
-                          select_character_to_load, save_current_character, 
-                          show_attribute, set_attribute, roll_attribute, help, 
+"""Contains the main loop for the character manager.
+
+Functions:
+    get_active_character(active_character): Walks the user through creating or loading a character
+    run_loop(active_character): The main menu for the character manager
+"""
+
+from ui_functions import (clear_console, start_help, create_character,
+                          select_character_to_load, save_current_character,
+                          show_attribute, set_attribute, roll_attribute, main_menu_help,
                           update_character)
 from character import load_character
 from queues import active_character_queue, refresh_character_gui_queue
 
 
 def get_active_character(active_character):
+    """Either load an existing character, or create a new one"""
     clear_console()
-    # Either load an existing character, or create a new one
     while active_character is None:
-            print("Please start by either loading an existing character with 'load' or creating a new character with 'create'")
-            string_input = input("> ").lower()
-            input_list = string_input.split()
-            if input_list == []:
-                input_list.append("help")
-            match input_list[0]:
-                case "help":
-                    start_help()
-                case "exit":
-                    exit()
-                case "create":
-                    active_character = create_character()
-                case "load":
-                    active_character = select_character_to_load(input_list)
-                case _:
-                    clear_console()
-                    print("Invalid command\n\n")
+        print("Please start by either loading an existing character with 'load' or creating a new character with 'create'")
+        string_input = input("> ").lower()
+        input_list = string_input.split()
+        if input_list == []:
+            input_list.append("help")
+        match input_list[0]:
+            case "help":
+                start_help()
+            case "exit":
+                exit()
+            case "create":
+                active_character = create_character()
+            case "load":
+                active_character = select_character_to_load(input_list)
+            case _:
+                clear_console()
+                print("Invalid command\n\n")
     active_character_queue.empty()
     active_character_queue.put(active_character)
 
-
 def run_loop(active_character):
-    # The main menu for the character manager. Should only be here with an "active character"
+    """The main menu for the character manager. Should only be here with an "active character"""
     while True:
         print("Enter a command:")
         string_input = input("> ").lower()
         input_list = string_input.split()
         if input_list == []:
-                input_list.append("help")
+            input_list.append("help")
         match input_list[0]:
             case "help":
-                help()
+                main_menu_help()
             case "exit":
                 exit()
             case "create":
@@ -65,7 +71,7 @@ def run_loop(active_character):
                 active_character_queue.put(active_character)
                 refresh_character_gui_queue.put(True)
             case "roll":
-                roll_attribute(active_character, input_list)
+                roll_attribute(input_list)
             case "revert":
                 clear_console()
                 active_character = load_character(active_character.name)

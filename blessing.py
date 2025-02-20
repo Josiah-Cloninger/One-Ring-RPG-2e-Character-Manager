@@ -1,9 +1,26 @@
-from utils import MetaEnum
-from dataclasses import dataclass
+"""Moduel containing Blessings
 
+This module  containst the cultural blessings that are granted to characters by their culture.
+
+Classes:
+    Blessing: Represents a cultural blessing
+    Blessings: An enumeration of blessings
+"""
+
+from dataclasses import dataclass
+from utils import MetaEnum
 
 @dataclass
 class Blessing:
+    """Represents a cultural blessing
+    
+    Attributes:
+        name: str
+        flavour: str
+        effect: str
+        quote: str
+    """
+
     name: str
     flavour: str
     effect: str
@@ -14,6 +31,21 @@ class Blessing:
 
 
 class Blessings(metaclass=MetaEnum):
+    """An enumeration of blessings
+    
+    Attributes:
+        STOUT_HEARTED: Blessing
+        REDOUBTABLE: Blessing
+        ELVEN_SKILL: Blessing
+        HOBBIT_SENSE: Blessing
+        BREE_BLOOD: Blessing
+        KINGS_OF_MEN: Blessing
+
+    Methods:
+        by_name(name): Return the blessing with the given name.
+        names(): Return the names of all blessings.
+    """
+
     STOUT_HEARTED = Blessing(
         name="Stout Hearted",
         flavour="Stories tell that the Bardings lived under the shadow of a great Dragon for decades.",
@@ -55,16 +87,30 @@ class Blessings(metaclass=MetaEnum):
     )
 
     @classmethod
-    def by_name(cls, name):
+    def by_name(cls, name: str):
+        """Return the blessing with the given name.
+        
+        Args:
+            name (str): The name of the blessing to return
+        
+        Returns:
+            Blessing: The blessing with the given name
+        """
+
         for blessing in Blessings:
-            if type(blessing) is Blessing:
+            if isinstance(blessing, Blessing):
                 if blessing.name == name:
                     return blessing
-    
+        return None
+
     @classmethod
     def names(cls):
+        """Return a list of strings that are the names of all blessings.
+        
+        Returns:
+            list: A list of strings that are the names of all blessings"""
         names = []
         for blessing in Blessings:
-            if type(blessing) is Blessing:
+            if isinstance(blessing, Blessing):
                 names.append(blessing.name)
         return names

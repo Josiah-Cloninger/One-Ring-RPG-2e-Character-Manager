@@ -1,8 +1,22 @@
+"""A module containing the Character class.
+
+Classes:
+    Character: A class for a character
+
+Exceptions:
+    TreasureError: An exception raised when not enough treasure points are available
+    SkillPointError: An exception raised when not enough skill points are available
+    AdventurePointError: An exception raised when not enough adventure points are available
+
+Functions:
+    load_character(filename: str): Loads a character from a file.
+    upgrade_table(level: int): Converts form level to points.
+"""
+
 import pickle
 from culture import Culture
 from calling import Calling
-from gear import Weapon, Weapons, Armour, Armours, Shield, Shields
-from standard_of_living import Standard_Of_Living, Standards_Of_Living
+from standard_of_living import StandardsOfLiving
 
 
 TreasureError = Exception("Not enough treasure points")
@@ -11,16 +25,95 @@ AdventurePointError = Exception("Not enough adventure points.")
 
 
 class Character:
-    def __init__(self, culture: Culture = None, 
-                 attribute_choice: int = None, 
-                 weapon_skill_levels: dict = None, 
-                 distinctive_features: list = None, 
-                 name: str = None, age: int = None, 
-                 calling: Calling = None, 
-                 favoured_skills: list[str] = None, 
-                 starting_virtue: str = None, 
+    """A class for a character.
+    
+    Attributes:
+        culture (Culture): The heroic culture that the character belongs to.
+        blessing (Blessing): The cultural blessing the character recieved from their culture.
+        treasure (int): The treasure rating of the character.
+        strength_score (int): The strength score of the character.
+        heart_score (int): The heart score of the character.
+        wits_score (int): The wits score of the character.
+        strength_tn (int): The TN for the character's Strength Skills.
+        heart_tn (int): The TN for the character's Heart Skills.
+        wits_tn (int): The TN for the character's Wits Skills.
+        max_endurance (int): The maximum endurance the character can have.
+        max_hope (int): The maximum hope the character can have.
+        parry (int): The parry rating of the character.
+        awe (int): The awe level of the character.
+        enhearten (int): The enhearten level of the character.
+        persuade (int): The persuade level of the character.
+        athletics (int): The athletics level of the character.
+        travel (int): The travel level of the character.
+        stealth (int): The stealth level of the character.
+        awareness (int): The awareness level of the character.
+        insight (int): The insight level of the character.
+        scan (int): The scan level of the character.
+        hunting (int): The hunting level of the character.
+        healing (int): The healing level of the character.
+        explore (int): The explore level of the character.
+        song (int): The song level of the character.
+        courtesy (int): The courtesy level of the character.
+        riddle (int): The riddle level of the character.
+        craft (int): The craft level of the character.
+        battle (int): The battle level of the character.
+        lore (int): The lore level of the character.
+        favoured_skills (list[str]): The favoured skills of the character.
+        combat_proficiencies (dict[str, int]): The levels of the combat proficiencies of the character.
+        distinctive_features (list[str]): The distinctive features of the character.
+        name (str): The name of the character.
+        age (int): The age of the character.
+        calling (Calling): The calling of the character.
+        shadow_path (Calling): The shadow path of the character.
+        flaws (list[str]): The flaws of the character.
+        patron (str): The patron of the character.
+        adventure_points (int): The adventure points of the character.
+        skill_points (int): The skill points of the character.
+        fellowship_score (int): The fellowship score of the character.
+        weapons (list[Weapon]): The weapons the character has.
+        armour (Armour): The armour the character has.
+        headgear (Headgear): The headgear the character has.
+        shield (Shield): The shield the character has.
+        current_endurance (int): The current endurance of the character.
+        fatigue (int): The fatigue of the character.
+        current_hope (int): The current hope of the character.
+        shadow_points (int): The shadow points of the character.
+        shadow_scars (int): The shadow scars of the character.
+        is_wounded (bool): Whether the character is wounded or not.
+        injury (int): How many more days the character will be wounded.
+        valour (int): The valour rating of the character
+        rewards (list[Reward]): The rewards the character has.
+        wisdom (int): The wisdom rating of the character.
+        virtues (list[Virtue]): The virtues the character has.
+        traveling_gear (list[str]): The traveling gear the character has.
+
+    Properties:
+        is_weary (bool): Whether the character is weary or not.
+        is_miserable (bool): Whether the character is miserable or not.
+        standard_of_living (Standard_Of_Living): The standard at which the character lives.
+        axes_skill (int): The axes skill of the character.
+        bows_skill (int): The bows skill of the character.
+        spears_skill (int): The spears skill of the character.
+        swords_skill (int): The swords skill of the character.
+        shadow (int): The shadow value of a character (the shadow points plus the shadow scars).
+
+    Methods: 
+        virtues_by_name(virtue_name: str): Returns the character's virtue with the given name.
+        rewards_by_name(reward_name: str): Returns the character's reward with the given name.
+        weapons_by_name(weapon_name: str): Returns the character's weapon with the given name.
+        save_character: Saves the character to a pickle file.
+    """
+
+    def __init__(self, culture: Culture = None,
+                 attribute_choice: int = None,
+                 weapon_skill_levels: dict = None,
+                 distinctive_features: list = None,
+                 name: str = None, age: int = None,
+                 calling: Calling = None,
+                 favoured_skills: list[str] = None,
+                 starting_virtue: str = None,
                  starting_reward: str = None):
-        
+
         # culture
         self.culture = culture.name
 
@@ -88,12 +181,6 @@ class Character:
 
         # favoured skills
         self.favoured_skills = favoured_skills
-        
-        # combat proficiencies
-        # self.axes_skill = weapon_skill_levels.get("axes")
-        # self.bows_skill = weapon_skill_levels.get("bows")
-        # self.swords_skill = weapon_skill_levels.get("swords")
-        # self.spears_skill = weapon_skill_levels.get("spears")
 
         self.combat_proficiencies = {
             "axes": weapon_skill_levels.get("axes"),
@@ -141,7 +228,7 @@ class Character:
 
         # conditions
         self.is_wounded = False
-        self.injury = ""
+        self.injury = 0
 
         # rewards
         self.valour = 1
@@ -152,34 +239,33 @@ class Character:
         self.virtues = [starting_virtue]
 
         self.traveling_gear = [str]
-    
 
-    # conditions
+
     @property
     def is_miserable(self):
+        """Return True if the character's current hope is less than or equal to their shadow scars + shadow points."""
         if self.shadow_points + self.shadow_scars >= self.current_hope:
             return True
-        else:
-            return False
-    
-        
+        return False
+
     @property
     def is_weary(self):
+        """Return True if the character's current endurance is less than or equal to their load."""
         if self.current_endurance <= self.load:
             return True
-        else:
-            return False
-
+        return False
 
     @property
     def load(self):
+        """Calculate the character's load by adding the load of all their war gear."""
+
         load = 0
         for weapon in self.weapons:
             load += weapon.load
 
         if self.armour is not None:
             load += self.armour.load
-        
+
         if self.headgear is not None:
             load += self.headgear.load
 
@@ -188,126 +274,94 @@ class Character:
 
         return load
 
-
     @property
     def standard_of_living(self):
+        """Return the character's standard of living based on their treasure."""
         match self.treasure:
             case range(0, 30):
-                return Standards_Of_Living.FRUGAL
+                return StandardsOfLiving.FRUGAL
             case range(30, 90):
-                return Standards_Of_Living.COMMON
+                return StandardsOfLiving.COMMON
             case range(90, 180):
-                return Standards_Of_Living.PROSPEROUS
+                return StandardsOfLiving.PROSPEROUS
             case range(180, 300):
-                return Standards_Of_Living.RICH
+                return StandardsOfLiving.RICH
             case range(300, 1000):
-                return Standards_Of_Living.VERY_RICH
-
+                return StandardsOfLiving.VERY_RICH
 
     @property
     def axes_skill(self):
+        """Return the character's axes skill."""
         return self.combat_proficiencies["axes"]
-    
 
     @property
     def bows_skill(self):
+        """Return the character's bows skill."""
         return self.combat_proficiencies["bows"]
-    
-
-    @property
-    def swords_skill(self):
-        return self.combat_proficiencies["swords"]
-    
 
     @property
     def spears_skill(self):
+        """Return the character's spears skill."""
         return self.combat_proficiencies["spears"]
 
+    @property
+    def swords_skill(self):
+        """Return the character's swords skill."""
+        return self.combat_proficiencies["swords"]
 
     @property
     def shadow(self):
+        """Return the character's total shadow rating."""
         return self.shadow_points + self.shadow_scars
 
 
-    def add_treasure(self, value: int):
-        if self.treasure > -value:
-            self.treasure += value
-        else:
-            raise TreasureError
-
-
-    def upgrade_skill(self, skill: str):
-        if self.skill_points >= upgrade_table(self.skill_levels[skill].level + 1):
-            self.skill_levels[skill] += 1
-            self.skill_points -= upgrade_table(self.skill_levels[skill])
-        else:
-            raise SkillPointError
-
-
-    def upgrade_combat_proficiency(self, combat_proficiency: str):
-        if self.adventure_points >= upgrade_table(self.combat_proficiencies[combat_proficiency].level + 1):
-            self.combat_proficiencies[combat_proficiency] += 1
-            self.adventure_points -= upgrade_table(self.combat_proficiencies[combat_proficiency].level)
-        else:
-            raise AdventurePointError
-
-
-    def increment_age(self, increment: int=1):
-        self.age += increment
-
-
-    # gear methods
-    def add_weapon(self, weapon: Weapon):
-        self.weapons.append(weapon)
-
-
-    def remove_weapon(self, weapon: str):
-        for weapon in self.weapons:
-            if weapon.name == weapon:
-                self.weapons.remove(weapon)
-
-
-    def change_armour(self, armour: Armour):
-        self.armour = armour
-
-
-    def remove_armour(self):
-        self.armour = None
-
-
-    def change_headgear(self, headgear: Armour):
-        self.headgear = headgear
-
-
-    def remove_headgear(self):
-        self.headgear = None
-
-
-    def change_shield(self, shield: Shield):
-        self.shield = shield
-
-
-    def remove_shield(self):
-        self.shield = None
-
-    
     def virtues_by_name(self, virtue_name: str):
+        """Return the virtue this character has with a given name.
+        
+        Args:
+            virtue_name (str): The name of the virtue to return.
+        
+        Return:
+            Virtue: The virtue with the given name
+        """
+
         for virtue in self.virtues:
             if virtue.name == virtue_name:
                 return virtue
-            
-    
+        return None
+
     def rewards_by_name(self, reward_name: str):
+        """Return the reward this character has with a given name.
+        
+        Args:
+            reward_name (str): The name of the reward to return.
+        
+        Return:
+            Reward: The reward with the given name
+        """
+
         for reward in self.rewards:
             if reward.name == reward_name:
                 return reward
-            
+        return None
 
     def weapons_by_name(self, weapon_name: str):
+        """Return the weapon this character has with a given name.
+        
+        Args:
+            weapon_name (str): The name of the weapon to return.
+        
+        Return:
+            Weapon: The weapon with the given name"""
         for weapon in self.weapons:
             if weapon.name == weapon_name:
                 return weapon
+        return None
 
+    def save_character(self):
+        """Save the character as a .pickle file named '{character name}_hardsave.pickle'."""
+        with open(f"{self.name}_hardsave.pickle", "wb") as file:
+            pickle.dump(self, file)
 
     def __repr__(self):
         return (f"name: {self.name}\n"
@@ -372,24 +426,37 @@ class Character:
                     f"\tinjury: {self.injury}\n"
     )
 
+def load_character(character_name: str):
+    """Load a character from a pickle file.
+    
+    Tries to load the character from the {character name}_autosave.pickle file.
+    If that file is not found, loads from the {character name}_hardsave.pickle file.
 
-def save_character(character: Character):
-    with open(f"{character.name}_hardsave.pickle", "wb") as file:
-        pickle.dump(character, file)
+    Args:
+        character_name (str): The name of the character to load.
 
+    Returns:
+        Character: The loaded character.
+    """
 
-def load_character(filename: str):
     try:
-        with open(f"{filename}_autosave.pickle", "rb") as file:
+        with open(f"{character_name}_autosave.pickle", "rb") as file:
             character = pickle.load(file)
     except FileNotFoundError:
-        with open(f"{filename}_hardsave.pickle", "rb") as file:
+        with open(f"{character_name}_hardsave.pickle", "rb") as file:
             character = pickle.load(file)
     return character
 
+def upgrade_table(level: int):
+    """Convert attribute level to points required to upgrade.
+    
+    Args:
+        level (int): The level of the attribute to upgrade.
 
-def upgrade_table(input: int):
-    match input:
+    Returns:
+        int: The number of points (adventure points or skill points) required to upgrade the attribute.
+    """
+    match level:
         case 1:
             return 4
         case 2:
@@ -402,4 +469,3 @@ def upgrade_table(input: int):
             return 26
         case 6:
             return 30
-

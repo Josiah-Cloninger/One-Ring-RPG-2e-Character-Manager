@@ -1,42 +1,45 @@
+"""Module for character creation, run as main."""
+
 import os
 import questionary
-from questionary import print
 
-from culture import Cultures, Culture, all_combat_proficiencies
+from culture import Cultures, Culture
 from character import Character
 from calling import Calling, Callings
 from gear import Weapons, Armours, Shields, Headgears
 from boons import Virtue, Reward
 
 
-styles_print = {
+STYLES_PRINT = {
     "culture": "#0001e0",
     "yellow": "#deea0b",
     "specialty": "#4fdb5a",
     "background": "#f78400",
     "white": "#ffffff"
 }
-styles_choice = questionary.Style([
+
+STYLES_CHOICE = questionary.Style([
     ('yellow', '#deea0b'),
     ('culture', '#0001e0'),
     ('specialty', '#4fdb5a'),
     ('background', '#f78400'),
     ('white', '#ffffff')
 ])
-version = "2.02"
+
+VERSION = "2.02"
 
 
 def clear_console():
     """Clears the console and prints the title. If a character object is passed, it will autosave that character."""
     os.system('cls' if os.name == 'nt' else 'clear')
-    print(f"One Ring RPG Character Manager\n"
-          f"Version: {version}\n"
+    questionary.print(f"One Ring RPG Character Manager\n"
+          f"Version: {VERSION}\n"
           f"Enter 'help' at any time for a list of commands or 'exit' to quit\n\n")
-    
 
 def select_culture():
+    """Walk the user through selecting a culture."""
     clear_console()
-    questionary.print("Select Culture:\n", style=styles_print["yellow"])
+    questionary.questionary.print("Select Culture:\n", style=STYLES_PRINT["yellow"])
     answer = questionary.select(
         "",
         choices=[
@@ -47,12 +50,12 @@ def select_culture():
                 value=culture_name
             ) for culture_name in Cultures.names()
         ],
-        style=styles_choice
+        style=STYLES_CHOICE
     ).ask()
     return Cultures.by_name(answer)
 
-
 def select_attributes(selected_culture: Culture):
+    """Walk the user through selecting attributes."""
     clear_console()
     culture_attributes = []
     enumerater = 0
@@ -70,7 +73,7 @@ def select_attributes(selected_culture: Culture):
                 set_of_attributes += ", "
         enumerater += 1
         set_of_attributes = ""
-    questionary.print("Select Attributes:\n", style=styles_print["yellow"])
+    questionary.questionary.print("Select Attributes:\n", style=STYLES_PRINT["yellow"])
     answer = questionary.select(
         "",
         choices=[
@@ -81,7 +84,7 @@ def select_attributes(selected_culture: Culture):
                 value=a
             ) for a in culture_attributes
         ],
-        style=styles_choice
+        style=STYLES_CHOICE
     ).ask()
 
     # generating the dictionary required by the __init__ function for the character class
@@ -95,40 +98,39 @@ def select_attributes(selected_culture: Culture):
 
     return attributes_dict
 
-
 def select_combat_proficiencies(selected_culture: Culture):
+    """Walk the user through selecting combat proficiencies."""
     clear_console()
-    
+
     # selecting one of the combat proficiencies indicated by your culture to start at level 2
-    questionary.print("Select one of the following Combat Proficiencies to start at level 2:\n", style=styles_print["yellow"])
+    questionary.questionary.print("Select one of the following Combat Proficiencies to start at level 2:\n", style=STYLES_PRINT["yellow"])
     level_2_choice = questionary.select(
         "",
         choices=[
             questionary.Choice(
                 title=[
                     ("class:white", proficiency)
-                
-                ],
+],
                 value=proficiency
             )for proficiency in selected_culture.combat_proficiencies
         ],
-        style=styles_choice
+        style=STYLES_CHOICE
     ).ask()
 
     # selecting one of any combat proficiencies to start at level 1
-    questionary.print("Select one of the following Combat Proficiencies to start at level 1:\n", style=styles_print["yellow"])
+    questionary.questionary.print("Select one of the following Combat Proficiencies to start at level 1:\n", style=STYLES_PRINT["yellow"])
     level_1_choice = questionary.select(
         "",
         choices=[
             questionary.Choice(
                 title=[
                     ("class:white", proficiency)
-                
+
                 ],
                 value=proficiency
-            )for proficiency in [x for x in all_combat_proficiencies if x != level_2_choice]
+            )for proficiency in [x for x in ["axes", "bows", "spears", "swords"] if x != level_2_choice]
         ],
-        style=styles_choice
+        style=STYLES_CHOICE
     ).ask()
 
     # generating the dictionary required by the __init__ function for the character class
@@ -139,10 +141,10 @@ def select_combat_proficiencies(selected_culture: Culture):
 
     return combat_proficiencies
 
-
 def select_distinctive_features(selected_background):
+    """Walk the user through selecting distinctive features."""
     clear_console()
-    questionary.print("Select Distinctive Features:\n", style=styles_print["yellow"])
+    questionary.questionary.print("Select Distinctive Features:\n", style=STYLES_PRINT["yellow"])
     selected_distinctive_features = questionary.checkbox(
         "",
         choices=[
@@ -153,35 +155,35 @@ def select_distinctive_features(selected_background):
                 value=a
             ) for a in selected_background.distinctive_features
         ],
-        style=styles_choice,
+        style=STYLES_CHOICE,
         validate=lambda answer: "Please select two distinctive features." if len(answer) != 2 else True
     ).ask()
     return selected_distinctive_features
 
-
 def select_name():
+    """Walk the user through selecting a name."""
     clear_console()
-    questionary.print("Enter Name:\n", style=styles_print["yellow"])
+    questionary.questionary.print("Enter Name:\n", style=STYLES_PRINT["yellow"])
     selected_name = questionary.text(
         "",
-        style=styles_choice
+        style=STYLES_CHOICE
     ).ask()
     return selected_name
 
-
 def select_age():
+    """Walk the user through selecting an age."""
     clear_console()
-    questionary.print("Enter Age:\n", style=styles_print["yellow"])
+    questionary.questionary.print("Enter Age:\n", style=STYLES_PRINT["yellow"])
     selected_age = questionary.text(
         "",
-        style=styles_choice
+        style=STYLES_CHOICE
     ).ask()
     return selected_age
 
-
 def select_calling():
+    """Walk the user through selecting a calling."""
     clear_console()
-    questionary.print("Select Calling:\n", style=styles_print["yellow"])
+    questionary.questionary.print("Select Calling:\n", style=STYLES_PRINT["yellow"])
     answer = questionary.select(
         "",
         choices=[
@@ -192,19 +194,19 @@ def select_calling():
                 value=calling_name
             ) for calling_name in Callings.names()
         ],
-        style=styles_choice
+        style=STYLES_CHOICE
     ).ask()
     return Callings.by_name(answer)
 
-
 def select_favoured_skills(selected_culture: Culture,selected_calling: Calling):
+    """Walk the user through selecting favoured skills."""
     favoured_skills = []
     choice_1 = []
     choice_2 = []
     clear_console()
 
     # selecting favoured skill from culture
-    questionary.print("Select one favoured skill from you culture:\n", style=styles_print["yellow"])
+    questionary.questionary.print("Select one favoured skill from you culture:\n", style=STYLES_PRINT["yellow"])
     choice_1.append(questionary.select(
             "",
             choices=[
@@ -215,12 +217,12 @@ def select_favoured_skills(selected_culture: Culture,selected_calling: Calling):
                     value=skill_name
                 ) for skill_name in selected_culture.favoured_skills
             ],
-            style=styles_choice
+            style=STYLES_CHOICE
         ).ask()
     )
-    
+
     # selecting two favoured skills from calling
-    questionary.print("Select two favoured skills from your calling:\n", style=styles_print["yellow"])
+    questionary.questionary.print("Select two favoured skills from your calling:\n", style=STYLES_PRINT["yellow"])
     choice_2.append(questionary.checkbox(
             "",
             choices=[
@@ -231,7 +233,7 @@ def select_favoured_skills(selected_culture: Culture,selected_calling: Calling):
                     value=a
                 ) for a in selected_calling.favoured_skills if a not in choice_1
             ],
-            style=styles_choice,
+            style=STYLES_CHOICE,
             validate=lambda answer: "Please select two favoured skills." if len(answer) != 2 else True
         ).ask()
     )
@@ -239,10 +241,10 @@ def select_favoured_skills(selected_culture: Culture,selected_calling: Calling):
         favoured_skills.append(skill)
     return favoured_skills
 
-
 def select_skill_upgrade(character: Character):
+    """Walk the user through selecting a skill to upgrade."""
     clear_console()
-    questionary.print("Upgrade Common Skill:\n", style=styles_print["yellow"])
+    questionary.questionary.print("Upgrade Common Skill:\n", style=STYLES_PRINT["yellow"])
     answer = questionary.select(
         "",
         choices=[
@@ -253,24 +255,24 @@ def select_skill_upgrade(character: Character):
                 value=skill_name
             ) for skill_name, skill_level in character.skill_levels.items()
         ],
-        style=styles_choice
+        style=STYLES_CHOICE
     ).ask()
     return answer
 
-
 def upgrade_skill(character: Character, skill: str, previous_experience_points: int):
+    """Upgrade a skill."""
     if previous_experience_points >= character.skill_levels[skill] + 1:
         character.skill_levels[skill] += 1
         previous_experience_points -= character.skill_levels[skill]
         return previous_experience_points
     else:
-        print("You do not have enough experience to upgrade this skill.")
+        questionary.print("You do not have enough experience to upgrade this skill.")
         return previous_experience_points
 
-
 def select_weapon_skill_upgrade(character: Character):
+    """Walk the user through selecting a combat proficiency to upgrade."""
     clear_console()
-    questionary.print("Upgrade Weapon Skill:\n", style=styles_print["yellow"])
+    questionary.questionary.print("Upgrade Weapon Skill:\n", style=STYLES_PRINT["yellow"])
     answer = questionary.select(
         "",
         choices=[
@@ -281,35 +283,35 @@ def select_weapon_skill_upgrade(character: Character):
                 value=skill_name
             ) for skill_name, skill_level in character.combat_proficiencies.items()
         ],
-        style=styles_choice
+        style=STYLES_CHOICE
     ).ask()
     return answer
 
-
 def upgrade_weapon_skill(character: Character, skill: str, previous_experience_points: int):
+    """Upgrade a combat proficiency."""
     if previous_experience_points >= character.combat_proficiencies[skill] * 2 + 2:
         character.combat_proficiencies[skill] += 1
         previous_experience_points -= character.combat_proficiencies[skill] * 2
         return previous_experience_points
     else:
-        print("You do not have enough experience to upgrade this skill.")
+        questionary.print("You do not have enough experience to upgrade this skill.")
         return previous_experience_points
 
-
 def previous_experience(character: Character):
+    """Walk the user through upgrading skills and combat proficiencies."""
     continue_loop = True
     previous_experience_points = 10
     while previous_experience_points > 0 and continue_loop:
         clear_console()
-        print("Skill Levels:\n", style=styles_print["yellow"])
+        questionary.print("Skill Levels:\n", style=STYLES_PRINT["yellow"])
         for skill, level in character.skill_levels.items():
-            print(f"{skill}: {level}")
-        print("Combat Proficiency Levels:\n", style=styles_print["yellow"])
+            questionary.print(f"{skill}: {level}")
+        questionary.print("Combat Proficiency Levels:\n", style=STYLES_PRINT["yellow"])
         for skill, level in character.combat_proficiencies.items():
-            print(f"{skill}: {level}")
-        print("\nPoints Remaining:\n", style=styles_print["yellow"])
-        print(str(previous_experience_points))
-        print("\n")
+            questionary.print(f"{skill}: {level}")
+        questionary.print("\nPoints Remaining:\n", style=STYLES_PRINT["yellow"])
+        questionary.print(str(previous_experience_points))
+        questionary.print("\n")
         answer = questionary.select(
             "",
             choices=[
@@ -320,7 +322,7 @@ def previous_experience(character: Character):
                     value=o
                     )for o in ["Upgrade Skill", "Upgrade Combat Proficiency Skill", "Continue without spending remainding points"]
                 ],
-            style=styles_choice,
+            style=STYLES_CHOICE,
         ).ask()
         if answer == "Upgrade Skill":
             skill_to_upgrade = select_skill_upgrade(character)
@@ -331,59 +333,59 @@ def previous_experience(character: Character):
         elif answer == "Continue without spending remainding points":
             continue_loop = False
 
-
 def select_virtue():
+    """Walk the user through selecting a virtue."""
     clear_console()
     selected_virtue = Virtue()
 
-    questionary.print("Enter the name of the virtue you would like to add:\n", style=styles_print["yellow"])
+    questionary.questionary.print("Enter the name of the virtue you would like to add:\n", style=STYLES_PRINT["yellow"])
     selected_virtue.name = questionary.text(
         "",
-        style=styles_choice
+        style=STYLES_CHOICE
     ).ask()
 
-    questionary.print("Enter the effect of the virtue you would like to add:\n", style=styles_print["yellow"])
+    questionary.questionary.print("Enter the effect of the virtue you would like to add:\n", style=STYLES_PRINT["yellow"])
     selected_virtue.effect = questionary.text(
         "",
-        style=styles_choice
+        style=STYLES_CHOICE
     ).ask()
 
     return selected_virtue
 
-
 def select_reward():
+    """Walk the user through selecting a reward."""
     clear_console()
     selected_reward = Reward()
 
-    questionary.print("Enter the name of the reward you would like to add:\n", style=styles_print["yellow"])
+    questionary.questionary.print("Enter the name of the reward you would like to add:\n", style=STYLES_PRINT["yellow"])
     selected_reward.name = questionary.text(
         "",
-        style=styles_choice
+        style=STYLES_CHOICE
     ).ask()
 
-    questionary.print("Enter the effect of the reward you would like to add:\n", style=styles_print["yellow"])
+    questionary.questionary.print("Enter the effect of the reward you would like to add:\n", style=STYLES_PRINT["yellow"])
     selected_reward.effect = questionary.text(
         "",
-        style=styles_choice
+        style=STYLES_CHOICE
     ).ask()
 
     return selected_reward
 
-
 def starting_gear(selected_combat_proficiencies):
+    """Walk the user through selecting starting gear."""
     clear_console()
     if input("Would you like to have weapons?(y/n)").lower() == "y":
         weapons = []
         while True:
             clear_console()
-            print("Current weapon levels:\n")
+            questionary.print("Current weapon levels:\n")
             for name in selected_combat_proficiencies:
-                print(f"{name}\t  :      {selected_combat_proficiencies[name]}")
-            print("\nWeapons currently carried:\n")
+                questionary.print(f"{name}\t  :      {selected_combat_proficiencies[name]}")
+            questionary.print("\nWeapons currently carried:\n")
             for weapon in weapons:
-                print(weapon)
-            print("\nSelect your starting weapons:\n")
-            
+                questionary.print(weapon)
+            questionary.print("\nSelect your starting weapons:\n")
+
             answer = questionary.select(
                 "",
                 choices=[
@@ -394,14 +396,14 @@ def starting_gear(selected_combat_proficiencies):
                         value=a
                     ) for a in Weapons.names() if a != "Unarmed" and a not in weapons
                 ],
-                style=styles_choice
+                style=STYLES_CHOICE
             ).ask()
-            print(str(Weapons.by_name(answer)))
+            questionary.print(str(Weapons.by_name(answer)))
             if input("Would you like to add this weapon?(y/n)").lower() == "y":
                 weapons.append(answer)
                 if input("Would you like to add another weapon?(y/n)").lower() == "n":
                     break
-            
+
     else:
         weapons = None
 
@@ -409,7 +411,7 @@ def starting_gear(selected_combat_proficiencies):
     if input("Would you like to have armour?(y/n)").lower() == "y":
         while True:
             clear_console()
-            print("Select your armour:\n")
+            questionary.print("Select your armour:\n")
             armour = questionary.select(
                 "",
                 choices=[
@@ -420,9 +422,9 @@ def starting_gear(selected_combat_proficiencies):
                         value=a
                     ) for a in Armours.names()
                 ],
-                style=styles_choice
+                style=STYLES_CHOICE
             ).ask()
-            print(str(Armours.by_name(armour)))
+            questionary.print(str(Armours.by_name(armour)))
             if input("Would you like to add this armour?(y/n)").lower() == "y":
                 break
     else:
@@ -432,7 +434,7 @@ def starting_gear(selected_combat_proficiencies):
     if input("Would you like to have a shield?(y/n)").lower() == "y":
         while True:
             clear_console()
-            print("Select your starting shield:\n")
+            questionary.print("Select your starting shield:\n")
             shield = questionary.select(
                 "",
                 choices=[
@@ -443,9 +445,9 @@ def starting_gear(selected_combat_proficiencies):
                         value=a
                     ) for a in Shields.names()
                 ],
-                style=styles_choice
+                style=STYLES_CHOICE
             ).ask()
-            print(str(Shields.by_name(shield)))
+            questionary.print(str(Shields.by_name(shield)))
             if input("Would you like to add this shield?(y/n)").lower() == "y":
                 break
     else:
@@ -455,7 +457,7 @@ def starting_gear(selected_combat_proficiencies):
     if input("Would you like to have headgear?(y/n)").lower() == "y":
         while True:
             clear_console()
-            print("Select your starting headgear:\n")
+            questionary.print("Select your starting headgear:\n")
             headgear = questionary.select(
                 "",
                 choices=[
@@ -466,9 +468,9 @@ def starting_gear(selected_combat_proficiencies):
                         value=a
                     ) for a in Headgears.names()
                 ],
-                style=styles_choice
-            ).ask() 
-            print(str(Headgears.by_name(headgear)))
+                style=STYLES_CHOICE
+            ).ask()
+            questionary.print(str(Headgears.by_name(headgear)))
             if input("Would you like to add this headgear?(y/n)").lower() == "y":
                 break
     else:
@@ -476,8 +478,8 @@ def starting_gear(selected_combat_proficiencies):
 
     return weapons, armour, shield, headgear
 
-
 def main():
+    """Walk the user through the character creation process."""
     clear_console()
     selected_culture = select_culture()
     selected_attributes = select_attributes(selected_culture)
@@ -490,8 +492,8 @@ def main():
     selected_weapons, selected_armour, selected_shield, selected_headgear = starting_gear(selected_combat_proficiencies)
     selected_virtue = select_virtue()
     selected_reward = select_reward()
-    active_character = Character(culture = selected_culture, 
-                                  attribute_choice = selected_attributes, 
+    active_character = Character(culture = selected_culture,
+                                  attribute_choice = selected_attributes,
                                   weapon_skill_levels = selected_combat_proficiencies,
                                   distinctive_features = selected_distinctive_features,
                                   name = selected_name,
@@ -503,13 +505,13 @@ def main():
                                   )
     if selected_weapons is not None:
         for weapon in selected_weapons:
-            active_character.add_weapon(Weapons.by_name(weapon))
-    active_character.change_armour(Armours.by_name(selected_armour))
-    active_character.change_shield(Shields.by_name(selected_shield))
-    active_character.change_headgear(Headgears.by_name(selected_headgear))
+            active_character.weapons.append(Weapons.by_name(weapon))
+    active_character.armour = Armours.by_name(selected_armour)
+    active_character.shield = Shields.by_name(selected_shield)
+    active_character.headgear = Headgears.by_name(selected_headgear)
     previous_experience(active_character)
     return active_character
-    
-    
+
+
 if __name__ == "__main__":
     main()

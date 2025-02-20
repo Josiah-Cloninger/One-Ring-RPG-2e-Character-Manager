@@ -1,9 +1,29 @@
+"""A module containing Callings
+
+Classes:
+    Calling: A class for the calling a character can have
+    Callings: An enumeration of Callings
+"""
+
 from dataclasses import dataclass
 from utils import MetaEnum
 
 
 @dataclass
 class Calling():
+    """A class for the calling a character can have.
+
+    Attributes:
+        name (str): The name of the calling
+        quote (str): The quote associated with the calling
+        description (str): The description of the calling
+        favoured_skills (list[str]): The favoured skills associated with the calling
+        distinctive_feature (str): The distinctive feature associated with the calling
+        feature_description (str): The description of the distinctive feature
+        shadow_path (str): The shadow path associated with the calling
+        shadow_path_description (str): The description of the shadow path
+    """
+
     name: str
     quote: str
     description: str
@@ -15,6 +35,13 @@ class Calling():
 
 
 class Callings(metaclass=MetaEnum):
+    """An enumeration of Callings.
+    
+    Methods:
+        by_name(name: str): Returns the Calling with the given name
+        names(): Returns a list of strings that are the names of all Callings
+    """
+
     CAPTAIN = Calling(
         name="Captain",
         quote="He stood up, and seemed suddenly to grow taller. In his eyes gleamed a light, keen and commanding.",
@@ -108,15 +135,28 @@ class Callings(metaclass=MetaEnum):
 
     @classmethod
     def by_name(cls, name):
+        """Return the calling with the given name.
+        
+        Args:
+            name (str): The name of the calling to return
+        
+        Returns:
+            Calling: The calling with the given name
+        """
+
         for calling in Callings:
-            if type(calling) is Calling:
+            if isinstance(calling, Calling):
                 if calling.name == name:
                     return calling
-    
+
     @classmethod
     def names(cls):
+        """Return a list of strings that are the names of all callings.
+        
+        Returns:
+            list: A list of strings that are the names of all callings"""
         names = []
         for calling in Callings:
-            if type(calling) is Calling:
+            if isinstance(calling, Calling):
                 names.append(calling.name)
         return names
